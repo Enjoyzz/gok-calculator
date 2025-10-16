@@ -1,30 +1,29 @@
 <script setup>
-import {ref, watchEffect} from 'vue'
-import {useFormulas} from "@/composables/formulas.js";
+import {ref} from 'vue'
 
-const {formulas, resetFormulas, saveFormulas} = useFormulas()
 const showSettings = ref(false)
 let tempFormulas = ref({})
 
-const emit = defineEmits(['update-charm-items', 'update-intimacy-items'])
+const props = defineProps({
+  formulas: Object
+})
+
+const emit = defineEmits(['save', 'reset'])
+
 
 const openSettings = () => {
-  tempFormulas.value = JSON.parse(JSON.stringify(formulas.value))
+  tempFormulas.value = JSON.parse(JSON.stringify(props.formulas))
   showSettings.value = true
 }
 
 const resetSettings = () => {
   if (confirm('Сбросить все настройки формул к значениям по умолчанию?')) {
-    resetFormulas()
-    emit('update-charm-items')
-    emit('update-intimacy-items')
+    emit('reset')
   }
 }
 
 const saveSettings = () => {
-  saveFormulas(tempFormulas)
-  emit('update-charm-items')
-  emit('update-intimacy-items')
+  emit('save', tempFormulas.value)
   closeSettings()
 }
 

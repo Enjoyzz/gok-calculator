@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import {ref} from 'vue'
 
 const defaultFormulas = {
     charm: {
@@ -14,20 +14,52 @@ const defaultFormulas = {
     }
 }
 
+const isValidFormulas = (formulas) => {
+    return formulas &&
+        formulas.charm &&
+        formulas.intimacy &&
+        typeof formulas.charm.blueHadak === 'number' &&
+        typeof formulas.charm.silverHairpin === 'number' &&
+        typeof formulas.charm.chests === 'number' &&
+        typeof formulas.charm.forage === 'number' &&
+        typeof formulas.intimacy.ordos === 'number' &&
+        typeof formulas.intimacy.sandalwoodBracelet === 'number' &&
+        typeof formulas.intimacy.forage === 'number'
+}
+
+
 export function useFormulas() {
+
     const storageKey = 'formulaSettings'
     const saved = localStorage.getItem(storageKey)
 
-    const formulas = ref(saved && saved !== 'undefined' ? JSON.parse(saved) : { ...defaultFormulas })
+    let initialFormulas = {...defaultFormulas}
+
+    if (saved && saved !== 'undefined') {
+        try {
+            const parsed = JSON.parse(saved)
+            if (isValidFormulas(parsed)) {
+                initialFormulas = parsed
+            } else {
+                console.warn('Invalid formulas structure in localStorage, using defaults')
+                localStorage.removeItem(storageKey) // удаляем некорректные данные
+            }
+        } catch (e) {
+            console.warn('Error parsing formulas from localStorage:', e)
+            localStorage.removeItem(storageKey)
+        }
+    }
+
+    const formulas = ref(initialFormulas)
 
     const saveFormulas = (newFormulas) => {
-        formulas.value = {...newFormulas.value}
+        formulas.value = {...newFormulas}
         localStorage.setItem(storageKey, JSON.stringify(formulas.value))
     }
 
     const resetFormulas = () => {
-        localStorage.removeItem(storageKey)
         formulas.value = {...defaultFormulas}
+        localStorage.removeItem(storageKey)
     }
 
     return {

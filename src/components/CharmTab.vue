@@ -49,6 +49,19 @@ const updateItem = (id, value) => {
       </tr>
     </table>
   </div>
+
+  <div class="formula-info">
+    <p><strong>Формулы расчета:</strong></p>
+    <ul>
+      <li>Синий хадак: количество × количество наложниц × {{ props.formulas.blueHadak }}</li>
+      <li>Белый хадак: количество × количество наложниц × 1</li>
+      <li>Золотая шпилька: количество × 5</li>
+      <li>Серебряная шпилька: количество × {{ props.formulas.silverHairpin }}</li>
+      <li>Сундуки: количество × {{ props.formulas.chests }}</li>
+      <li>Духи: количество × 1</li>
+      <li>Фураж: количество × {{ props.formulas.forage }}</li>
+    </ul>
+  </div>
 </template>
 
 <style scoped>

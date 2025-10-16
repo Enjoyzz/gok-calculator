@@ -8,7 +8,7 @@ import SaveIndicator from '@/components/SaveIndicator.vue'
 import logo from '@/assets/img/gok_logo.png'
 
 const {savedData, saveToStorage} = useStorage()
-const {formulas} = useFormulas()
+const {formulas, saveFormulas, resetFormulas} = useFormulas()
 
 const concubines = ref(1)
 const charmItems = ref({
@@ -65,6 +65,15 @@ const updateIntimacyItems = (newItems) => {
   intimacyItems.value = {...intimacyItems.value, ...newItems}
 }
 
+const handleSaveFormulas = (newFormulas) => {
+  saveFormulas(newFormulas)
+  triggerSaveIndicator('✓ Настройки сохранены')
+}
+
+const resetSettings = () => {
+  resetFormulas()
+  triggerSaveIndicator('✓ Настройки сброшены')
+}
 
 watch(() => charmItems.value.forage, (v) => {
   intimacyItems.value.forage = v;
@@ -107,8 +116,11 @@ watch([concubines, charmItems, intimacyItems], () => {
     />
 
 
-
-    <SettingsModal />
+    <SettingsModal
+        :formulas="formulas"
+        @save="handleSaveFormulas"
+        @reset="resetSettings"
+    />
 
     <SaveIndicator
         :visible="showSaveIndicator"
