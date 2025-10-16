@@ -1,7 +1,7 @@
 <script setup>
-import { computed } from 'vue'
+import {computed} from 'vue'
 import IntimacyItem from './IntimacyItem.vue'
-import { intimacyItemsConfig } from './../data/intimacyItemsConfig.js'
+import {intimacyItemsConfig} from './../data/intimacyItemsConfig.js'
 
 const props = defineProps({
   items: Object,
@@ -27,13 +27,14 @@ const total = computed(() =>
 )
 
 const updateItem = (id, value) => {
-  emit('update-items', { ...props.items, [id]: value })
+  emit('update-items', {...props.items, [id]: value})
 }
 </script>
 
 <template>
   <div class="tab-content active">
     <table>
+      <tbody>
       <IntimacyItem
           v-for="item in intimacyItemsConfig"
           :key="item.id"
@@ -48,6 +49,7 @@ const updateItem = (id, value) => {
         <td></td>
         <td>{{ total }}</td>
       </tr>
+      </tbody>
     </table>
   </div>
   <div class="formula-info">

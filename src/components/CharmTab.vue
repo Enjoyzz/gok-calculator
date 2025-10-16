@@ -33,6 +33,7 @@ const updateItem = (id, value) => {
 <template>
   <div class="tab-content active">
     <table>
+      <tbody>
       <CharmItem
           v-for="item in charmItemsConfig"
           :key="item.id"
@@ -47,6 +48,7 @@ const updateItem = (id, value) => {
         <td></td>
         <td>{{ total }}</td>
       </tr>
+      </tbody>
     </table>
   </div>
 
