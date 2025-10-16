@@ -1,9 +1,20 @@
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 
 export function useStorage() {
     const storageKey = 'calculatorData'
-    const savedData = ref(JSON.parse(localStorage.getItem(storageKey)) || {})
+    let initialData = {}
+    try {
+        const saved = localStorage.getItem(storageKey)
+        if (saved && saved !== 'null') {
+            initialData = JSON.parse(saved)
+        }
+    } catch (e) {
+        console.warn('Error parsing storage data:', e)
+        // Очищаем некорректные данные
+        localStorage.removeItem(storageKey)
+    }
 
+    const savedData = ref(initialData)
 
     const saveToStorage = (data) => {
         Object.assign(savedData.value, data)
@@ -11,8 +22,14 @@ export function useStorage() {
     }
 
     const loadFromStorage = () => {
-        const saved = localStorage.getItem(storageKey)
-        return saved ? JSON.parse(saved) : {}
+        try {
+            const saved = localStorage.getItem(storageKey)
+            return saved && saved !== 'null' ? JSON.parse(saved) : {}
+        } catch (e) {
+            console.warn('Error loading storage data:', e)
+            localStorage.removeItem(storageKey)
+            return {}
+        }
     }
 
     return {
