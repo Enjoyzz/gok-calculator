@@ -13,7 +13,7 @@
       <input
           type="number"
           :value="value"
-          @input="$emit('update', item.id, parseInt($event.target.value) || 0)"
+          @input="$emit('update', item.id, Math.max(0, parseInt($event.target.value) || 0))"
           min="0"
       >
     </td>
