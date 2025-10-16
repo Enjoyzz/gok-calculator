@@ -1,29 +1,18 @@
-<script>
+<script setup>
 import { ref } from 'vue'
 import CharmTab from './CharmTab.vue'
 import IntimacyTab from './IntimacyTab.vue'
 
-export default {
-  name: 'CalculatorTabs',
-  components: {
-    CharmTab,
-    IntimacyTab
-  },
-  props: {
-    concubines: Number,
-    charmItems: Object,
-    intimacyItems: Object,
-    formulas: Object
-  },
-  emits: ['update-charm-items', 'update-intimacy-items'],
-  setup() {
-    const activeTab = ref('charm')
+defineProps({
+  concubines: Number,
+  charmItems: Object,
+  intimacyItems: Object,
+  formulas: Object
+})
 
-    return {
-      activeTab
-    }
-  }
-}
+defineEmits(['update-charm-items', 'update-intimacy-items'])
+
+const activeTab = ref('charm')
 </script>
 
 <template>

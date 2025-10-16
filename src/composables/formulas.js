@@ -1,4 +1,4 @@
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 
 const defaultFormulas = {
     charm: {
@@ -17,25 +17,23 @@ const defaultFormulas = {
 export function useFormulas() {
     const storageKey = 'formulaSettings'
     const saved = localStorage.getItem(storageKey)
-    const formulas = ref(saved ? JSON.parse(saved) : { ...defaultFormulas })
 
-    watch(formulas, (newFormulas) => {
-        localStorage.setItem(storageKey, JSON.stringify(newFormulas))
-    }, { deep: true })
+    const formulas = ref(saved && saved !== 'undefined' ? JSON.parse(saved) : { ...defaultFormulas })
 
-    const updateFormulas = (newFormulas) => {
-        formulas.value = newFormulas
+    const saveFormulas = (newFormulas) => {
+        formulas.value = {...newFormulas.value}
+        localStorage.setItem(storageKey, JSON.stringify(formulas.value))
     }
 
     const resetFormulas = () => {
-        formulas.value = { ...defaultFormulas }
+        formulas.value = {...defaultFormulas.value}
         localStorage.removeItem(storageKey)
     }
 
     return {
         formulas,
-        updateFormulas,
         resetFormulas,
+        saveFormulas,
         defaultFormulas
     }
 }

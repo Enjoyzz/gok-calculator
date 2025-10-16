@@ -8,7 +8,7 @@ import SaveIndicator from '@/components/SaveIndicator.vue'
 import logo from '@/assets/img/gok_logo.png'
 
 const {savedData, saveToStorage} = useStorage()
-const {formulas, updateFormulas, resetFormulas} = useFormulas()
+const {formulas} = useFormulas()
 
 const concubines = ref(1)
 const charmItems = ref({
@@ -33,10 +33,9 @@ const intimacyItems = ref({
 
 const defaultData = savedData.value
 
-const showSettings = ref(false)
 const showSaveIndicator = ref(false)
 const saveMessage = ref('')
-const tempFormulas = ref({})
+
 
 // init
 concubines.value = defaultData.concubines || 1
@@ -66,25 +65,6 @@ const updateIntimacyItems = (newItems) => {
   intimacyItems.value = {...intimacyItems.value, ...newItems}
 }
 
-const openSettings = () => {
-  tempFormulas.value = {...formulas.value}
-  showSettings.value = true
-}
-
-const saveSettings = (newFormulas) => {
-  updateFormulas(newFormulas)
-  showSettings.value = false
-  triggerSaveIndicator('Настройки сохранены!')
-}
-
-const closeSettings = () => {
-  showSettings.value = false
-}
-
-const resetSettings = () => {
-  resetFormulas()
-  triggerSaveIndicator('Настройки сброшены!')
-}
 
 watch(() => charmItems.value.forage, (v) => {
   intimacyItems.value.forage = v;
@@ -126,17 +106,9 @@ watch([concubines, charmItems, intimacyItems], () => {
         @update-intimacy-items="updateIntimacyItems"
     />
 
-    <div class="settings-buttons">
-      <button @click="openSettings" class="btn-settings">Настройки формул</button>
-      <button @click="resetSettings" class="btn-reset">Сбросить настройки</button>
-    </div>
 
-    <SettingsModal
-        v-if="showSettings"
-        :formulas="tempFormulas"
-        @save="saveSettings"
-        @close="closeSettings"
-    />
+
+    <SettingsModal />
 
     <SaveIndicator
         :visible="showSaveIndicator"
@@ -146,30 +118,5 @@ watch([concubines, charmItems, intimacyItems], () => {
 </template>
 
 <style scoped>
-.btn-settings {
-  padding: 7px 10px;
-  background: #747a81;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background 0.2s ease;
-  margin-bottom: 15px;
-}
 
-.btn-settings:hover {
-  background: #727d83;
-}
-
-.btn-reset {
-  padding: 7px 10px;
-  background: transparent;
-  color: #333333;
-  border: none;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background 0.2s ease;
-  margin-bottom: 15px;
-}
 </style>
