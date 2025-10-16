@@ -26,8 +26,8 @@ export function useFormulas() {
     }
 
     const resetFormulas = () => {
-        formulas.value = {...defaultFormulas.value}
         localStorage.removeItem(storageKey)
+        formulas.value = {...defaultFormulas}
     }
 
     return {

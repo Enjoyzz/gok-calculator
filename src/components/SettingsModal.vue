@@ -3,10 +3,10 @@ import {ref, watchEffect} from 'vue'
 import {useFormulas} from "@/composables/formulas.js";
 
 const {formulas, resetFormulas, saveFormulas} = useFormulas()
-
-
 const showSettings = ref(false)
 let tempFormulas = ref({})
+
+const emit = defineEmits(['update-charm-items', 'update-intimacy-items'])
 
 const openSettings = () => {
   tempFormulas.value = JSON.parse(JSON.stringify(formulas.value))
@@ -16,11 +16,15 @@ const openSettings = () => {
 const resetSettings = () => {
   if (confirm('Сбросить все настройки формул к значениям по умолчанию?')) {
     resetFormulas()
+    emit('update-charm-items')
+    emit('update-intimacy-items')
   }
 }
 
 const saveSettings = () => {
   saveFormulas(tempFormulas)
+  emit('update-charm-items')
+  emit('update-intimacy-items')
   closeSettings()
 }
 
