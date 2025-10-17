@@ -29,7 +29,7 @@ export default {
           min="0"
       >
     </td>
-    <td>{{ total }}</td>
+    <td>{{ item.approximately === true ? '~ ' : ''}}{{ total }}</td>
   </tr>
 </template>
 

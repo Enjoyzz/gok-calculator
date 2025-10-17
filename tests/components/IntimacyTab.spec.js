@@ -59,7 +59,7 @@ describe('IntimacyTab.vue', () => {
             const totalCells = totalRow.findAll('td')
 
             expect(totalCells[0].text()).toBe('ИТОГ')
-            expect(totalCells[3].text()).toBe('193') // Проверяем вычисленное значение
+            expect(totalCells[3].text()).toBe('~ 193') // Проверяем вычисленное значение
         })
 
         it('should render formula information', () => {

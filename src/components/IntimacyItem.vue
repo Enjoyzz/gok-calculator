@@ -17,7 +17,7 @@
           min="0"
       >
     </td>
-    <td>{{ total }}</td>
+    <td style="text-wrap: nowrap">{{ item.approximately === true ? '~ ' : ''}}{{ total }}</td>
   </tr>
 </template>
 

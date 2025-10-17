@@ -60,7 +60,7 @@ describe('CharmTab.vue', () => {
 
             expect(totalCells[0].text()).toBe('ИТОГ')
             // Правильный расчет: 75 + 25 + 15 + 24 + 15 + 8 + 30 = 192
-            expect(totalCells[3].text()).toBe('192')
+            expect(totalCells[3].text()).toBe('~ 192')
         })
 
         it('should render formula information', () => {
