@@ -13,6 +13,7 @@
       <input
           type="number"
           :value="value"
+          @click="e => e.target.select()"
           @input="$emit('update', item.id, Math.max(0, parseInt($event.target.value) || 0))"
           min="0"
       >
