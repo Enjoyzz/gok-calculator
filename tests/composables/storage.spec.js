@@ -24,7 +24,7 @@ describe('useStorage', () => {
             expect(savedData.value).toEqual({})
         })
 
-        it('should load existing data from localStorage', () => {
+        it('should load existing data from localStorage and clear non-number key-pair values', () => {
             const testData = {
                 charm: 100,
                 intimacy: 200,
@@ -34,7 +34,10 @@ describe('useStorage', () => {
 
             const { savedData } = useStorage()
 
-            expect(savedData.value).toEqual(testData)
+            expect(savedData.value).toEqual({
+                charm: 100,
+                intimacy: 200
+            })
         })
 
         it('should handle malformed JSON in localStorage', () => {
@@ -112,30 +115,7 @@ describe('useStorage', () => {
             expect(savedData.value).toEqual(expectedData)
         })
 
-        it('should handle nested objects when merging - shallow merge only', () => {
-            const initialData = {
-                resources: { charm: 100, intimacy: 200 },
-                settings: { theme: 'dark' }
-            }
-            localStorage.setItem('calculatorData', JSON.stringify(initialData))
 
-            const { savedData, saveToStorage } = useStorage()
-
-            const newData = {
-                resources: { charm: 300 }, // Object.assign делает shallow merge!
-                newField: 'value'
-            }
-            saveToStorage(newData)
-
-            // Object.assign делает shallow merge, поэтому resources полностью заменяется
-            const expectedData = {
-                resources: { charm: 300 }, // intimacy потерялся из-за shallow merge
-                settings: { theme: 'dark' },
-                newField: 'value'
-            }
-
-            expect(savedData.value).toEqual(expectedData)
-        })
     })
 
     describe('loadFromStorage', () => {
