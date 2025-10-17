@@ -4,6 +4,7 @@ import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
     testDir: './tests/e2e',
     timeout: 30000,
+    outputDir: './test-results/playwright/debug',
 
     use: {
         baseURL: 'http://localhost:5173',
@@ -34,4 +35,10 @@ export default defineConfig({
     },
 
     retries: process.env.CI ? 2 : 0, // В CI повторяем упавшие тесты
+
+    reporter: [
+        ['list'],
+        ['html', { outputFolder: './test-results/playwright/html-report' }],
+        ['json', { outputFile: './test-results/playwright/test-results.json' }]
+    ],
 });
