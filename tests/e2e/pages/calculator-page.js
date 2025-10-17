@@ -3,59 +3,114 @@ export class CalculatorPage {
         this.page = page;
 
         // Основные элементы
-        this.charmPoints = page.locator('[data-testid="charm-points"]');
-        this.intimacyPoints = page.locator('[data-testid="intimacy-points"]');
-        this.calculateButton = page.locator('[data-testid="calculate-button"]');
+        this.concubinesInput = page.locator('input[type="number"]').first();
+        this.calculator = page.locator('.calculator');
 
         // Вкладки
-        this.charmTab = page.locator('[data-testid="tab-charm"]');
-        this.intimacyTab = page.locator('[data-testid="tab-intimacy"]');
-        this.settingsTab = page.locator('[data-testid="tab-settings"]');
+        this.charmTab = page.locator('.tab').filter({ hasText: 'Обаяние' });
+        this.intimacyTab = page.locator('.tab').filter({ hasText: 'Близость' });
 
-        // Сохранение/загрузка
-        this.saveButton = page.locator('[data-testid="save-button"]');
-        this.loadButton = page.locator('[data-testid="load-button"]');
+        // Кнопки настроек
+        this.settingsButton = page.locator('button').filter({ hasText: 'Настройки формул' });
+        this.resetButton = page.locator('button').filter({ hasText: 'Сбросить настройки' });
 
-        // Настройки формул
-        this.formulaInput = page.locator('[data-testid="formula-input"]');
-        this.saveFormulaButton = page.locator('[data-testid="save-formula"]');
+        // Элементы обаяния
+        this.charmInputs = {
+            blueHadak: this.getInputForItem('Синий хадак'),
+            whiteHadak: this.getInputForItem('Белый хадак'),
+            goldHairpin: this.getInputForItem('Золотая шпилька'),
+            silverHairpin: this.getInputForItem('Серебряная шпилька'),
+            perfume: this.getInputForItem('Османтусовые духи'),
+            chests: this.getInputForItem('Сундук странствий'),
+            forage: this.getInputForItem('Фураж')
+        };
 
-        // Фураж
-        this.forageInput = page.locator('[data-testid="forage-input"]');
-        this.forageDisplay = page.locator('[data-testid="forage-display"]');
+        // Элементы близости
+        this.intimacyInputs = {
+            ordos: this.getInputForItem('Ордос'),
+            takya: this.getInputForItem('Такъя'),
+            jadeBracelet: this.getInputForItem('Нефритовый браслет'),
+            sandalwoodBracelet: this.getInputForItem('Сандаловый браслет'),
+            goldEarrings: this.getInputForItem('Золотые серьги'),
+            gemRing: this.getInputForItem('Самоцветное кольцо'),
+            loveLetter: this.getInputForItem('Любовное письмо'),
+            forage: this.getInputForItem('Фураж')
+        };
+
+        // Результаты
+        this.charmTotal = page.locator('td').filter({ hasText: 'ИТОГ' }).locator('..').locator('td').last();
+        this.intimacyTotal = page.locator('td').filter({ hasText: 'ИТОГ' }).locator('..').locator('td').last();
+
+        // Модальное окно настроек
+        this.settingsModal = page.locator('#settings-modal');
+        this.charmFormulaInputs = {
+            blueHadak: page.locator('input').filter({ hasText: '' }).locator('..').locator('input').first(), // Будем уточнять
+        };
     }
 
     async goto() {
         await this.page.goto('/');
+        await this.page.waitForLoadState('networkidle');
+    }
+
+    getInputForItem(itemName) {
+        return this.page.locator('td').filter({ hasText: itemName }).locator('..').locator('input[type="number"]');
     }
 
     async switchToTab(tabName) {
         const tabMap = {
             charm: this.charmTab,
-            intimacy: this.intimacyTab,
-            settings: this.settingsTab
+            intimacy: this.intimacyTab
         };
+
         await tabMap[tabName].click();
+        await this.page.waitForTimeout(300);
     }
 
-    async calculatePoints() {
-        await this.calculateButton.click();
+    async setConcubines(count) {
+        await this.concubinesInput.fill(count.toString());
     }
 
-    async setForage(value) {
-        await this.forageInput.fill(value.toString());
+    async setCharmItem(item, value) {
+        await this.charmInputs[item].fill(value.toString());
     }
 
-    async saveData() {
-        await this.saveButton.click();
+    async setIntimacyItem(item, value) {
+        await this.intimacyInputs[item].fill(value.toString());
     }
 
-    async loadData() {
-        await this.loadButton.click();
+    async getCharmTotal() {
+        const text = await this.charmTotal.textContent();
+        return parseInt(text.replace('~', '').trim()) || 0;
     }
 
-    async updateFormula(formula) {
-        await this.formulaInput.fill(formula);
-        await this.saveFormulaButton.click();
+    async getIntimacyTotal() {
+        const text = await this.intimacyTotal.textContent();
+        return parseInt(text.replace('~', '').trim()) || 0;
+    }
+
+    async openSettings() {
+        await this.settingsButton.click();
+        await this.page.waitForTimeout(500);
+    }
+
+    async closeSettings() {
+        await this.page.click('#settings-modal'); // клик по overlay
+        await this.page.waitForTimeout(300);
+    }
+
+    async saveSettings() {
+        await this.page.locator('button').filter({ hasText: 'Сохранить' }).click();
+        await this.page.waitForTimeout(500);
+    }
+
+    async resetSettings() {
+        await this.resetButton.click();
+    }
+
+    async resetSettingsWithConfirmation() {
+        // Ждем диалог подтверждения
+        this.page.once('dialog', dialog => dialog.accept());
+        await this.resetButton.click();
     }
 }
