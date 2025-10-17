@@ -62,7 +62,7 @@ export const intimacyItemsConfig = [
     {
         id: 'forage',
         name: 'Фураж',
-        description: 'Внимание! Расчет по этому предмету может быть не корректен',
+        description: 'Внимание! Расчет по этому предмету может быть не корректен, зависит не только от количества и рандома',
         icon: forageIcon,
         bgColor: bgIcon.violet
     }
