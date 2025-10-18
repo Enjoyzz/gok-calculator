@@ -5,7 +5,6 @@ import {useFormulas} from '@/composables/formulas.js'
 import CalculatorTabs from '@/components/CalculatorTabs.vue'
 import SettingsModal from '@/components/SettingsModal.vue'
 import SaveIndicator from '@/components/SaveIndicator.vue'
-import logo from '@/assets/img/gok_logo.png'
 
 const {savedData, saveToStorage} = useStorage()
 const {formulas, saveFormulas, resetFormulas} = useFormulas()
@@ -97,7 +96,7 @@ watch([concubines, charmItems, intimacyItems], () => {
 <template>
   <div class="container">
     <div class="gok_logo">
-      <img :src="logo" alt="Game of Khans">
+      <img src="/gok.png" alt="Game of Khans">
     </div>
 
     <h1>Калькулятор обаяния и близости</h1>
