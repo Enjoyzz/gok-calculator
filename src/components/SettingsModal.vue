@@ -10,6 +10,23 @@ const props = defineProps({
 
 const emit = defineEmits(['save', 'reset'])
 
+const validateField = (input) => {
+  let isValid = input.checkValidity()
+  if (!isValid) {
+    input.reportValidity()
+  }
+  return isValid
+}
+
+const validate = () => {
+  const inputs = document.querySelectorAll('.settings-input')
+  for (let input of inputs) {
+    if (!validateField(input)) {
+      return false
+    }
+  }
+  return true
+}
 
 const openSettings = () => {
   tempFormulas.value = JSON.parse(JSON.stringify(props.formulas))
@@ -23,6 +40,8 @@ const resetSettings = () => {
 }
 
 const saveSettings = () => {
+  if (!validate()) return
+
   emit('save', tempFormulas.value)
   closeSettings()
 }
@@ -31,24 +50,17 @@ const closeSettings = () => {
   showSettings.value = false
 }
 
-// watchEffect(() => {
-//   if (showSettings) {
-//     tempFormulas.value = JSON.parse(JSON.stringify(formulas.value))
-//   }
-// })
-
-
 const charmSettings = ref([
   {key: 'blueHadak', label: 'Синий хадак (множитель)', step: 0.1, min: 1, max: 3},
   {key: 'silverHairpin', label: 'Серебряная шпилька (множитель)', step: 0.1, min: 1, max: 5},
-  {key: 'chests', label: 'Сундуки (множитель)', step: 0.1, min: 1},
-  {key: 'forage', label: 'Фураж (множитель)', step: 0.1, min: 1}
+  {key: 'chests', label: 'Сундуки (множитель)', step: 0.1, min: 0},
+  {key: 'forage', label: 'Фураж (множитель)', step: 0.1, min: 0}
 ])
 
 const intimacySettings = ref([
   {key: 'ordos', label: 'Ордос (множитель)', step: 0.1, min: 1, max: 3},
   {key: 'sandalwoodBracelet', label: 'Сандаловый браслет (множитель)', step: 0.1, min: 1, max: 5},
-  {key: 'forage', label: 'Фураж (множитель)', step: 0.1, min: 1}
+  {key: 'forage', label: 'Фураж (множитель)', step: 0.1, min: 0}
 ])
 </script>
 
@@ -72,7 +84,9 @@ const intimacySettings = ref([
               :step="setting.step"
               :min="setting.min"
               :max="setting.max"
+              required
               class="settings-input"
+              @blur="validateField($event.target)"
           >
         </div>
       </div>
@@ -88,6 +102,7 @@ const intimacySettings = ref([
               :min="setting.min"
               :max="setting.max"
               class="settings-input"
+              @blur="validateField($event.target)"
           >
         </div>
       </div>

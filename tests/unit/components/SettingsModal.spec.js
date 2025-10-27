@@ -235,8 +235,8 @@ describe('SettingsModal.vue', () => {
             expect(wrapper.vm.charmSettings).toEqual([
                 {key: 'blueHadak', label: 'Синий хадак (множитель)', step: 0.1, min: 1, max: 3},
                 {key: 'silverHairpin', label: 'Серебряная шпилька (множитель)', step: 0.1, min: 1, max: 5},
-                {key: 'chests', label: 'Сундуки (множитель)', step: 0.1, min: 1},
-                {key: 'forage', label: 'Фураж (множитель)', step: 0.1, min: 1}
+                {key: 'chests', label: 'Сундуки (множитель)', step: 0.1, min: 0},
+                {key: 'forage', label: 'Фураж (множитель)', step: 0.1, min: 0}
             ])
         })
 
@@ -244,7 +244,7 @@ describe('SettingsModal.vue', () => {
             expect(wrapper.vm.intimacySettings).toEqual([
                 {key: 'ordos', label: 'Ордос (множитель)', step: 0.1, min: 1, max: 3},
                 {key: 'sandalwoodBracelet', label: 'Сандаловый браслет (множитель)', step: 0.1, min: 1, max: 5},
-                {key: 'forage', label: 'Фураж (множитель)', step: 0.1, min: 1}
+                {key: 'forage', label: 'Фураж (множитель)', step: 0.1, min: 0}
             ])
         })
     })
