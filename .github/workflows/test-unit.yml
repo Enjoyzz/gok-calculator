@@ -4,6 +4,7 @@ name: Unit tests
 on:
   pull_request:
   workflow_dispatch:
+  workflow_call:
 
 jobs:
   # Single deploy job since we're just deploying
