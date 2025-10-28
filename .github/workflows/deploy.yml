@@ -21,7 +21,12 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # Single deploy job since we're just deploying
+  unit-tests:
+    uses: ./.github/workflows/test-unit.yml
+
+  e2e-tests:
+    uses: ./.github/workflows/test-e2e.yml
+
   deploy:
     environment:
       name: github-pages
@@ -37,8 +42,6 @@ jobs:
           cache: 'npm'
       - name: Install dependencies
         run: npm ci
-      - name: Tests
-        run: npm run test:all
       - name: Build
         run: npm run build
       - name: Setup Pages

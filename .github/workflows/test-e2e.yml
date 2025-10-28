@@ -1,0 +1,25 @@
+# Simple workflow for deploying static content to GitHub Pages
+name: E2E tests
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  # Single deploy job since we're just deploying
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+      - name: Set up Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: lts/*
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm ci
+      - run: npm run build
+      - run: npx playwright install --with-deps
+      - name: E2E test
+        run: npm run test:e2e
