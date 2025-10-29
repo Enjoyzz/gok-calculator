@@ -1,95 +1,47 @@
 <script setup>
-import {ref, watch} from 'vue'
-import {useStorage} from '@/composables/storage.js'
-import {useFormulas} from '@/composables/formulas.js'
-import CalculatorTabs from '@/components/CalculatorTabs.vue'
-import SettingsModal from '@/components/SettingsModal.vue'
-import SaveIndicator from '@/components/SaveIndicator.vue'
+import { useCalculator } from '@/composables/calculator.js'
+import { useSaveIndicator } from '@/composables/saveIndicator.js'
+import SettingsModal from "@/components/SettingsModal.vue";
+import SaveIndicator from "@/components/SaveIndicator.vue";
+import CalculatorTabs from "@/views/CalculatorTabs.vue";
 
-const {savedData, saveToStorage} = useStorage()
-const {formulas, saveFormulas, resetFormulas} = useFormulas()
+const {
+  formulas,
+  calculatorData,
+  isSharedView,
+  saveCalculatorData,
+  saveFormulas,
+  resetFormulas,
+  clearSharedMode
+} = useCalculator()
 
-const concubines = ref(1)
-const charmItems = ref({
-  blueHadak: 0,
-  whiteHadak: 0,
-  goldHairpin: 0,
-  silverHairpin: 0,
-  perfume: 0,
-  chests: 0,
-  forage: 0
-})
-const intimacyItems = ref({
-  ordos: 0,
-  takya: 0,
-  jadeBracelet: 0,
-  sandalwoodBracelet: 0,
-  goldEarrings: 0,
-  gemRing: 0,
-  loveLetter: 0,
-  forage: 0
-})
-
-const defaultData = savedData.value
-
-const showSaveIndicator = ref(false)
-const saveMessage = ref('')
+const {
+  showSaveIndicator,
+  saveMessage,
+  triggerSaveIndicator
+} = useSaveIndicator()
 
 
-// init
-concubines.value = defaultData.concubines || 1
-Object.keys(charmItems.value).forEach(key => {
-  if (defaultData[key] !== undefined) charmItems.value[key] = defaultData[key]
-})
-Object.keys(intimacyItems.value).forEach(key => {
-  if (defaultData[key] !== undefined) intimacyItems.value[key] = defaultData[key]
-})
-
-
-
-const triggerSaveIndicator = (message = '✓ Данные сохранены') => {
-  saveMessage.value = message;
-  showSaveIndicator.value = true;
-  setTimeout(() => {
-    showSaveIndicator.value = false;
-  }, 3000);
-};
-
-
-const updateCharmItems = (newItems) => {
-  charmItems.value = {...charmItems.value, ...newItems}
+const handleUpdateCharmItems = async (newItems) => {
+  const success = await saveCalculatorData(newItems)
+  if (success) triggerSaveIndicator()
 }
 
-const updateIntimacyItems = (newItems) => {
-  intimacyItems.value = {...intimacyItems.value, ...newItems}
+const handleUpdateIntimacyItems = async (newItems) => {
+  const success = await saveCalculatorData(newItems)
+  if (success) triggerSaveIndicator()
 }
 
-const handleSaveFormulas = (newFormulas) => {
-  saveFormulas(newFormulas)
-  triggerSaveIndicator('✓ Настройки сохранены')
+const handleSaveFormulas = async (newFormulas) => {
+  const success = await saveFormulas(newFormulas)
+  if (success) triggerSaveIndicator('✓ Настройки сохранены')
 }
 
-const resetSettings = () => {
+const handleResetSettings = () => {
   resetFormulas()
   triggerSaveIndicator('✓ Настройки сброшены')
 }
 
-watch(() => charmItems.value.forage, (v) => {
-  intimacyItems.value.forage = v;
-});
-
-watch(() => intimacyItems.value.forage, (v) => {
-  charmItems.value.forage = v;
-});
-
-watch([concubines, charmItems, intimacyItems], () => {
-  saveToStorage({
-    concubines: concubines.value,
-    ...charmItems.value,
-    ...intimacyItems.value
-  })
-  triggerSaveIndicator()
-}, {deep: true})
 
 </script>
 
@@ -106,12 +58,11 @@ watch([concubines, charmItems, intimacyItems], () => {
     </div>
 
     <CalculatorTabs
-        :concubines="concubines"
-        :charm-items="charmItems"
-        :intimacy-items="intimacyItems"
+        :concubines="calculatorData.concubines"
+        :items="calculatorData"
         :formulas="formulas"
-        @update-charm-items="updateCharmItems"
-        @update-intimacy-items="updateIntimacyItems"
+        @update-charm-items="handleUpdateCharmItems"
+        @update-intimacy-items="handleUpdateIntimacyItems"
     />
 
 
