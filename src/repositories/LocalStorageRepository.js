@@ -16,31 +16,32 @@ export class LocalStorageRepository extends BaseRepository {
         }
     }
 
-    async loadCalculatorData() {
+    get name() {
+        return 'LocalStorageRepository'
+    }
 
+    async loadCalculatorData() {
         try {
             const saved = localStorage.getItem(this.keys.CALCULATOR_DATA)
-            if (saved) {
-                const data = JSON.parse(saved)
-                return { ...defaultCalculatorData, ...data }
-            }
+            return saved
+                ? { ...defaultCalculatorData, ...JSON.parse(saved) }
+                : defaultCalculatorData
         } catch (error) {
-            console.warn('Error loading calculator data from localStorage:', error)
+            console.warn('Error loading calculator data:', error)
+            return defaultCalculatorData
         }
-        return defaultCalculatorData
     }
 
     async loadFormulas() {
         try {
             const saved = localStorage.getItem(this.keys.FORMULAS)
-            if (saved) {
-                const formulas = JSON.parse(saved)
-                return { ...defaultFormulas, ...formulas }
-            }
+            return saved
+                ? { ...defaultFormulas, ...JSON.parse(saved) }
+                : defaultFormulas
         } catch (error) {
-            console.warn('Error loading formulas from localStorage:', error)
+            console.warn('Error loading formulas:', error)
+            return defaultFormulas
         }
-        return defaultFormulas
     }
 
     async saveCalculatorData(data) {
@@ -63,7 +64,7 @@ export class LocalStorageRepository extends BaseRepository {
         }
     }
 
-    resetFormulas() {
+    async resetFormulas() {
         localStorage.removeItem(this.keys.FORMULAS)
     }
 }

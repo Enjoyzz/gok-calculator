@@ -9,12 +9,14 @@ export class RepositoryFactory {
         if (shareParam) {
             try {
                 const sharedData = JSON.parse(atob(shareParam))
+                console.log('🔗 Loading shared data repository')
                 return new SharedRepository(sharedData)
             } catch (error) {
-                console.warn('Invalid shared data, falling back to localStorage')
+                console.warn('❌ Invalid shared data, falling back to localStorage:', error)
             }
         }
 
+        console.log('💾 Loading localStorage repository')
         return new LocalStorageRepository()
     }
 

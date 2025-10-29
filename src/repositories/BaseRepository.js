@@ -18,4 +18,8 @@ export class BaseRepository {
     canSave() {
         return true
     }
+
+    get name() {
+        return 'BaseRepository'
+    }
 }

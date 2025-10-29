@@ -9,7 +9,7 @@ defineProps({
   formulas: Object
 })
 
-defineEmits(['update-charm-items', 'update-intimacy-items'])
+defineEmits(['update-calculator-items'])
 
 const activeTab = ref('charm')
 </script>
@@ -38,7 +38,7 @@ const activeTab = ref('charm')
         :items="items"
         :formulas="formulas.charm"
         :concubines="concubines"
-        @update-items="$emit('update-charm-items', $event)"
+        @update-items="$emit('update-calculator-items', $event)"
     />
 
     <IntimacyTab
@@ -46,7 +46,7 @@ const activeTab = ref('charm')
         :items="items"
         :formulas="formulas.intimacy"
         :concubines="concubines"
-        @update-items="$emit('update-intimacy-items', $event)"
+        @update-items="$emit('update-calculator-items', $event)"
     />
   </div>
 </template>
