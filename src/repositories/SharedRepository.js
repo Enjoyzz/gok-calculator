@@ -1,4 +1,6 @@
 import { BaseRepository } from './BaseRepository.js'
+import { defaultFormulas } from '@/data/defaults.js'
+
 
 export class SharedRepository extends BaseRepository {
     constructor(sharedData) {
@@ -15,7 +17,7 @@ export class SharedRepository extends BaseRepository {
     }
 
     async loadFormulas() {
-        return this.sharedData.formulas || {}
+        return this.sharedData.formulaSettings || defaultFormulas
     }
 
     async saveCalculatorData() {
