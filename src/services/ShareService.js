@@ -8,6 +8,8 @@ export class ShareService {
                 timestamp: new Date().toISOString()
             }
 
+            console.log('Prepare shared data: ', shareData);
+
             // Кодируем в base64
             const encodedData = btoa(JSON.stringify(shareData))
 

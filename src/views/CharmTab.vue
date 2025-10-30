@@ -8,22 +8,17 @@ const { isSharedView } = inject(SharedKeySymbol)
 const { calculatorData } = inject(calculatorDataKey)
 const { formulaSettings } = inject(formulaSettingsKey)
 
-const props = defineProps({
-  items: Object,
-  formulas: Object,
-  concubines: Number
-})
 
 const emit = defineEmits(['update-items'])
 
 const totals = computed(() => ({
-  blueHadak: Math.floor(props.items.blueHadak * props.concubines * props.formulas.blueHadak),
-  whiteHadak: props.items.whiteHadak * props.concubines,
-  goldHairpin: props.items.goldHairpin * 5,
-  silverHairpin: Math.floor(props.items.silverHairpin * props.formulas.silverHairpin),
-  perfume: props.items.perfume,
-  chests: Math.floor(props.items.chests * props.formulas.chests),
-  forage: Math.floor(props.items.forage * props.formulas.forage)
+  blueHadak: Math.floor(calculatorData.value.blueHadak * calculatorData.value.concubines * formulaSettings.value.charm.blueHadak),
+  whiteHadak: calculatorData.value.whiteHadak * calculatorData.value.concubines,
+  goldHairpin: calculatorData.value.goldHairpin * 5,
+  silverHairpin: Math.floor(calculatorData.value.silverHairpin * formulaSettings.value.charm.silverHairpin),
+  perfume: calculatorData.value.perfume,
+  chests: Math.floor(calculatorData.value.chests * formulaSettings.value.charm.chests),
+  forage: Math.floor(calculatorData.value.forage * formulaSettings.value.charm.forage)
 }))
 
 const total = computed(() =>
@@ -31,7 +26,7 @@ const total = computed(() =>
 )
 
 const updateItem = (id, value) => {
-  emit('update-items', { ...props.items, [id]: value })
+  emit('update-items', { ...calculatorData.value, [id]: value })
 }
 </script>
 
@@ -43,7 +38,7 @@ const updateItem = (id, value) => {
           v-for="item in charmItemsConfig"
           :key="item.id"
           :item="item"
-          :value="items[item.id]"
+          :value="calculatorData[item.id]"
           :total="totals[item.id]"
           @update="updateItem"
       />
@@ -57,18 +52,18 @@ const updateItem = (id, value) => {
     </table>
   </div>
 
-  <ShareButton v-if="!isSharedView" :formula-settings="formulaSettings" :calculator-data="calculatorData" ></ShareButton>
+  <ShareButton v-if="!isSharedView" ></ShareButton>
 
   <div class="formula-info">
     <p><strong>Формулы расчета:</strong></p>
     <ul>
-      <li>Синий хадак: количество × количество наложниц × {{ props.formulas.blueHadak }}</li>
+      <li>Синий хадак: количество × количество наложниц × {{ formulaSettings.charm.blueHadak }}</li>
       <li>Белый хадак: количество × количество наложниц × 1</li>
       <li>Золотая шпилька: количество × 5</li>
-      <li>Серебряная шпилька: количество × {{ props.formulas.silverHairpin }}</li>
-      <li>Сундуки: количество × {{ props.formulas.chests }}</li>
+      <li>Серебряная шпилька: количество × {{ formulaSettings.charm.silverHairpin }}</li>
+      <li>Сундуки: количество × {{ formulaSettings.charm.chests }}</li>
       <li>Духи: количество × 1</li>
-      <li>Фураж: количество × {{ props.formulas.forage }}</li>
+      <li>Фураж: количество × {{ formulaSettings.charm.forage }}</li>
     </ul>
   </div>
 </template>

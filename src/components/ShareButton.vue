@@ -1,20 +1,11 @@
 <script setup>
 import {inject, ref} from 'vue'
 import {ShareService} from "@/services/ShareService.js";
-import {SharedKeySymbol} from "@/data/keys.js"
+import {calculatorDataKey, formulaSettingsKey, SharedKeySymbol} from "@/data/keys.js"
 
-const { isSharedView, clearSharedMode} = inject(SharedKeySymbol)
-
-const props = defineProps({
-  calculatorData: {
-    type: Object,
-    required: true
-  },
-  formulaSettings: {
-    type: Object,
-    required: true
-  }
-})
+const { isSharedView} = inject(SharedKeySymbol)
+const { calculatorData } = inject(calculatorDataKey)
+const { formulaSettings } = inject(formulaSettingsKey)
 
 const showShareModal = ref(false)
 const shareLink = ref('')
@@ -22,7 +13,7 @@ const isCopied = ref(false)
 
 const generateShareLink = () => {
 
-  return ShareService.generateShareLink(props.calculatorData, props.formulaSettings)
+  return ShareService.generateShareLink(calculatorData.value, formulaSettings.value)
 }
 
 const openShareModal = () => {

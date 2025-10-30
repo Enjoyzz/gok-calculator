@@ -9,23 +9,17 @@ const { isSharedView } = inject(SharedKeySymbol)
 const { calculatorData } = inject(calculatorDataKey)
 const { formulaSettings } = inject(formulaSettingsKey)
 
-const props = defineProps({
-  items: Object,
-  formulas: Object,
-  concubines: Number
-})
-
 const emit = defineEmits(['update-items'])
 
 const totals = computed(() => ({
-  ordos: Math.floor(props.items.ordos * props.concubines * props.formulas.ordos),
-  takya: props.items.takya * props.concubines,
-  jadeBracelet: props.items.jadeBracelet * 5,
-  sandalwoodBracelet: Math.floor(props.items.sandalwoodBracelet * props.formulas.sandalwoodBracelet),
-  goldEarrings: props.items.goldEarrings * 2,
-  gemRing: props.items.gemRing,
-  loveLetter: props.items.loveLetter,
-  forage: Math.floor(props.items.forage * props.formulas.forage)
+  ordos: Math.floor(calculatorData.value.ordos * calculatorData.value.concubines * formulaSettings.value.intimacy.ordos),
+  takya: calculatorData.value.takya * calculatorData.value.concubines,
+  jadeBracelet: calculatorData.value.jadeBracelet * 5,
+  sandalwoodBracelet: Math.floor(calculatorData.value.sandalwoodBracelet * formulaSettings.value.intimacy.sandalwoodBracelet),
+  goldEarrings: calculatorData.value.goldEarrings * 2,
+  gemRing: calculatorData.value.gemRing,
+  loveLetter: calculatorData.value.loveLetter,
+  forage: Math.floor(calculatorData.value.forage * formulaSettings.value.intimacy.forage)
 }))
 
 const total = computed(() =>
@@ -33,7 +27,7 @@ const total = computed(() =>
 )
 
 const updateItem = (id, value) => {
-  emit('update-items', {...props.items, [id]: value})
+  emit('update-items', {...calculatorData.value, [id]: value})
 }
 </script>
 
@@ -45,7 +39,7 @@ const updateItem = (id, value) => {
           v-for="item in intimacyItemsConfig"
           :key="item.id"
           :item="item"
-          :value="items[item.id]"
+          :value="calculatorData[item.id]"
           :total="totals[item.id]"
           @update="updateItem"
       />
@@ -59,19 +53,19 @@ const updateItem = (id, value) => {
     </table>
   </div>
 
-  <ShareButton v-if="!isSharedView" :formula-settings="formulaSettings" :calculator-data="calculatorData" ></ShareButton>
+  <ShareButton v-if="!isSharedView" ></ShareButton>
 
   <div class="formula-info">
     <p><strong>Формулы расчета:</strong></p>
     <ul>
-      <li>Ордос: количество × количество наложниц × {{ props.formulas.ordos }}</li>
+      <li>Ордос: количество × количество наложниц × {{ formulaSettings.intimacy.ordos }}</li>
       <li>Такъя: количество × количество наложниц × 1</li>
       <li>Нефритовый браслет: количество × 5</li>
-      <li>Сандаловый браслет: количество × {{ props.formulas.sandalwoodBracelet }}</li>
+      <li>Сандаловый браслет: количество × {{ formulaSettings.intimacy.sandalwoodBracelet }}</li>
       <li>Золотые серьги: количество × 2</li>
       <li>Самоцветное кольцо: количество × 1</li>
       <li>Любовное письмо: количество × 1</li>
-      <li>Фураж: количество × {{ props.formulas.forage }}</li>
+      <li>Фураж: количество × {{ formulaSettings.intimacy.forage }}</li>
     </ul>
   </div>
 </template>
