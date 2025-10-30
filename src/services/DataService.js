@@ -13,7 +13,7 @@ export class DataService {
                 this.repository.loadFormulas()
             ])
 
-            console.log(`✅ Data loaded from ${this.repository.name}`)
+            console.log(`✅ Data loaded from ${this.repository.name}`, { calculatorData, formulas })
             return { calculatorData, formulas }
         } catch (error) {
             console.error('❌ Error loading data:', error)

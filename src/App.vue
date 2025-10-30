@@ -82,8 +82,6 @@ watch(
 
       <h1>Калькулятор обаяния и близости</h1>
 
-      {{console.log(formulaSettings)}}
-
       <div class="py-3">Кол-во наложниц:
         <input type="number" v-model.number="calculatorData.concubines" :disabled="isSharedView">
       </div>

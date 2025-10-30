@@ -14,6 +14,9 @@ export class ShareService {
             // Создаем URL
             const currentUrl = new URL(window.location.href)
             currentUrl.searchParams.set('share', encodedData)
+
+            console.log('Generate share link: ', currentUrl.toString(), currentUrl)
+
             return currentUrl.toString()
         } catch (error) {
             console.error('Error generating share link:', error)
