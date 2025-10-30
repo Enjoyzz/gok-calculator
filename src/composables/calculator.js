@@ -71,6 +71,7 @@ export function useCalculator() {
         saveCalculatorData,
         saveFormulas,
         resetFormulas,
+        savedActiveTab: dataService.savedActiveTab(),
         clearSharedMode: dataService.clearSharedMode
     }
 }

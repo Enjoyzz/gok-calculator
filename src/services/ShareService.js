@@ -1,11 +1,12 @@
 export class ShareService {
-    static generateShareLink(calculatorData, formulaSettings) {
+    static generateShareLink(calculatorData, formulaSettings, activeTab) {
         try {
             // Подготавливаем данные для sharing
             const shareData = {
                 calculatorData: calculatorData,
                 formulaSettings: formulaSettings,
-                timestamp: new Date().toISOString()
+                timestamp: new Date().toISOString(),
+                activeTab: activeTab
             }
 
             console.log('Prepare shared data: ', shareData);

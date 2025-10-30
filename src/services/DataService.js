@@ -1,4 +1,5 @@
 import { RepositoryFactory } from '@/repositories/RepositoryFactory.js'
+import {SharedRepository} from "@/repositories/SharedRepository.js";
 
 export class DataService {
     constructor() {
@@ -77,6 +78,13 @@ export class DataService {
         if (this.isSharedView) {
             RepositoryFactory.clearSharedMode()
         }
+    }
+
+    savedActiveTab() {
+        if (this.repository instanceof SharedRepository) {
+            return this.repository.tab()
+        }
+        return 'charm'
     }
 }
 

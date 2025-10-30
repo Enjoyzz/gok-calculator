@@ -1,11 +1,12 @@
 <script setup>
-import { ref } from 'vue'
+import {inject, ref} from 'vue'
 import CharmTab from './CharmTab.vue'
 import IntimacyTab from './IntimacyTab.vue'
+import {activeTabKey} from "@/data/keys.js";
 
 defineEmits(['update-calculator-items'])
+const activeTab = inject(activeTabKey)
 
-const activeTab = ref('charm')
 </script>
 
 <template>

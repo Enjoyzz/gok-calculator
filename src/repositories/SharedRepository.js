@@ -30,6 +30,10 @@ export class SharedRepository extends BaseRepository {
         return false
     }
 
+    tab() {
+        return this.sharedData.activeTab || 'charm'
+    }
+
     canSave() {
         return false
     }
