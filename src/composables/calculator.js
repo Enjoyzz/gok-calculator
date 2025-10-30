@@ -2,7 +2,7 @@ import { ref, onMounted } from 'vue'
 import { dataService } from '@/services/DataService.js'
 
 export function useCalculator() {
-    const formulas = ref({})
+    const formulaSettings = ref({})
     const calculatorData = ref({})
     const concubines = ref({})
     const isLoading = ref(true)
@@ -14,7 +14,7 @@ export function useCalculator() {
             error.value = null
             const { calculatorData: calcData, formulas: formData } = await dataService.loadAllData()
             calculatorData.value = calcData
-            formulas.value = formData
+            formulaSettings.value = formData
         } catch (err) {
             error.value = 'Не удалось загрузить данные'
             console.error('Error in loadData:', err)
@@ -36,7 +36,7 @@ export function useCalculator() {
 
     const saveFormulas = async (newFormulas) => {
         try {
-            formulas.value = newFormulas
+            formulaSettings.value = newFormulas
             const success = await dataService.saveFormulas(newFormulas)
             return success
         } catch (err) {
@@ -61,7 +61,7 @@ export function useCalculator() {
     })
 
     return {
-        formulas,
+        formulaSettings,
         calculatorData,
         concubines,
         isLoading,

@@ -4,10 +4,11 @@ import {useSaveIndicator} from '@/composables/saveIndicator.js'
 import SettingsModal from "@/components/SettingsModal.vue";
 import SaveIndicator from "@/components/SaveIndicator.vue";
 import CalculatorTabs from "@/views/CalculatorTabs.vue";
-import {ref, watch} from "vue";
+import {SharedKeySymbol, formulaSettingsKey, calculatorDataKey} from "@/data/keys.js"
+import {provide, watch} from "vue";
 
 const {
-  formulas,
+  formulaSettings,
   calculatorData,
   isLoading,
   error,
@@ -18,6 +19,14 @@ const {
   clearSharedMode,
 } = useCalculator()
 
+provide(SharedKeySymbol, {
+  isSharedView,
+  clearSharedMode
+})
+
+provide(calculatorDataKey, {calculatorData})
+provide(formulaSettingsKey, {formulaSettings})
+
 const {
   showSaveIndicator,
   saveMessage,
@@ -27,7 +36,6 @@ const {
 
 const handleUpdateCalculatorItems = async (newItems) => {
   const success = await saveCalculatorData(newItems)
-
   if (success) {
     triggerSaveIndicator()
   }
@@ -36,12 +44,16 @@ const handleUpdateCalculatorItems = async (newItems) => {
 
 const handleSaveFormulas = async (newFormulas) => {
   const success = await saveFormulas(newFormulas)
-  if (success) triggerSaveIndicator('✓ Настройки сохранены')
+  if (success) {
+    triggerSaveIndicator('✓ Настройки сохранены')
+  }
 }
 
 const handleResetSettings = async () => {
   const success = await resetFormulas()
-  if (success) triggerSaveIndicator('✓ Настройки сброшены')
+  if (success) {
+    triggerSaveIndicator('✓ Настройки сброшены')
+  }
 }
 
 watch(
@@ -70,20 +82,22 @@ watch(
 
       <h1>Калькулятор обаяния и близости</h1>
 
+      {{console.log(formulaSettings)}}
+
       <div class="py-3">Кол-во наложниц:
-        <input type="number" v-model.number="calculatorData.concubines">
+        <input type="number" v-model.number="calculatorData.concubines" :disabled="isSharedView">
       </div>
 
       <CalculatorTabs
           :concubines="calculatorData.concubines"
           :items="calculatorData"
-          :formulas="formulas"
+          :formulaSettings="formulaSettings"
           @update-calculator-items="handleUpdateCalculatorItems"
       />
 
 
       <SettingsModal
-          :formulas="formulas"
+          :formulaSettings="formulaSettings"
           @save="handleSaveFormulas"
           @reset="handleResetSettings"
       />

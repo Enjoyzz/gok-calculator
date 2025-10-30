@@ -1,3 +1,19 @@
+<script setup>
+
+import {defineEmits, defineProps, inject} from "vue";
+import {SharedKeySymbol} from "@/data/keys.js";
+
+const {isSharedView} = inject(SharedKeySymbol)
+defineProps({
+  item: Object,
+  value: Number,
+  total: Number
+})
+
+defineEmits(['update'])
+
+</script>
+
 <template>
   <tr>
     <td class="icon">
@@ -16,20 +32,9 @@
           @click="e => e.target.select()"
           @input="$emit('update', item.id, Math.max(0, parseInt($event.target.value) || 0))"
           min="0"
+          :disabled="isSharedView"
       >
     </td>
-    <td style="text-wrap: nowrap">{{ item.approximately === true ? '~ ' : ''}}{{ total }}</td>
+    <td style="text-wrap: nowrap">{{ item.approximately === true ? '~ ' : '' }}{{ total }}</td>
   </tr>
 </template>
-
-<script>
-export default {
-  name: 'IntimacyItem',
-  props: {
-    item: Object,
-    value: Number,
-    total: Number
-  },
-  emits: ['update']
-}
-</script>

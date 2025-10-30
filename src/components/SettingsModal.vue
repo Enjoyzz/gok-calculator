@@ -5,7 +5,7 @@ const showSettings = ref(false)
 let tempFormulas = ref({})
 
 const props = defineProps({
-  formulas: Object
+  formulaSettings: Object
 })
 
 const emit = defineEmits(['save', 'reset'])
@@ -29,7 +29,7 @@ const validate = () => {
 }
 
 const openSettings = () => {
-  tempFormulas.value = JSON.parse(JSON.stringify(props.formulas))
+  tempFormulas.value = JSON.parse(JSON.stringify(props.formulaSettings))
   showSettings.value = true
 }
 

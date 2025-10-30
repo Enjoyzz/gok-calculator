@@ -1,7 +1,13 @@
 <script setup>
-import {computed} from 'vue'
+import {computed, inject} from 'vue'
 import IntimacyItem from './IntimacyItem.vue'
 import {intimacyItemsConfig} from './../data/intimacyItemsConfig.js'
+import {calculatorDataKey, formulaSettingsKey, SharedKeySymbol} from "@/data/keys.js";
+import ShareButton from "@/components/ShareButton.vue";
+
+const { isSharedView } = inject(SharedKeySymbol)
+const { calculatorData } = inject(calculatorDataKey)
+const { formulaSettings } = inject(formulaSettingsKey)
 
 const props = defineProps({
   items: Object,
@@ -52,6 +58,9 @@ const updateItem = (id, value) => {
       </tbody>
     </table>
   </div>
+
+  <ShareButton v-if="!isSharedView" :formula-settings="formulaSettings" :calculator-data="calculatorData" ></ShareButton>
+
   <div class="formula-info">
     <p><strong>Формулы расчета:</strong></p>
     <ul>

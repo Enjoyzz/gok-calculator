@@ -6,7 +6,7 @@ import IntimacyTab from './IntimacyTab.vue'
 defineProps({
   concubines: Number,
   items: Object,
-  formulas: Object
+  formulaSettings: Object
 })
 
 defineEmits(['update-calculator-items'])
@@ -36,7 +36,7 @@ const activeTab = ref('charm')
     <CharmTab
         v-if="activeTab === 'charm'"
         :items="items"
-        :formulas="formulas.charm"
+        :formulas="formulaSettings.charm"
         :concubines="concubines"
         @update-items="$emit('update-calculator-items', $event)"
     />
@@ -44,7 +44,7 @@ const activeTab = ref('charm')
     <IntimacyTab
         v-if="activeTab === 'intimacy'"
         :items="items"
-        :formulas="formulas.intimacy"
+        :formulas="formulaSettings.intimacy"
         :concubines="concubines"
         @update-items="$emit('update-calculator-items', $event)"
     />
