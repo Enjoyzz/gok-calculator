@@ -13,6 +13,7 @@ export class RepositoryFactory {
                 return new SharedRepository(sharedData)
             } catch (error) {
                 console.warn('❌ Invalid shared data, falling back to localStorage:', error)
+                this.clearSharedMode()
             }
         }
 

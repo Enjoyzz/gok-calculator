@@ -1,5 +1,5 @@
-import { ref, onMounted } from 'vue'
-import { dataService } from '@/services/DataService.js'
+import {onMounted, ref} from 'vue'
+import {dataService} from '@/services/DataService.js'
 
 export function useCalculator() {
     const formulaSettings = ref({})
@@ -26,8 +26,7 @@ export function useCalculator() {
     const saveCalculatorData = async (newData) => {
         try {
             Object.assign(calculatorData.value, newData)
-            const success = await dataService.saveCalculatorData(calculatorData.value)
-            return success
+            return await dataService.saveCalculatorData(calculatorData.value)
         } catch (err) {
             console.error('Error in saveCalculatorData:', err)
             return false
@@ -37,8 +36,7 @@ export function useCalculator() {
     const saveFormulas = async (newFormulas) => {
         try {
             formulaSettings.value = newFormulas
-            const success = await dataService.saveFormulas(newFormulas)
-            return success
+            return await dataService.saveFormulas(newFormulas)
         } catch (err) {
             console.error('Error in saveFormulas:', err)
             return false

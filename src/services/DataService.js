@@ -75,7 +75,7 @@ export class DataService {
     }
 
     clearSharedMode() {
-        if (this.isSharedView) {
+        if (this.repository instanceof SharedRepository) {
             RepositoryFactory.clearSharedMode()
         }
     }

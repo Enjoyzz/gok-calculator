@@ -4,8 +4,8 @@ import {useSaveIndicator} from '@/composables/saveIndicator.js'
 import SettingsModal from "@/components/SettingsModal.vue";
 import SaveIndicator from "@/components/SaveIndicator.vue";
 import CalculatorTabs from "@/views/CalculatorTabs.vue";
-import {SharedKeySymbol, formulaSettingsKey, calculatorDataKey, activeTabKey} from "@/data/keys.js"
-import {onMounted, provide, ref, watch} from "vue";
+import {activeTabKey, calculatorDataKey, formulaSettingsKey, SharedKeySymbol} from "@/data/keys.js"
+import {provide, ref, watch} from "vue";
 
 const {
   formulaSettings,
@@ -31,41 +31,42 @@ const {
 } = useSaveIndicator()
 
 
-const handleUpdateCalculatorItems = async (newItems) => {
-  const success = await saveCalculatorData(newItems)
-  if (success) {
-    triggerSaveIndicator()
-  }
+const handleUpdateCalculatorItems = (newItems) => {
+  saveCalculatorData(newItems).then(result => {
+    if (result === true) {
+      triggerSaveIndicator()
+    }
+  })
 }
 
 
-const handleSaveFormulas = async (newFormulas) => {
-  const success = await saveFormulas(newFormulas)
-  if (success) {
-    triggerSaveIndicator('✓ Настройки сохранены')
-  }
+const handleSaveFormulas = (newFormulas) => {
+  saveFormulas(newFormulas).then(result => {
+    if (result === true) {
+      triggerSaveIndicator('✓ Настройки сохранены')
+    }
+  })
 }
 
-const handleResetSettings = async () => {
-  const success = await resetFormulas()
-  if (success) {
-    triggerSaveIndicator('✓ Настройки сброшены')
-  }
+const handleResetSettings = () => {
+  resetFormulas().then(result => {
+    if (result === true) {
+      triggerSaveIndicator('✓ Настройки сброшены')
+    }
+  })
+
 }
 
 watch(
     () => calculatorData.value.concubines,
-    async (newValue, oldValue) => {
-      if (newValue !== oldValue) {
-        const success = await saveCalculatorData({concubines: newValue})
-        if (success && oldValue !== undefined) {
+    (newValue, oldValue) => {
+      saveCalculatorData({concubines: newValue}).then(result => {
+        if (result === true && oldValue !== undefined) {
           triggerSaveIndicator()
         }
-      }
+      })
     }
 )
-
-
 
 provide(SharedKeySymbol, {
   isSharedView,
@@ -93,31 +94,19 @@ provide(activeTabKey, activeTab)
 
       <div v-if="isSharedView" class="readonly-banner">
         🔒 Просмотр чужих данных · <small>Ваши данные остались в сохранности.
-        <a style="color: #252525FF" href="#" @click.prevent="clearSharedMode">Вернутся к себе</a> </small>
+        <a href="#" @click.prevent="clearSharedMode">Вернутся к себе</a> </small>
       </div>
 
       <div class="py-3">Кол-во наложниц:
-        <input type="number" v-model.number="calculatorData.concubines" :disabled="isSharedView">
+        <input type="number" v-model.number="calculatorData.concubines" min="1" :disabled="isSharedView">
       </div>
 
-      <CalculatorTabs
-          :concubines="calculatorData.concubines"
-          :items="calculatorData"
-          :formulaSettings="formulaSettings"
-          @update-calculator-items="handleUpdateCalculatorItems"
-      />
+      <CalculatorTabs @update-calculator-items="handleUpdateCalculatorItems"/>
 
 
-      <SettingsModal
-          :formulaSettings="formulaSettings"
-          @save="handleSaveFormulas"
-          @reset="handleResetSettings"
-      />
+      <SettingsModal v-if="!isSharedView" @save="handleSaveFormulas" @reset="handleResetSettings"/>
 
-      <SaveIndicator
-          :visible="showSaveIndicator"
-          :message="saveMessage"
-      />
+      <SaveIndicator :visible="showSaveIndicator" :message="saveMessage"/>
     </div>
   </div>
 </template>
@@ -139,4 +128,21 @@ provide(activeTabKey, activeTab)
   gap: 10px;
   font-size: 20px;
 }
+
+.readonly-banner a {
+  color: #252525;
+  text-decoration: underline;
+}
+
+/* Добавьте минимальные стили для состояний */
+.loading, .error {
+  text-align: center;
+  padding: 20px;
+  font-size: 18px;
+}
+
+.error {
+  color: #f44336;
+}
+
 </style>
