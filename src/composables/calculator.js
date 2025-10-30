@@ -1,5 +1,6 @@
 import {onMounted, ref} from 'vue'
 import {dataService} from '@/services/DataService.js'
+import {RepositoryFactory} from "@/repositories/RepositoryFactory.js";
 
 export function useCalculator() {
     const formulaSettings = ref({})
@@ -7,6 +8,7 @@ export function useCalculator() {
     const concubines = ref({})
     const isLoading = ref(true)
     const error = ref(null)
+    const showInvalidShareModal = ref(false)
 
     const loadData = async () => {
         try {
@@ -22,6 +24,16 @@ export function useCalculator() {
             isLoading.value = false
         }
     }
+    const handleInvalidShareData = (event) => {
+        console.log('📢 Invalid share data event received')
+        showInvalidShareModal.value = true
+        dataService.setHasInvalidShareData(true)
+    }
+
+    const handleInvalidShareConfirm = () => {
+        RepositoryFactory.clearSharedMode()
+    }
+
 
     const saveCalculatorData = async (newData) => {
         try {
@@ -55,7 +67,12 @@ export function useCalculator() {
     }
 
     onMounted(() => {
+        window.addEventListener('invalidShareData', handleInvalidShareData)
         loadData()
+
+        return () => {
+            window.removeEventListener('invalidShareData', handleInvalidShareData)
+        }
     })
 
     return {
@@ -69,6 +86,8 @@ export function useCalculator() {
         saveCalculatorData,
         saveFormulas,
         resetFormulas,
+        showInvalidShareModal,
+        handleInvalidShareConfirm,
         savedActiveTab: dataService.savedActiveTab(),
         clearSharedMode: dataService.clearSharedMode
     }

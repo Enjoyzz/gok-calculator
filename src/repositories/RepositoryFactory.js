@@ -13,7 +13,16 @@ export class RepositoryFactory {
                 return new SharedRepository(sharedData)
             } catch (error) {
                 console.warn('❌ Invalid shared data, falling back to localStorage:', error)
-                this.clearSharedMode()
+                setTimeout(() => {
+                    const event = new CustomEvent('invalidShareData', {
+                        detail: { error }
+                    })
+                    console.log('Trying dispatch event', event)
+                    window.dispatchEvent(event)
+                }, 0)
+
+
+
             }
         }
 

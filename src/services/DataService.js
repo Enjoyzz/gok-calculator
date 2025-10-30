@@ -5,6 +5,7 @@ export class DataService {
     constructor() {
         this.repository = RepositoryFactory.createRepository()
         this.isSharedView = !this.repository.canSave()
+        this.hasInvalidShareData = false
     }
 
     async loadAllData() {
@@ -73,6 +74,15 @@ export class DataService {
             return false
         }
     }
+
+    getHasInvalidShareData() {
+        return this.hasInvalidShareData
+    }
+
+    setHasInvalidShareData(value) {
+        this.hasInvalidShareData = value
+    }
+
 
     clearSharedMode() {
         if (this.repository instanceof SharedRepository) {

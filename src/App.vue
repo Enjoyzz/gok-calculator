@@ -17,7 +17,9 @@ const {
   saveFormulas,
   resetFormulas,
   clearSharedMode,
-  savedActiveTab
+  savedActiveTab,
+  showInvalidShareModal,
+  handleInvalidShareConfirm
 } = useCalculator()
 
 
@@ -80,7 +82,17 @@ provide(activeTabKey, activeTab)
 </script>
 
 <template>
-  <div class="container">
+  <div v-if="showInvalidShareModal" class="modal-overlay" @click="handleInvalidShareConfirm">
+    <div class="modal-content" @click.stop>
+      <h3>Некорректная ссылка</h3>
+      <p>Ссылка для sharing содержит некорректные данные.</p>
+      <p>Вы будете перенаправлены на ваши данные.</p>
+      <button @click="handleInvalidShareConfirm" class="confirm-btn">
+        Понятно
+      </button>
+    </div>
+  </div>
+  <div v-else class="container">
     <div v-if="isLoading" class="loading">Загрузка...</div>
     <div v-else-if="error" class="error">{{ error }}</div>
 
@@ -145,4 +157,36 @@ provide(activeTabKey, activeTab)
   color: #f44336;
 }
 
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+}
+
+.confirm-btn {
+  background: #2196F3;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 15px;
+}
 </style>
