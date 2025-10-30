@@ -85,7 +85,7 @@ provide(activeTabKey, activeTab)
   <div v-if="showInvalidShareModal" class="modal-overlay" @click="handleInvalidShareConfirm">
     <div class="modal-content" @click.stop>
       <h3>Некорректная ссылка</h3>
-      <p>Ссылка для sharing содержит некорректные данные.</p>
+      <p>Ссылка содержит некорректные данные.</p>
       <p>Вы будете перенаправлены на ваши данные.</p>
       <button @click="handleInvalidShareConfirm" class="confirm-btn">
         Понятно

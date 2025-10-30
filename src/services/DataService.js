@@ -10,13 +10,13 @@ export class DataService {
 
     async loadAllData() {
         try {
-            const [calculatorData, formulas] = await Promise.all([
+            const [calculatorData, formulaSettings] = await Promise.all([
                 this.repository.loadCalculatorData(),
                 this.repository.loadFormulas()
             ])
 
-            console.log(`✅ Data loaded from ${this.repository.name}`, { calculatorData, formulas })
-            return { calculatorData, formulas }
+            console.log(`✅ Data loaded from ${this.repository.name}`, { calculatorData, formulaSettings })
+            return { calculatorData, formulaSettings }
         } catch (error) {
             console.error('❌ Error loading data:', error)
             throw error
@@ -41,14 +41,14 @@ export class DataService {
         }
     }
 
-    async saveFormulas(formulas) {
+    async saveFormulas(formulaSettings) {
         if (!this.repository.canSave()) {
             console.warn('🚫 Save blocked: shared view mode')
             return false
         }
 
         try {
-            const success = await this.repository.saveFormulas(formulas)
+            const success = await this.repository.saveFormulas(formulaSettings)
             if (success) {
                 console.log('✅ Formulas saved')
             }
@@ -85,12 +85,12 @@ export class DataService {
 
 
     clearSharedMode() {
-        if (this.repository instanceof SharedRepository) {
-            RepositoryFactory.clearSharedMode()
-        }
+        console.log('Click on clearSharedMode()')
+        RepositoryFactory.clearSharedMode()
     }
 
     savedActiveTab() {
+        console.log(this.repository)
         if (this.repository instanceof SharedRepository) {
             return this.repository.tab()
         }

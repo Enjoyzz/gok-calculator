@@ -1,7 +1,7 @@
 import {ref} from "vue";
 
-const defaultConcubines = ref(1)
-const defaultCharmItems = ref({
+const defaultConcubines = 1
+const defaultCharmItems = {
     blueHadak: 0,
     whiteHadak: 0,
     goldHairpin: 0,
@@ -9,8 +9,8 @@ const defaultCharmItems = ref({
     perfume: 0,
     chests: 0,
     forage: 0
-})
-const defaultIntimacyItems = ref({
+}
+const defaultIntimacyItems = {
     ordos: 0,
     takya: 0,
     jadeBracelet: 0,
@@ -19,7 +19,7 @@ const defaultIntimacyItems = ref({
     gemRing: 0,
     loveLetter: 0,
     forage: 0
-})
+}
 
 const defaultFormulas = {
     charm: {

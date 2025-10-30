@@ -14,9 +14,9 @@ export function useCalculator() {
         try {
             isLoading.value = true
             error.value = null
-            const { calculatorData: calcData, formulas: formData } = await dataService.loadAllData()
-            calculatorData.value = calcData
-            formulaSettings.value = formData
+            const { calculatorData: data, formulaSettings: settings } = await dataService.loadAllData()
+            calculatorData.value = data
+            formulaSettings.value = settings
         } catch (err) {
             error.value = 'Не удалось загрузить данные'
             console.error('Error in loadData:', err)
