@@ -1,13 +1,16 @@
-<script>
-export default {
-  name: 'CharmItem',
-  props: {
-    item: Object,
-    value: Number,
-    total: Number
-  },
-  emits: ['update']
-}
+<script setup>
+import {defineProps, defineEmits, inject} from 'vue'
+import {SharedKeySymbol} from "@/data/keys.js";
+
+const { isSharedView } = inject(SharedKeySymbol)
+
+defineProps({
+  item: Object,
+  value: Number,
+  total: Number
+})
+
+defineEmits(['update'])
 </script>
 
 <template>
@@ -28,6 +31,7 @@ export default {
           @click="e => e.target.select()"
           @input="$emit('update', item.id, Math.max(0, parseInt($event.target.value) || 0))"
           min="0"
+          :disabled="isSharedView"
       >
     </td>
     <td>{{ item.approximately === true ? '~ ' : ''}}{{ total }}</td>

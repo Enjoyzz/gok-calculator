@@ -1,18 +1,12 @@
 <script setup>
-import { ref } from 'vue'
+import {inject, ref} from 'vue'
 import CharmTab from './CharmTab.vue'
 import IntimacyTab from './IntimacyTab.vue'
+import {activeTabKey} from "@/data/keys.js";
 
-defineProps({
-  concubines: Number,
-  charmItems: Object,
-  intimacyItems: Object,
-  formulas: Object
-})
+defineEmits(['update-calculator-items'])
+const activeTab = inject(activeTabKey)
 
-defineEmits(['update-charm-items', 'update-intimacy-items'])
-
-const activeTab = ref('charm')
 </script>
 
 <template>
@@ -36,18 +30,12 @@ const activeTab = ref('charm')
 
     <CharmTab
         v-if="activeTab === 'charm'"
-        :items="charmItems"
-        :formulas="formulas.charm"
-        :concubines="concubines"
-        @update-items="$emit('update-charm-items', $event)"
+        @update-items="$emit('update-calculator-items', $event)"
     />
 
     <IntimacyTab
         v-if="activeTab === 'intimacy'"
-        :items="intimacyItems"
-        :formulas="formulas.intimacy"
-        :concubines="concubines"
-        @update-items="$emit('update-intimacy-items', $event)"
+        @update-items="$emit('update-calculator-items', $event)"
     />
   </div>
 </template>

@@ -8,7 +8,7 @@ export default defineConfig({
         environment: 'jsdom',
         include: ['tests/unit/**'],
         outputFile: './test-results/vitest-results.json',
-
+        setupFiles: ['./tests/setup.js'],
         coverage: {
             enabled: true,
             provider: 'v8',
@@ -16,6 +16,7 @@ export default defineConfig({
             reportsDirectory: './test-results/vitest/coverage',
             exclude: [
                 'tests/**',
+                'tests/setup.js',
                 '**/*.config.js',
                 '**/*.d.ts',
                 'node_modules/**',
