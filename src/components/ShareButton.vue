@@ -18,16 +18,16 @@ const generateShareLink = () => {
 
 const openShareModal = () => {
   shareLink.value = generateShareLink()
-  showShareModal.value = true
-  // if (navigator.share) {
-  //   navigator.share({
-  //     title: 'Мои обаяние и близость в Game of Khans',
-  //     text: 'Посмотри мои расчеты обаяния и близости',
-  //     url: shareLink.value,
-  //   })
-  // } else {
-  //   showShareModal.value = true
-  // }
+
+  if (navigator.share) {
+    navigator.share({
+      title: 'Мои обаяние и близость в Game of Khans',
+      text: 'Посмотри мои расчеты обаяния и близости',
+      url: shareLink.value,
+    })
+  } else {
+    showShareModal.value = true
+  }
 }
 
 const copyToClipboard = async () => {
