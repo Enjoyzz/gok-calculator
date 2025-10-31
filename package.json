@@ -34,6 +34,6 @@
     "vite": "^7.1.7",
     "vite-plugin-remove-console": "^2.2.0",
     "vite-plugin-vue-devtools": "^8.0.2",
-    "vitest": "^3.2.4"
+    "vitest": "^4.0.5"
   }
 }
