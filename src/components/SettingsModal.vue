@@ -1,12 +1,11 @@
 <script setup>
-import {ref} from 'vue'
+import {inject, ref} from 'vue'
+import {formulaSettingsKey} from "@/data/keys.js";
 
 const showSettings = ref(false)
 let tempFormulas = ref({})
 
-const props = defineProps({
-  formulaSettings: Object
-})
+const {formulaSettings} = inject(formulaSettingsKey)
 
 const emit = defineEmits(['save', 'reset'])
 
@@ -29,7 +28,7 @@ const validate = () => {
 }
 
 const openSettings = () => {
-  tempFormulas.value = JSON.parse(JSON.stringify(props.formulaSettings))
+  tempFormulas.value = JSON.parse(JSON.stringify(formulaSettings.value))
   showSettings.value = true
 }
 
