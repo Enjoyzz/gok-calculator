@@ -1,6 +1,8 @@
 import { describe, it, expect, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import SettingsModal from '@/components/SettingsModal.vue'
+import {formulaSettingsKey} from "@/data/keys.js";
+import {ref} from "vue";
 
 describe('SettingsModal.vue', () => {
     const defaultFormulas = {
@@ -19,9 +21,12 @@ describe('SettingsModal.vue', () => {
 
     const createWrapper = (props = {}) => {
         return mount(SettingsModal, {
-            props: {
-                formulaSettings: defaultFormulas,
-                ...props
+            global: {
+                provide: {
+                    [formulaSettingsKey]: {
+                        formulaSettings: ref(defaultFormulas)
+                    }
+                }
             }
         })
     }
