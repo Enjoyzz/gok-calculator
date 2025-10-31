@@ -1,49 +1,111 @@
-import { SharedRepository } from './SharedRepository'
-import { defaultFormulas } from '@/data/defaults'
+import { describe, it, expect, vi } from 'vitest'
+import { SharedRepository } from '@/repositories/SharedRepository.js'
+import { defaultFormulas } from '@/data/defaults.js'
 
-describe('SharedRepository', () => {
-    let repository
-    let sharedData
+describe('SharedRepository.js', () => {
+    describe('Initialization', () => {
+        it('should create repository with shared data', () => {
+            const sharedData = {
+                calculatorData: { test: 'data' },
+                formulaSettings: { charm: { blueHadak: 2.0 } },
+                activeTab: 'intimacy'
+            }
 
-    beforeEach(() => {
-        sharedData = {
-            calculatorData: { charm: 100, intimacy: 200 },
-            formulaSettings: { charm: { multiplier: 3 } },
-            activeTab: 'charm'
-        }
-        repository = new SharedRepository(sharedData)
+            const repository = new SharedRepository(sharedData)
+
+            expect(repository.sharedData).toEqual(sharedData)
+        })
+
+        it('should have correct name', () => {
+            const repository = new SharedRepository({})
+            expect(repository.name).toBe('SharedRepository')
+        })
     })
 
-    it('should load shared calculator data', async () => {
-        const result = await repository.loadCalculatorData()
+    describe('Load calculator data', () => {
+        it('should return shared calculator data', async () => {
+            const sharedData = {
+                calculatorData: { concubines: 5, blueHadak: 10 },
+                formulaSettings: {}
+            }
+            const repository = new SharedRepository(sharedData)
 
-        expect(result).toEqual(sharedData.calculatorData)
+            const result = await repository.loadCalculatorData()
+
+            expect(result).toEqual({ concubines: 5, blueHadak: 10 })
+        })
+
+        it('should return empty object when no calculator data', async () => {
+            const repository = new SharedRepository({})
+
+            const result = await repository.loadCalculatorData()
+
+            expect(result).toEqual({})
+        })
     })
 
-    it('should load shared formulas', async () => {
-        const result = await repository.loadFormulas()
+    describe('Load formulas', () => {
+        it('should return shared formulas', async () => {
+            const sharedData = {
+                calculatorData: {},
+                formulaSettings: { charm: { blueHadak: 2.0 } }
+            }
+            const repository = new SharedRepository(sharedData)
 
-        expect(result).toEqual(sharedData.formulaSettings)
+            const result = await repository.loadFormulas()
+
+            expect(result).toEqual({ charm: { blueHadak: 2.0 } })
+        })
+
+        it('should return default formulas when no shared formulas', async () => {
+            const repository = new SharedRepository({})
+
+            const result = await repository.loadFormulas()
+
+            expect(result).toEqual(defaultFormulas)
+        })
     })
 
-    it('should return defaults when shared data is incomplete', async () => {
-        repository = new SharedRepository({})
+    describe('Save operations', () => {
+        it('should not allow saving calculator data', async () => {
+            const repository = new SharedRepository({})
 
-        const result = await repository.loadFormulas()
+            const result = await repository.saveCalculatorData({ test: 'data' })
 
-        expect(result).toEqual(defaultFormulas)
+            expect(result).toBe(false)
+        })
+
+        it('should not allow saving formulas', async () => {
+            const repository = new SharedRepository({})
+
+            const result = await repository.saveFormulas({ charm: {} })
+
+            expect(result).toBe(false)
+        })
+
+        it('should return false for canSave', () => {
+            const repository = new SharedRepository({})
+
+            expect(repository.canSave()).toBe(false)
+        })
     })
 
-    it('should not allow saving in shared mode', async () => {
-        const saveResult = await repository.saveCalculatorData({ charm: 100 })
-        const formulaResult = await repository.saveFormulas({})
+    describe('Tab method', () => {
+        it('should return shared active tab', () => {
+            const sharedData = {
+                calculatorData: {},
+                formulaSettings: {},
+                activeTab: 'intimacy'
+            }
+            const repository = new SharedRepository(sharedData)
 
-        expect(saveResult).toBe(false)
-        expect(formulaResult).toBe(false)
-        expect(repository.canSave()).toBe(false)
-    })
+            expect(repository.tab()).toBe('intimacy')
+        })
 
-    it('should return active tab from shared data', () => {
-        expect(repository.tab()).toBe('charm')
+        it('should return charm as default tab', () => {
+            const repository = new SharedRepository({})
+
+            expect(repository.tab()).toBe('charm')
+        })
     })
 })

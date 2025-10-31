@@ -1,105 +1,232 @@
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { mount } from '@vue/test-utils'
-import App from './App.vue'
+import { ref } from 'vue'
+import App from '@/App.vue'
+import { useCalculator } from '@/composables/calculator.js'
+import { useSaveIndicator } from '@/composables/saveIndicator.js'
 
-// Mock composables
-vi.mock('@/composables/calculator.js', () => ({
-    useCalculator: () => ({
-        formulaSettings: { value: {} },
-        calculatorData: { value: { concubines: 1 } },
-        isLoading: { value: false },
-        error: { value: null },
-        isSharedView: { value: false },
-        saveCalculatorData: vi.fn(),
-        saveFormulas: vi.fn(),
-        resetFormulas: vi.fn(),
-        clearSharedMode: vi.fn(),
-        savedActiveTab: 'charm',
-        showInvalidShareModal: { value: false },
-        handleInvalidShareConfirm: vi.fn()
+// Моки композаблов
+vi.mock('@/composables/calculator.js')
+vi.mock('@/composables/saveIndicator.js')
+
+describe('App.vue', () => {
+    let mockUseCalculator
+    let mockUseSaveIndicator
+
+    beforeEach(() => {
+        // Сбрасываем все моки перед каждым тестом
+        vi.clearAllMocks()
+
+        // Настройка моков с использованием ref для реактивности
+        mockUseCalculator = {
+            formulaSettings: ref({ charm: {}, intimacy: {} }),
+            calculatorData: ref({ concubines: 1 }),
+            isLoading: ref(false),
+            error: ref(null),
+            isSharedView: ref(false),
+            saveCalculatorData: vi.fn().mockResolvedValue(true),
+            saveFormulas: vi.fn().mockResolvedValue(true),
+            resetFormulas: vi.fn().mockResolvedValue(true),
+            clearSharedMode: vi.fn(),
+            savedActiveTab: 'charm',
+            showInvalidShareModal: ref(false),
+            handleInvalidShareConfirm: vi.fn()
+        }
+
+        mockUseSaveIndicator = {
+            showSaveIndicator: ref(false),
+            saveMessage: ref(''),
+            triggerSaveIndicator: vi.fn()
+        }
+
+        useCalculator.mockReturnValue(mockUseCalculator)
+        useSaveIndicator.mockReturnValue(mockUseSaveIndicator)
     })
-}))
 
-vi.mock('@/composables/saveIndicator.js', () => ({
-    useSaveIndicator: () => ({
-        showSaveIndicator: { value: false },
-        saveMessage: { value: '' },
-        triggerSaveIndicator: vi.fn()
-    })
-}))
+    describe('Initialization', () => {
+        it('should initialize with default data', () => {
+            const wrapper = mount(App)
 
-describe('App', () => {
-    it('should render main application', () => {
-        const wrapper = mount(App)
-
-        expect(wrapper.text()).toContain('Калькулятор обаяния и близости')
-        expect(wrapper.text()).toContain('Кол-во наложниц:')
+            expect(useCalculator).toHaveBeenCalled()
+            expect(useSaveIndicator).toHaveBeenCalled()
+            expect(wrapper.exists()).toBe(true)
+        })
     })
 
-    it('should show loading state', async () => {
-        const mockUseCalculator = await import('@/composables/calculator.js')
-        mockUseCalculator.useCalculator = () => ({
-            ...mockUseCalculator.useCalculator(),
-            isLoading: { value: true }
+    describe('Loading states', () => {
+        it('should show loading state when isLoading is true', async () => {
+            mockUseCalculator.isLoading.value = true
+            const wrapper = mount(App)
+
+            // Ждем обновления DOM
+            await wrapper.vm.$nextTick()
+
+            expect(wrapper.find('.loading').exists()).toBe(true)
+            expect(wrapper.find('.loading').text()).toBe('Загрузка...')
+            expect(wrapper.find('.error').exists()).toBe(false)
         })
 
-        const wrapper = mount(App)
+        it('should show error state when error exists', async () => {
+            mockUseCalculator.error.value = 'Test error message'
+            const wrapper = mount(App)
 
-        expect(wrapper.find('.loading').exists()).toBe(true)
-        expect(wrapper.text()).toContain('Загрузка...')
+            await wrapper.vm.$nextTick()
+
+            expect(wrapper.find('.error').exists()).toBe(true)
+            expect(wrapper.find('.error').text()).toBe('Test error message')
+            expect(wrapper.find('.loading').exists()).toBe(false)
+        })
+
+        it('should show main content when not loading and no error', async () => {
+            const wrapper = mount(App)
+
+            await wrapper.vm.$nextTick()
+
+            expect(wrapper.find('.loading').exists()).toBe(false)
+            expect(wrapper.find('.error').exists()).toBe(false)
+            expect(wrapper.find('.gok_logo').exists()).toBe(true)
+        })
     })
 
-    it('should show error state', async () => {
-        const mockUseCalculator = await import('@/composables/calculator.js')
-        mockUseCalculator.useCalculator = () => ({
-            ...mockUseCalculator.useCalculator(),
-            error: { value: 'Ошибка загрузки' }
+    describe('Invalid share modal', () => {
+        it('should show invalid share modal when showInvalidShareModal is true', async () => {
+            mockUseCalculator.showInvalidShareModal.value = true
+            const wrapper = mount(App)
+
+            await wrapper.vm.$nextTick()
+
+            expect(wrapper.find('.modal-overlay').exists()).toBe(true)
+            expect(wrapper.find('.modal-content h3').text()).toBe('Некорректная ссылка')
+            expect(wrapper.find('button.confirm-btn').exists()).toBe(true)
         })
 
-        const wrapper = mount(App)
+        it('should not show main content when invalid share modal is shown', async () => {
+            mockUseCalculator.showInvalidShareModal.value = true
+            const wrapper = mount(App)
 
-        expect(wrapper.find('.error').exists()).toBe(true)
-        expect(wrapper.text()).toContain('Ошибка загрузки')
+            await wrapper.vm.$nextTick()
+
+            expect(wrapper.find('.container').exists()).toBe(false)
+            expect(wrapper.find('.modal-overlay').exists()).toBe(true)
+        })
+
+        it('should handle invalid share confirm click', async () => {
+            mockUseCalculator.showInvalidShareModal.value = true
+            const wrapper = mount(App)
+
+            await wrapper.vm.$nextTick()
+            await wrapper.find('button.confirm-btn').trigger('click')
+
+            expect(mockUseCalculator.handleInvalidShareConfirm).toHaveBeenCalled()
+        })
     })
 
-    it('should show shared view banner', async () => {
-        const mockUseCalculator = await import('@/composables/calculator.js')
-        mockUseCalculator.useCalculator = () => ({
-            ...mockUseCalculator.useCalculator(),
-            isSharedView: { value: true }
+    describe('Main content rendering', () => {
+        it('should render main content when not loading and no error', async () => {
+            const wrapper = mount(App)
+
+            await wrapper.vm.$nextTick()
+
+            expect(wrapper.find('.gok_logo').exists()).toBe(true)
+            expect(wrapper.find('h1').text()).toBe('Калькулятор обаяния и близости')
+            expect(wrapper.find('input[type="number"]').exists()).toBe(true)
         })
 
-        const wrapper = mount(App)
+        it('should show readonly banner in shared view', async () => {
+            mockUseCalculator.isSharedView.value = true
+            const wrapper = mount(App)
 
-        expect(wrapper.find('.readonly-banner').exists()).toBe(true)
-        expect(wrapper.text()).toContain('Просмотр чужих данных')
+            await wrapper.vm.$nextTick()
+
+            expect(wrapper.find('.readonly-banner').exists()).toBe(true)
+            expect(wrapper.find('.readonly-banner').text()).toContain('Просмотр чужих данных')
+        })
+
+        it('should not show readonly banner in normal view', async () => {
+            mockUseCalculator.isSharedView.value = false
+            const wrapper = mount(App)
+
+            await wrapper.vm.$nextTick()
+
+            expect(wrapper.find('.readonly-banner').exists()).toBe(false)
+        })
     })
 
-    it('should update concubines value', async () => {
-        const saveCalculatorData = vi.fn().mockResolvedValue(true)
-        const triggerSaveIndicator = vi.fn()
+    describe('Concubines input', () => {
+        it('should bind concubines input to calculatorData', async () => {
+            mockUseCalculator.calculatorData.value.concubines = 5
+            const wrapper = mount(App)
 
-        const mockUseCalculator = await import('@/composables/calculator.js')
-        mockUseCalculator.useCalculator = () => ({
-            ...mockUseCalculator.useCalculator(),
-            saveCalculatorData,
-            calculatorData: { value: { concubines: 1 } }
+            await wrapper.vm.$nextTick()
+
+            const input = wrapper.find('input[type="number"]')
+            expect(Number(input.element.value)).toBe(5)
         })
 
-        const mockUseSaveIndicator = await import('@/composables/saveIndicator.js')
-        mockUseSaveIndicator.useSaveIndicator = () => ({
-            showSaveIndicator: { value: false },
-            saveMessage: { value: '' },
-            triggerSaveIndicator
+        it('should disable concubines input in shared view', async () => {
+            mockUseCalculator.isSharedView.value = true
+            const wrapper = mount(App)
+
+            await wrapper.vm.$nextTick()
+
+            const input = wrapper.find('input[type="number"]')
+            expect(input.attributes('disabled')).toBeDefined()
         })
 
-        const wrapper = mount(App)
+        it('should enable concubines input in normal view', async () => {
+            mockUseCalculator.isSharedView.value = false
+            const wrapper = mount(App)
 
-        const input = wrapper.find('input[type="number"]')
-        await input.setValue(5)
+            await wrapper.vm.$nextTick()
 
-        // Wait for watcher to trigger
-        await wrapper.vm.$nextTick()
+            const input = wrapper.find('input[type="number"]')
+            expect(input.attributes('disabled')).toBeUndefined()
+        })
+    })
 
-        expect(saveCalculatorData).toHaveBeenCalled()
+    describe('Event handling', () => {
+        it('should handle update calculator items', async () => {
+            const wrapper = mount(App)
+            const newItems = { test: 'data' }
+
+            await wrapper.vm.handleUpdateCalculatorItems(newItems)
+
+            expect(mockUseCalculator.saveCalculatorData).toHaveBeenCalledWith(newItems)
+            expect(mockUseSaveIndicator.triggerSaveIndicator).toHaveBeenCalled()
+        })
+
+        it('should handle save formulas', async () => {
+            const wrapper = mount(App)
+            const newFormulas = { charm: { test: 1 } }
+
+            await wrapper.vm.handleSaveFormulas(newFormulas)
+
+            expect(mockUseCalculator.saveFormulas).toHaveBeenCalledWith(newFormulas)
+            expect(mockUseSaveIndicator.triggerSaveIndicator).toHaveBeenCalledWith('✓ Настройки сохранены')
+        })
+
+        it('should handle reset settings', async () => {
+            const wrapper = mount(App)
+
+            await wrapper.vm.handleResetSettings()
+
+            expect(mockUseCalculator.resetFormulas).toHaveBeenCalled()
+            expect(mockUseSaveIndicator.triggerSaveIndicator).toHaveBeenCalledWith('✓ Настройки сброшены')
+        })
+    })
+
+    describe('Save indicator integration', () => {
+        it('should show save indicator when triggered', async () => {
+            mockUseSaveIndicator.showSaveIndicator.value = true
+            mockUseSaveIndicator.saveMessage.value = '✓ Данные сохранены'
+
+            const wrapper = mount(App)
+            await wrapper.vm.$nextTick()
+
+            const saveIndicator = wrapper.findComponent({ name: 'SaveIndicator' })
+            expect(saveIndicator.exists()).toBe(true)
+            expect(saveIndicator.props('visible')).toBe(true)
+            expect(saveIndicator.props('message')).toBe('✓ Данные сохранены')
+        })
     })
 })

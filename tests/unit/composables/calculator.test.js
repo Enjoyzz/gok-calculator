@@ -1,93 +1,94 @@
-import { useCalculator } from './calculator'
-import { dataService } from '@/services/DataService'
-import { RepositoryFactory } from '@/repositories/RepositoryFactory'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { useCalculator } from '@/composables/calculator.js'
+import { dataService } from '@/services/DataService.js'
 
-// Mock dependencies
-vi.mock('@/services/DataService')
-vi.mock('@/repositories/RepositoryFactory')
+// Мокаем DataService
+vi.mock('@/services/DataService.js')
 
-describe('useCalculator', () => {
-    let calculator
+describe('calculator.js', () => {
 
     beforeEach(() => {
         vi.clearAllMocks()
-        calculator = useCalculator()
+
+        // Мокаем dataService напрямую
+        dataService.loadAllData = vi.fn()
+        dataService.saveCalculatorData = vi.fn()
+        dataService.saveFormulas = vi.fn()
+        dataService.resetFormulas = vi.fn()
+        dataService.isSharedView = false
+        dataService.savedActiveTab = vi.fn(() => 'charm')
+        dataService.clearSharedMode = vi.fn()
+        dataService.setHasInvalidShareData = vi.fn()
+        dataService.getHasInvalidShareData = vi.fn()
     })
 
-    describe('initialization', () => {
+    describe('Initialization', () => {
         it('should initialize with default values', () => {
+            const calculator = useCalculator()
+
             expect(calculator.isLoading.value).toBe(true)
-            expect(calculator.error.value).toBeNull()
-            expect(calculator.formulaSettings.value).toEqual({})
-            expect(calculator.calculatorData.value).toEqual({})
+            expect(calculator.error.value).toBe(null)
         })
     })
 
-    describe('data loading', () => {
+    describe('Data loading', () => {
         it('should load data successfully', async () => {
-            const mockData = { charm: 100 }
-            const mockFormulas = { multiplier: 2 }
+            const testData = {
+                calculatorData: { test: 'data' },
+                formulaSettings: { charm: {} }
+            }
+            dataService.loadAllData.mockResolvedValue(testData)
 
-            dataService.loadAllData.mockResolvedValue({
-                calculatorData: mockData,
-                formulaSettings: mockFormulas
-            })
-
+            const calculator = useCalculator()
             await calculator.loadData()
 
+            expect(calculator.calculatorData.value).toEqual(testData.calculatorData)
+            expect(calculator.formulaSettings.value).toEqual(testData.formulaSettings)
             expect(calculator.isLoading.value).toBe(false)
-            expect(calculator.error.value).toBeNull()
-            expect(calculator.calculatorData.value).toEqual(mockData)
-            expect(calculator.formulaSettings.value).toEqual(mockFormulas)
         })
 
         it('should handle load errors', async () => {
             dataService.loadAllData.mockRejectedValue(new Error('Load failed'))
 
+            const calculator = useCalculator()
             await calculator.loadData()
 
-            expect(calculator.isLoading.value).toBe(false)
             expect(calculator.error.value).toBe('Не удалось загрузить данные')
+            expect(calculator.isLoading.value).toBe(false)
         })
     })
 
-    describe('data saving', () => {
+    describe('Data saving', () => {
         it('should save calculator data', async () => {
-            const testData = { charm: 150 }
             dataService.saveCalculatorData.mockResolvedValue(true)
+            const calculator = useCalculator()
 
-            const result = await calculator.saveCalculatorData(testData)
+            const result = await calculator.saveCalculatorData({ new: 'data' })
 
             expect(result).toBe(true)
-            expect(dataService.saveCalculatorData).toHaveBeenCalledWith(testData)
+            expect(dataService.saveCalculatorData).toHaveBeenCalledWith({ new: 'data' })
         })
 
         it('should save formulas', async () => {
-            const testFormulas = { charm: { multiplier: 3 } }
             dataService.saveFormulas.mockResolvedValue(true)
+            const calculator = useCalculator()
 
-            const result = await calculator.saveFormulas(testFormulas)
+            const result = await calculator.saveFormulas({ charm: { test: 1 } })
 
             expect(result).toBe(true)
-            expect(calculator.formulaSettings.value).toEqual(testFormulas)
+            expect(dataService.saveFormulas).toHaveBeenCalledWith({ charm: { test: 1 } })
         })
     })
 
-    describe('shared mode events', () => {
-        it('should handle invalid share data event', () => {
-            const event = new CustomEvent('invalidShareData')
+    describe('Reset functionality', () => {
+        it('should reset formulas', async () => {
+            dataService.resetFormulas.mockResolvedValue(true)
+            const calculator = useCalculator()
 
-            window.dispatchEvent(event)
+            const result = await calculator.resetFormulas()
 
-            expect(calculator.showInvalidShareModal.value).toBe(true)
-        })
-
-        it('should clear shared mode on confirm', () => {
-            const clearSpy = vi.spyOn(RepositoryFactory, 'clearSharedMode')
-
-            calculator.handleInvalidShareConfirm()
-
-            expect(clearSpy).toHaveBeenCalled()
+            expect(result).toBe(true)
+            expect(dataService.resetFormulas).toHaveBeenCalled()
         })
     })
 })

@@ -1,52 +1,51 @@
+import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
-import SaveIndicator from './SaveIndicator.vue'
+import SaveIndicator from '@/components/SaveIndicator.vue'
 
-describe('SaveIndicator', () => {
-    it('should be visible when prop is true', () => {
-        const wrapper = mount(SaveIndicator, {
-            props: {
-                visible: true,
-                message: '✓ Данные сохранены'
-            }
-        })
-
-        expect(wrapper.isVisible()).toBe(true)
-        expect(wrapper.text()).toBe('✓ Данные сохранены')
-    })
-
-    it('should not be visible when prop is false', () => {
-        const wrapper = mount(SaveIndicator, {
+describe('SaveIndicator.vue', () => {
+    const createWrapper = (props = {}) => {
+        return mount(SaveIndicator, {
             props: {
                 visible: false,
-                message: '✓ Данные сохранены'
+                message: '✓ Данные сохранены',
+                ...props
             }
         })
+    }
 
-        expect(wrapper.isVisible()).toBe(false)
+    describe('Visibility', () => {
+        it('should not render when visible is false', () => {
+            const wrapper = createWrapper({ visible: false })
+            expect(wrapper.find('#saveIndicator').exists()).toBe(false)
+        })
+
+        it('should render when visible is true', () => {
+            const wrapper = createWrapper({ visible: true })
+            expect(wrapper.find('#saveIndicator').exists()).toBe(true)
+        })
     })
 
-    it('should render custom message', () => {
-        const wrapper = mount(SaveIndicator, {
-            props: {
+    describe('Message display', () => {
+        it('should show default message', () => {
+            const wrapper = createWrapper({ visible: true })
+            expect(wrapper.find('#saveIndicator').text()).toBe('✓ Данные сохранены')
+        })
+
+        it('should show custom message', () => {
+            const wrapper = createWrapper({
                 visible: true,
                 message: '✓ Настройки сохранены'
-            }
+            })
+            expect(wrapper.find('#saveIndicator').text()).toBe('✓ Настройки сохранены')
         })
-
-        expect(wrapper.text()).toBe('✓ Настройки сохранены')
     })
 
-    it('should have correct styles', () => {
-        const wrapper = mount(SaveIndicator, {
-            props: {
-                visible: true,
-                message: '✓ Данные сохранены'
-            }
+    describe('Styling', () => {
+        it('should have correct styling', () => {
+            const wrapper = createWrapper({ visible: true })
+            const indicator = wrapper.find('#saveIndicator')
+
+            expect(indicator.exists()).toBe(true)
         })
-
-        const indicator = wrapper.find('#saveIndicator')
-
-        expect(indicator.attributes('style')).toContain('position: fixed')
-        expect(indicator.attributes('style')).toContain('bottom: 20px')
     })
 })

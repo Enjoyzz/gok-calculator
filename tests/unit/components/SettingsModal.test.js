@@ -1,8 +1,9 @@
+import { describe, it, expect, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
-import SettingsModal from './SettingsModal.vue'
+import SettingsModal from '@/components/SettingsModal.vue'
 
-describe('SettingsModal', () => {
-    const mockFormulas = {
+describe('SettingsModal.vue', () => {
+    const defaultFormulas = {
         charm: {
             blueHadak: 1.5,
             silverHairpin: 3,
@@ -16,86 +17,88 @@ describe('SettingsModal', () => {
         }
     }
 
-    it('should open modal with current formulas', async () => {
-        const wrapper = mount(SettingsModal, {
+    const createWrapper = (props = {}) => {
+        return mount(SettingsModal, {
             props: {
-                formulaSettings: mockFormulas
+                formulaSettings: defaultFormulas,
+                ...props
             }
         })
+    }
 
-        await wrapper.find('.btn-settings').trigger('click')
+    describe('Initialization', () => {
+        it('should not show modal by default', () => {
+            const wrapper = createWrapper()
+            expect(wrapper.find('#settings-modal').exists()).toBe(false)
+        })
 
-        expect(wrapper.vm.showSettings).toBe(true)
-        expect(wrapper.vm.tempFormulas).toEqual(mockFormulas)
+        it('should open modal when button clicked', async () => {
+            const wrapper = createWrapper()
+            await wrapper.find('.btn-settings').trigger('click')
+            expect(wrapper.find('#settings-modal').exists()).toBe(true)
+        })
     })
 
-    it('should emit save event with updated formulas', async () => {
-        const wrapper = mount(SettingsModal, {
-            props: {
-                formulaSettings: mockFormulas
-            }
+    describe('Form rendering', () => {
+        it('should render charm settings', async () => {
+            const wrapper = createWrapper()
+            await wrapper.find('.btn-settings').trigger('click')
+
+            expect(wrapper.text()).toContain('Синий хадак (множитель)')
+            expect(wrapper.text()).toContain('Серебряная шпилька (множитель)')
         })
 
-        await wrapper.find('.btn-settings').trigger('click')
+        it('should render intimacy settings', async () => {
+            const wrapper = createWrapper()
+            await wrapper.find('.btn-settings').trigger('click')
 
-        // Modify a value
-        wrapper.vm.tempFormulas.charm.blueHadak = 2.0
-
-        await wrapper.find('.settings-btn-primary').trigger('click')
-
-        expect(wrapper.emitted('save')).toBeTruthy()
-        expect(wrapper.emitted('save')[0]).toEqual([
-            { ...mockFormulas, charm: { ...mockFormulas.charm, blueHadak: 2.0 } }
-        ])
+            expect(wrapper.text()).toContain('Ордос (множитель)')
+            expect(wrapper.text()).toContain('Сандаловый браслет (множитель)')
+        })
     })
 
-    it('should emit reset event on reset button click', async () => {
-        const wrapper = mount(SettingsModal, {
-            props: {
-                formulaSettings: mockFormulas
-            },
-            global: {
-                mocks: {
-                    confirm: vi.fn(() => true)
-                }
-            }
+    describe('Form actions', () => {
+        it('should emit save event with updated formulas', async () => {
+            const wrapper = createWrapper()
+            await wrapper.find('.btn-settings').trigger('click')
+
+            const newValue = 2.0
+            await wrapper.find('input[type="number"]').setValue(newValue)
+            await wrapper.find('.settings-btn-primary').trigger('click')
+
+            expect(wrapper.emitted('save')).toBeTruthy()
+            expect(wrapper.emitted('save')[0][0].charm.blueHadak).toBe(newValue)
         })
 
-        await wrapper.find('.btn-reset').trigger('click')
+        it('should emit reset event when reset clicked', async () => {
+            const wrapper = createWrapper()
+            vi.spyOn(window, 'confirm').mockReturnValue(true)
 
-        expect(wrapper.emitted('reset')).toBeTruthy()
+            await wrapper.find('.btn-reset').trigger('click')
+
+            expect(wrapper.emitted('reset')).toBeTruthy()
+        })
+
+        it('should close modal without saving on cancel', async () => {
+            const wrapper = createWrapper()
+            await wrapper.find('.btn-settings').trigger('click')
+            await wrapper.find('.settings-btn-secondary').trigger('click')
+
+            expect(wrapper.find('#settings-modal').exists()).toBe(false)
+            expect(wrapper.emitted('save')).toBeUndefined()
+        })
     })
 
-    it('should validate input fields', async () => {
-        const wrapper = mount(SettingsModal, {
-            props: {
-                formulaSettings: mockFormulas
-            }
+    describe('Input validation', () => {
+        it('should validate required fields', async () => {
+            const wrapper = createWrapper()
+            await wrapper.find('.btn-settings').trigger('click')
+
+            const input = wrapper.find('input[type="number"]')
+            await input.setValue('')
+
+            // Проверяем что валидация срабатывает
+            expect(input.element.validity.valid).toBe(false)
         })
-
-        await wrapper.find('.btn-settings').trigger('click')
-
-        // Set invalid value
-        wrapper.vm.tempFormulas.charm.blueHadak = 0.5 // below min
-
-        const validateSpy = vi.spyOn(wrapper.vm, 'validate')
-
-        await wrapper.find('.settings-btn-primary').trigger('click')
-
-        expect(validateSpy).toHaveBeenCalled()
-    })
-
-    it('should close modal on cancel', async () => {
-        const wrapper = mount(SettingsModal, {
-            props: {
-                formulaSettings: mockFormulas
-            }
-        })
-
-        await wrapper.find('.btn-settings').trigger('click')
-        expect(wrapper.vm.showSettings).toBe(true)
-
-        await wrapper.find('.settings-btn-secondary').trigger('click')
-        expect(wrapper.vm.showSettings).toBe(false)
     })
 })

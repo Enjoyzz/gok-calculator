@@ -1,56 +1,107 @@
-import { ShareService } from './ShareService'
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { ShareService } from '@/services/ShareService.js'
 
-describe('ShareService', () => {
-    const mockCalculatorData = { charm: 100, intimacy: 200 }
-    const mockFormulas = { charm: { multiplier: 2 } }
-    const mockActiveTab = 'charm'
+describe('ShareService.js', () => {
+    let originalBtoa
+    let originalLocation
 
     beforeEach(() => {
-        // Mock window.location
+        originalBtoa = global.btoa
+        originalLocation = window.location
+
+        global.btoa = vi.fn((str) => Buffer.from(str).toString('base64'))
         delete window.location
-        window.location = new URL('https://example.com')
+        window.location = new URL('http://localhost')
+    })
+
+    afterEach(() => {
+        global.btoa = originalBtoa
+        window.location = originalLocation
     })
 
     describe('generateShareLink', () => {
-        it('should generate valid share link', () => {
-            const shareLink = ShareService.generateShareLink(
-                mockCalculatorData,
-                mockFormulas,
-                mockActiveTab
-            )
+        it('should generate share link with correct data', () => {
+            const calculatorData = { concubines: 5, blueHadak: 10 }
+            const formulaSettings = { charm: { blueHadak: 1.5 } }
+            const activeTab = 'intimacy'
 
-            expect(shareLink).toContain('https://example.com/?share=')
+            const result = ShareService.generateShareLink(calculatorData, formulaSettings, activeTab)
 
-            const url = new URL(shareLink)
-            const shareParam = url.searchParams.get('share')
-            const decodedData = JSON.parse(atob(shareParam))
+            expect(result).toContain('http://localhost/?share=')
+            expect(global.btoa).toHaveBeenCalled()
 
-            expect(decodedData.calculatorData).toEqual(mockCalculatorData)
-            expect(decodedData.formulaSettings).toEqual(mockFormulas)
-            expect(decodedData.activeTab).toBe(mockActiveTab)
+            const url = new URL(result)
+            const encodedData = url.searchParams.get('share')
+            const decodedData = JSON.parse(Buffer.from(encodedData, 'base64').toString())
+
+            expect(decodedData.calculatorData).toEqual(calculatorData)
+            expect(decodedData.formulaSettings).toEqual(formulaSettings)
+            expect(decodedData.activeTab).toBe(activeTab)
+            expect(decodedData.timestamp).toBeDefined()
         })
 
-        it('should include timestamp', () => {
-            const before = new Date()
-            const shareLink = ShareService.generateShareLink(mockCalculatorData, mockFormulas, mockActiveTab)
+        it('should handle current URL with existing parameters', () => {
+            window.location = new URL('http://localhost/?existing=param')
 
-            const url = new URL(shareLink)
-            const shareParam = url.searchParams.get('share')
-            const decodedData = JSON.parse(atob(shareParam))
+            const result = ShareService.generateShareLink({}, {}, 'charm')
+
+            expect(result).toContain('http://localhost/?existing=param&share=')
+        })
+
+        it('should throw error on encoding failure', () => {
+            global.btoa.mockImplementation(() => {
+                throw new Error('Encoding failed')
+            })
+
+            expect(() => {
+                ShareService.generateShareLink({}, {}, 'charm')
+            }).toThrow('Не удалось создать ссылку для sharing')
+        })
+
+        it('should handle circular references in data', () => {
+            const circularData = { test: 'data' }
+            circularData.self = circularData
+
+            expect(() => {
+                ShareService.generateShareLink(circularData, {}, 'charm')
+            }).toThrow()
+        })
+    })
+
+    describe('Data structure', () => {
+        it('should include timestamp in share data', () => {
+            const before = new Date()
+            const result = ShareService.generateShareLink({}, {}, 'charm')
+
+            const url = new URL(result)
+            const encodedData = url.searchParams.get('share')
+            const decodedData = JSON.parse(Buffer.from(encodedData, 'base64').toString())
 
             const timestamp = new Date(decodedData.timestamp)
             expect(timestamp).toBeInstanceOf(Date)
             expect(timestamp.getTime()).toBeGreaterThanOrEqual(before.getTime())
         })
 
-        it('should handle encoding errors', () => {
-            // Create circular reference to cause JSON.stringify error
-            const circularData = { data: {} }
-            circularData.data.self = circularData
+        it('should preserve all input data', () => {
+            const calculatorData = {
+                concubines: 3,
+                blueHadak: 5,
+                whiteHadak: 10,
+                goldHairpin: 2
+            }
+            const formulaSettings = {
+                charm: { blueHadak: 1.5, silverHairpin: 3 },
+                intimacy: { ordos: 1.5, sandalwoodBracelet: 3 }
+            }
+            const activeTab = 'charm'
 
-            expect(() => {
-                ShareService.generateShareLink(circularData, mockFormulas, mockActiveTab)
-            }).toThrow('Не удалось создать ссылку для sharing')
+            const result = ShareService.generateShareLink(calculatorData, formulaSettings, activeTab)
+            const encodedData = result.split('share=')[1]
+            const decodedData = JSON.parse(Buffer.from(encodedData, 'base64').toString())
+
+            expect(decodedData.calculatorData).toEqual(calculatorData)
+            expect(decodedData.formulaSettings).toEqual(formulaSettings)
+            expect(decodedData.activeTab).toBe(activeTab)
         })
     })
 })
