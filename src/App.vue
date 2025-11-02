@@ -5,7 +5,7 @@ import SettingsModal from "@/components/SettingsModal.vue";
 import SaveIndicator from "@/components/SaveIndicator.vue";
 import CalculatorTabs from "@/views/CalculatorTabs.vue";
 import {activeTabKey, calculatorDataKey, formulaSettingsKey, SharedKeySymbol} from "@/data/keys.js"
-import {provide, ref, watch} from "vue";
+import {provide, watch} from "vue";
 
 const {
   formulaSettings,
@@ -14,16 +14,16 @@ const {
   error,
   isSharedView,
   saveCalculatorData,
+  saveAppState,
   saveFormulas,
   resetFormulas,
   clearSharedMode,
-  savedActiveTab,
+  resetSettings,
   showInvalidShareModal,
-  handleInvalidShareConfirm
+  handleInvalidShareConfirm,
+  appState,
+  activeTab
 } = useCalculator()
-
-
-const activeTab = ref(savedActiveTab)
 
 
 const {
@@ -33,8 +33,8 @@ const {
 } = useSaveIndicator()
 
 
-const handleUpdateCalculatorItems = (newItems) => {
-  saveCalculatorData(newItems).then(result => {
+const handleUpdateCalculatorItems = () => {
+  saveAppState(appState).then(result => {
     if (result === true) {
       triggerSaveIndicator()
     }
@@ -42,8 +42,8 @@ const handleUpdateCalculatorItems = (newItems) => {
 }
 
 
-const handleSaveFormulas = (newFormulas) => {
-  saveFormulas(newFormulas).then(result => {
+const handleSaveFormulas = () => {
+  saveAppState(appState).then(result => {
     if (result === true) {
       triggerSaveIndicator('✓ Настройки сохранены')
     }
@@ -51,7 +51,7 @@ const handleSaveFormulas = (newFormulas) => {
 }
 
 const handleResetSettings = () => {
-  resetFormulas().then(result => {
+  resetSettings().then(result => {
     if (result === true) {
       triggerSaveIndicator('✓ Настройки сброшены')
     }
@@ -60,12 +60,20 @@ const handleResetSettings = () => {
 }
 
 watch(
-    () => calculatorData.value.concubines,
+    () => appState.value.value?.concubines,
     (newValue, oldValue) => {
-      saveCalculatorData({concubines: newValue}).then(result => {
+      saveAppState(appState).then(result => {
         if (result === true && oldValue !== undefined) {
           triggerSaveIndicator()
         }
+      })
+    }
+)
+
+watch(
+    () => appState.value.activeTab,
+    () => {
+      saveAppState(appState).then(() => {
       })
     }
 )
@@ -74,6 +82,7 @@ provide(SharedKeySymbol, {
   isSharedView,
   clearSharedMode
 })
+
 
 provide(calculatorDataKey, {calculatorData})
 provide(formulaSettingsKey, {formulaSettings})

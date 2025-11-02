@@ -1,14 +1,47 @@
-import {onMounted, ref} from 'vue'
+import {computed, onMounted, ref} from 'vue'
 import {dataService} from '@/services/DataService.js'
 import {RepositoryFactory} from "@/repositories/RepositoryFactory.js";
 
 export function useCalculator() {
-    const formulaSettings = ref({})
-    const calculatorData = ref({})
+
     const concubines = ref({})
     const isLoading = ref(true)
     const error = ref(null)
     const showInvalidShareModal = ref(false)
+    const appState = ref({})
+
+    const calculatorData = computed(() => appState.value.value || {})
+    const formulaSettings = computed(() => appState.value.setting || {})
+    const activeTab = computed({
+        get: () => appState.value.activeTab || 'charm',
+        set: (value) => { appState.value.activeTab = value }
+    })
+
+    const loadAppState = async () => {
+        try {
+            isLoading.value = true
+            error.value = null
+
+            const state = await dataService.loadAppState()
+            console.log('🔄 Loaded app state:', state) // Что здесь?
+            appState.value = state
+        } catch (err) {
+            error.value = 'Не удалось загрузить данные'
+            console.error('Error in loadData:', err)
+        } finally {
+            isLoading.value = false
+        }
+    }
+
+    const saveAppState = async (state) => {
+        try {
+            return await dataService.saveAppState(state.value)
+        } catch (err) {
+            console.error('Error in saveAppState:', err)
+            return false
+        }
+    }
+
 
     const loadData = async () => {
         try {
@@ -55,6 +88,17 @@ export function useCalculator() {
         }
     }
 
+    const resetSettings = async () => {
+        try {
+            await dataService.resetSettings()
+            await loadAppState()
+            return true
+        } catch (err) {
+            console.error('Error in resetSettings:', err)
+            return false
+        }
+    }
+
     const resetFormulas = async () => {
         try {
             await dataService.resetFormulas()
@@ -68,7 +112,7 @@ export function useCalculator() {
 
     onMounted(() => {
         window.addEventListener('invalidShareData', handleInvalidShareData)
-        loadData()
+        loadAppState()
 
         return () => {
             window.removeEventListener('invalidShareData', handleInvalidShareData)
@@ -76,19 +120,19 @@ export function useCalculator() {
     })
 
     return {
-        formulaSettings,
+        appState,
         calculatorData,
+        formulaSettings,
+        activeTab,
         concubines,
         isLoading,
         error,
         isSharedView: dataService.isSharedView,
         loadData,
-        saveCalculatorData,
-        saveFormulas,
-        resetFormulas,
+        saveAppState,
+        resetSettings,
         showInvalidShareModal,
         handleInvalidShareConfirm,
-        savedActiveTab: dataService.savedActiveTab(),
         clearSharedMode: dataService.clearSharedMode
     }
 }

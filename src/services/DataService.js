@@ -8,6 +8,35 @@ export class DataService {
         this.hasInvalidShareData = false
     }
 
+    async loadAppState() {
+        try {
+            const appState = await this.repository.loadAppState()
+            console.log(`✅ App state loaded from ${this.repository.name}`, { appState })
+            return appState
+        } catch (error) {
+            console.error('❌ Error loading app state:', error)
+            throw error
+        }
+    }
+
+    async saveAppState(state) {
+        if (!this.repository.canSave()) {
+            console.warn('🚫 Save blocked: shared view mode')
+            return false
+        }
+
+        try {
+            const success = await this.repository.saveAppState(state)
+            if (success) {
+                console.log('✅ App state saved')
+            }
+            return success
+        } catch (error) {
+            console.error('❌ Error saving app state:', error)
+            return false
+        }
+    }
+
     async loadAllData() {
         try {
             const [calculatorData, formulaSettings] = await Promise.all([
@@ -55,6 +84,22 @@ export class DataService {
             return success
         } catch (error) {
             console.error('❌ Error saving formulas:', error)
+            return false
+        }
+    }
+
+    async resetSettings() {
+        if (!this.repository.canSave()) {
+            console.warn('🚫 Reset blocked: shared view mode')
+            return false
+        }
+
+        try {
+            await this.repository.resetSettings()
+            console.log('✅ Settings reset to defaults')
+            return true
+        } catch (error) {
+            console.error('❌ Error resetting the settings:', error)
             return false
         }
     }
