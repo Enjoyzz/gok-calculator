@@ -48,7 +48,7 @@ const defaultAppState = {
             forage: 1.2
         }
     },
-    value: {
+    calcValues: {
         concubines: 1,
         forage: 0,
         blueHadak: 0,

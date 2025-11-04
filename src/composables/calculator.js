@@ -10,7 +10,7 @@ export function useCalculator() {
     const showInvalidShareModal = ref(false)
     const appState = ref({})
 
-    const calculatorData = computed(() => appState.value.value || {})
+    const calculatorData = computed(() => appState.value.calcValues || {})
     const formulaSettings = computed(() => appState.value.setting || {})
     const activeTab = computed({
         get: () => appState.value.activeTab || 'charm',

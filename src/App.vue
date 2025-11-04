@@ -33,7 +33,11 @@ const {
 } = useSaveIndicator()
 
 
-const handleUpdateCalculatorItems = () => {
+const handleUpdateCalculatorItems = (calcValues) => {
+  appState.value = {
+    ...appState.value,
+    calcValues: {...calcValues}
+  }
   saveAppState(appState).then(result => {
     if (result === true) {
       triggerSaveIndicator()
@@ -42,7 +46,13 @@ const handleUpdateCalculatorItems = () => {
 }
 
 
-const handleSaveFormulas = () => {
+const handleSaveFormulas = (setting) => {
+
+  appState.value = {
+    ...appState.value,
+    setting: {...setting}
+  }
+
   saveAppState(appState).then(result => {
     if (result === true) {
       triggerSaveIndicator('✓ Настройки сохранены')
@@ -58,17 +68,6 @@ const handleResetSettings = () => {
   })
 
 }
-
-watch(
-    () => appState.value.value?.concubines,
-    (newValue, oldValue) => {
-      saveAppState(appState).then(result => {
-        if (result === true && oldValue !== undefined) {
-          triggerSaveIndicator()
-        }
-      })
-    }
-)
 
 watch(
     () => appState.value.activeTab,
@@ -119,7 +118,9 @@ provide(activeTabKey, activeTab)
       </div>
 
       <div class="py-3">Кол-во наложниц:
-        <input type="number" v-model.number="calculatorData.concubines" min="1" :disabled="isSharedView">
+        <input type="number" v-model.number="calculatorData.concubines"
+               @input="handleUpdateCalculatorItems({...calculatorData, concubines: calculatorData.concubines})" min="1"
+               :disabled="isSharedView">
       </div>
 
       <CalculatorTabs @update-calculator-items="handleUpdateCalculatorItems"/>
