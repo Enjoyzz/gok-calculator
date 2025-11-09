@@ -8,12 +8,12 @@ import { charmItemsConfig } from '@/data/charmItemsConfig.js'
 import { SharedKeySymbol, calcValuesKey, calcSettingsKey } from '@/data/keys.js'
 
 describe('CharmTab.vue', () => {
-    let calculatorData
-    let formulaSettings
+    let calcValues
+    let calcSettings
     let isSharedView
 
     beforeEach(() => {
-        calculatorData = ref({
+        calcValues = ref({
             concubines: 3,
             blueHadak: 5,
             whiteHadak: 10,
@@ -24,7 +24,7 @@ describe('CharmTab.vue', () => {
             forage: 20
         })
 
-        formulaSettings = ref({
+        calcSettings = ref({
             charm: {
                 blueHadak: 1.5,
                 silverHairpin: 3,
@@ -41,8 +41,8 @@ describe('CharmTab.vue', () => {
             global: {
                 provide: {
                     [SharedKeySymbol]: { isSharedView },
-                    [calcValuesKey]: { calculatorData },
-                    [calcSettingsKey]: { formulaSettings }
+                    [calcValuesKey]: { calcValues },
+                    [calcSettingsKey]: { calcSettings }
                 },
                 stubs: {
                     ShareButton: true
@@ -84,9 +84,9 @@ describe('CharmTab.vue', () => {
 
     describe('Totals calculation', () => {
         it('should calculate blueHadak total correctly', () => {
-            calculatorData.value.concubines = 3
-            calculatorData.value.blueHadak = 5
-            formulaSettings.value.charm.blueHadak = 1.5
+            calcValues.value.concubines = 3
+            calcValues.value.blueHadak = 5
+            calcSettings.value.charm.blueHadak = 1.5
 
             const wrapper = createWrapper()
 
@@ -95,8 +95,8 @@ describe('CharmTab.vue', () => {
         })
 
         it('should calculate whiteHadak total correctly', () => {
-            calculatorData.value.concubines = 3
-            calculatorData.value.whiteHadak = 10
+            calcValues.value.concubines = 3
+            calcValues.value.whiteHadak = 10
 
             const wrapper = createWrapper()
 
@@ -105,7 +105,7 @@ describe('CharmTab.vue', () => {
         })
 
         it('should calculate goldHairpin total correctly', () => {
-            calculatorData.value.goldHairpin = 2
+            calcValues.value.goldHairpin = 2
 
             const wrapper = createWrapper()
 
@@ -114,8 +114,8 @@ describe('CharmTab.vue', () => {
         })
 
         it('should calculate silverHairpin total correctly', () => {
-            calculatorData.value.silverHairpin = 4
-            formulaSettings.value.charm.silverHairpin = 3
+            calcValues.value.silverHairpin = 4
+            calcSettings.value.charm.silverHairpin = 3
 
             const wrapper = createWrapper()
 
@@ -124,7 +124,7 @@ describe('CharmTab.vue', () => {
         })
 
         it('should calculate perfume total correctly', () => {
-            calculatorData.value.perfume = 8
+            calcValues.value.perfume = 8
 
             const wrapper = createWrapper()
 
@@ -133,8 +133,8 @@ describe('CharmTab.vue', () => {
         })
 
         it('should calculate chests total correctly', () => {
-            calculatorData.value.chests = 3
-            formulaSettings.value.charm.chests = 2.2
+            calcValues.value.chests = 3
+            calcSettings.value.charm.chests = 2.2
 
             const wrapper = createWrapper()
 
@@ -143,8 +143,8 @@ describe('CharmTab.vue', () => {
         })
 
         it('should calculate forage total correctly', () => {
-            calculatorData.value.forage = 20
-            formulaSettings.value.charm.forage = 1.5
+            calcValues.value.forage = 20
+            calcSettings.value.charm.forage = 1.5
 
             const wrapper = createWrapper()
 
@@ -155,19 +155,19 @@ describe('CharmTab.vue', () => {
 
     describe('Total sum calculation', () => {
         it('should calculate correct total sum', () => {
-            calculatorData.value.concubines = 2
-            calculatorData.value.blueHadak = 4
-            calculatorData.value.whiteHadak = 6
-            calculatorData.value.goldHairpin = 1
-            calculatorData.value.silverHairpin = 3
-            calculatorData.value.perfume = 5
-            calculatorData.value.chests = 2
-            calculatorData.value.forage = 10
+            calcValues.value.concubines = 2
+            calcValues.value.blueHadak = 4
+            calcValues.value.whiteHadak = 6
+            calcValues.value.goldHairpin = 1
+            calcValues.value.silverHairpin = 3
+            calcValues.value.perfume = 5
+            calcValues.value.chests = 2
+            calcValues.value.forage = 10
 
-            formulaSettings.value.charm.blueHadak = 2
-            formulaSettings.value.charm.silverHairpin = 4
-            formulaSettings.value.charm.chests = 3
-            formulaSettings.value.charm.forage = 2
+            calcSettings.value.charm.blueHadak = 2
+            calcSettings.value.charm.silverHairpin = 4
+            calcSettings.value.charm.chests = 3
+            calcSettings.value.charm.forage = 2
 
             const wrapper = createWrapper()
 
@@ -203,7 +203,7 @@ describe('CharmTab.vue', () => {
 
             expect(wrapper.emitted('update-items')).toBeTruthy()
             expect(wrapper.emitted('update-items')[0]).toEqual([
-                { ...calculatorData.value, [testId]: testValue }
+                { ...calcValues.value, [testId]: testValue }
             ])
         })
 
@@ -214,7 +214,7 @@ describe('CharmTab.vue', () => {
             const expectedItem = charmItemsConfig[0]
 
             expect(firstCharmItem.props('item')).toEqual(expectedItem)
-            expect(firstCharmItem.props('value')).toBe(calculatorData.value[expectedItem.id])
+            expect(firstCharmItem.props('value')).toBe(calcValues.value[expectedItem.id])
             expect(firstCharmItem.props('total')).toBe(wrapper.vm.totals[expectedItem.id])
         })
     })
@@ -226,17 +226,17 @@ describe('CharmTab.vue', () => {
 
             expect(formulaInfo.exists()).toBe(true)
             expect(formulaInfo.text()).toContain('Формулы расчета:')
-            expect(formulaInfo.text()).toContain(`Синий хадак: количество × количество наложниц × ${formulaSettings.value.charm.blueHadak}`)
-            expect(formulaInfo.text()).toContain(`Серебряная шпилька: количество × ${formulaSettings.value.charm.silverHairpin}`)
-            expect(formulaInfo.text()).toContain(`Сундуки: количество × ${formulaSettings.value.charm.chests}`)
-            expect(formulaInfo.text()).toContain(`Фураж: количество × ${formulaSettings.value.charm.forage}`)
+            expect(formulaInfo.text()).toContain(`Синий хадак: количество × количество наложниц × ${calcSettings.value.charm.blueHadak}`)
+            expect(formulaInfo.text()).toContain(`Серебряная шпилька: количество × ${calcSettings.value.charm.silverHairpin}`)
+            expect(formulaInfo.text()).toContain(`Сундуки: количество × ${calcSettings.value.charm.chests}`)
+            expect(formulaInfo.text()).toContain(`Фураж: количество × ${calcSettings.value.charm.forage}`)
         })
 
         it('should update formula info when settings change', async () => {
             const wrapper = createWrapper()
 
-            formulaSettings.value.charm.blueHadak = 2.5
-            formulaSettings.value.charm.silverHairpin = 4
+            calcSettings.value.charm.blueHadak = 2.5
+            calcSettings.value.charm.silverHairpin = 4
 
             await wrapper.vm.$nextTick()
 
@@ -247,33 +247,33 @@ describe('CharmTab.vue', () => {
     })
 
     describe('Reactivity', () => {
-        it('should recalculate totals when calculatorData changes', async () => {
+        it('should recalculate totals when calcValues changes', async () => {
             const wrapper = createWrapper()
             const initialTotal = wrapper.vm.total
 
-            calculatorData.value.blueHadak = 10
+            calcValues.value.blueHadak = 10
             await wrapper.vm.$nextTick()
 
             expect(wrapper.vm.total).not.toBe(initialTotal)
-            expect(wrapper.vm.totals.blueHadak).toBe(Math.floor(10 * calculatorData.value.concubines * formulaSettings.value.charm.blueHadak))
+            expect(wrapper.vm.totals.blueHadak).toBe(Math.floor(10 * calcValues.value.concubines * calcSettings.value.charm.blueHadak))
         })
 
-        it('should recalculate totals when formulaSettings changes', async () => {
+        it('should recalculate totals when calcSettings changes', async () => {
             const wrapper = createWrapper()
             const initialTotal = wrapper.vm.total
 
-            formulaSettings.value.charm.blueHadak = 2
+            calcSettings.value.charm.blueHadak = 2
             await wrapper.vm.$nextTick()
 
             expect(wrapper.vm.total).not.toBe(initialTotal)
-            expect(wrapper.vm.totals.blueHadak).toBe(Math.floor(calculatorData.value.blueHadak * calculatorData.value.concubines * 2))
+            expect(wrapper.vm.totals.blueHadak).toBe(Math.floor(calcValues.value.blueHadak * calcValues.value.concubines * 2))
         })
 
         it('should recalculate totals when concubines changes', async () => {
             const wrapper = createWrapper()
             const initialTotal = wrapper.vm.total
 
-            calculatorData.value.concubines = 5
+            calcValues.value.concubines = 5
             await wrapper.vm.$nextTick()
 
             expect(wrapper.vm.total).not.toBe(initialTotal)
@@ -282,7 +282,7 @@ describe('CharmTab.vue', () => {
 
     describe('Edge cases', () => {
         it('should handle zero values correctly', () => {
-            calculatorData.value = {
+            calcValues.value = {
                 concubines: 1,
                 blueHadak: 0,
                 whiteHadak: 0,
@@ -302,9 +302,9 @@ describe('CharmTab.vue', () => {
         })
 
         it('should handle decimal values in formulas', () => {
-            calculatorData.value.blueHadak = 3
-            calculatorData.value.concubines = 2
-            formulaSettings.value.charm.blueHadak = 1.7 // 3 * 2 * 1.7 = 10.2 -> Math.floor = 10
+            calcValues.value.blueHadak = 3
+            calcValues.value.concubines = 2
+            calcSettings.value.charm.blueHadak = 1.7 // 3 * 2 * 1.7 = 10.2 -> Math.floor = 10
 
             const wrapper = createWrapper()
 
@@ -312,9 +312,9 @@ describe('CharmTab.vue', () => {
         })
 
         it('should handle large numbers', () => {
-            calculatorData.value.concubines = 100
-            calculatorData.value.blueHadak = 1000
-            formulaSettings.value.charm.blueHadak = 3
+            calcValues.value.concubines = 100
+            calcValues.value.blueHadak = 1000
+            calcSettings.value.charm.blueHadak = 3
 
             const wrapper = createWrapper()
 

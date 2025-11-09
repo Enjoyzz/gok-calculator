@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { ShareService } from '@/services/ShareService.js'
+import {ref} from "vue";
 
 describe('ShareService.js', () => {
     let originalBtoa
@@ -21,11 +22,11 @@ describe('ShareService.js', () => {
 
     describe('generateShareLink', () => {
         it('should generate share link with correct data', () => {
-            const calculatorData = { concubines: 5, blueHadak: 10 }
-            const formulaSettings = { charm: { blueHadak: 1.5 } }
+            const calcValues = { concubines: 5, blueHadak: 10 }
+            const calcSettings = { charm: { blueHadak: 1.5 } }
             const activeTab = 'intimacy'
 
-            const result = ShareService.generateShareLink(calculatorData, formulaSettings, activeTab)
+            const result = ShareService.generateShareLink(calcValues, calcSettings, activeTab)
 
             expect(result).toContain('http://localhost/?share=')
             expect(global.btoa).toHaveBeenCalled()
@@ -34,8 +35,8 @@ describe('ShareService.js', () => {
             const encodedData = url.searchParams.get('share')
             const decodedData = JSON.parse(Buffer.from(encodedData, 'base64').toString())
 
-            expect(decodedData.calculatorData).toEqual(calculatorData)
-            expect(decodedData.formulaSettings).toEqual(formulaSettings)
+            expect(decodedData.calcValues).toEqual(calcValues)
+            expect(decodedData.setting).toEqual(calcSettings)
             expect(decodedData.activeTab).toBe(activeTab)
             expect(decodedData.timestamp).toBeDefined()
         })
@@ -83,24 +84,24 @@ describe('ShareService.js', () => {
         })
 
         it('should preserve all input data', () => {
-            const calculatorData = {
+            const calcValues = {
                 concubines: 3,
                 blueHadak: 5,
                 whiteHadak: 10,
                 goldHairpin: 2
             }
-            const formulaSettings = {
+            const calcSettings = {
                 charm: { blueHadak: 1.5, silverHairpin: 3 },
                 intimacy: { ordos: 1.5, sandalwoodBracelet: 3 }
             }
             const activeTab = 'charm'
 
-            const result = ShareService.generateShareLink(calculatorData, formulaSettings, activeTab)
+            const result = ShareService.generateShareLink(calcValues, calcSettings, activeTab)
             const encodedData = result.split('share=')[1]
             const decodedData = JSON.parse(Buffer.from(encodedData, 'base64').toString())
 
-            expect(decodedData.calculatorData).toEqual(calculatorData)
-            expect(decodedData.formulaSettings).toEqual(formulaSettings)
+            expect(decodedData.calcValues).toEqual(calcValues)
+            expect(decodedData.setting).toEqual(calcSettings)
             expect(decodedData.activeTab).toBe(activeTab)
         })
     })

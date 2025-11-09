@@ -8,12 +8,12 @@ import { intimacyItemsConfig } from '@/data/intimacyItemsConfig.js'
 import { SharedKeySymbol, calcValuesKey, calcSettingsKey } from '@/data/keys.js'
 
 describe('IntimacyTab.vue', () => {
-    let calculatorData
-    let formulaSettings
+    let calcValues
+    let calcSettings
     let isSharedView
 
     beforeEach(() => {
-        calculatorData = ref({
+        calcValues = ref({
             concubines: 3,
             ordos: 5,
             takya: 10,
@@ -25,7 +25,7 @@ describe('IntimacyTab.vue', () => {
             forage: 20
         })
 
-        formulaSettings = ref({
+        calcSettings = ref({
             intimacy: {
                 ordos: 1.5,
                 sandalwoodBracelet: 3,
@@ -41,8 +41,8 @@ describe('IntimacyTab.vue', () => {
             global: {
                 provide: {
                     [SharedKeySymbol]: { isSharedView },
-                    [calcValuesKey]: { calculatorData },
-                    [calcSettingsKey]: { formulaSettings }
+                    [calcValuesKey]: { calcValues },
+                    [calcSettingsKey]: { calcSettings }
                 },
                 stubs: {
                     ShareButton: true
@@ -84,9 +84,9 @@ describe('IntimacyTab.vue', () => {
 
     describe('Totals calculation', () => {
         it('should calculate ordos total correctly', () => {
-            calculatorData.value.concubines = 3
-            calculatorData.value.ordos = 5
-            formulaSettings.value.intimacy.ordos = 1.5
+            calcValues.value.concubines = 3
+            calcValues.value.ordos = 5
+            calcSettings.value.intimacy.ordos = 1.5
 
             const wrapper = createWrapper()
 
@@ -95,8 +95,8 @@ describe('IntimacyTab.vue', () => {
         })
 
         it('should calculate takya total correctly', () => {
-            calculatorData.value.concubines = 3
-            calculatorData.value.takya = 10
+            calcValues.value.concubines = 3
+            calcValues.value.takya = 10
 
             const wrapper = createWrapper()
 
@@ -105,7 +105,7 @@ describe('IntimacyTab.vue', () => {
         })
 
         it('should calculate jadeBracelet total correctly', () => {
-            calculatorData.value.jadeBracelet = 2
+            calcValues.value.jadeBracelet = 2
 
             const wrapper = createWrapper()
 
@@ -114,8 +114,8 @@ describe('IntimacyTab.vue', () => {
         })
 
         it('should calculate sandalwoodBracelet total correctly', () => {
-            calculatorData.value.sandalwoodBracelet = 4
-            formulaSettings.value.intimacy.sandalwoodBracelet = 3
+            calcValues.value.sandalwoodBracelet = 4
+            calcSettings.value.intimacy.sandalwoodBracelet = 3
 
             const wrapper = createWrapper()
 
@@ -124,7 +124,7 @@ describe('IntimacyTab.vue', () => {
         })
 
         it('should calculate goldEarrings total correctly', () => {
-            calculatorData.value.goldEarrings = 8
+            calcValues.value.goldEarrings = 8
 
             const wrapper = createWrapper()
 
@@ -133,7 +133,7 @@ describe('IntimacyTab.vue', () => {
         })
 
         it('should calculate gemRing total correctly', () => {
-            calculatorData.value.gemRing = 6
+            calcValues.value.gemRing = 6
 
             const wrapper = createWrapper()
 
@@ -142,7 +142,7 @@ describe('IntimacyTab.vue', () => {
         })
 
         it('should calculate loveLetter total correctly', () => {
-            calculatorData.value.loveLetter = 3
+            calcValues.value.loveLetter = 3
 
             const wrapper = createWrapper()
 
@@ -151,8 +151,8 @@ describe('IntimacyTab.vue', () => {
         })
 
         it('should calculate forage total correctly', () => {
-            calculatorData.value.forage = 20
-            formulaSettings.value.intimacy.forage = 1.2
+            calcValues.value.forage = 20
+            calcSettings.value.intimacy.forage = 1.2
 
             const wrapper = createWrapper()
 
@@ -163,19 +163,19 @@ describe('IntimacyTab.vue', () => {
 
     describe('Total sum calculation', () => {
         it('should calculate correct total sum', () => {
-            calculatorData.value.concubines = 2
-            calculatorData.value.ordos = 4
-            calculatorData.value.takya = 6
-            calculatorData.value.jadeBracelet = 1
-            calculatorData.value.sandalwoodBracelet = 3
-            calculatorData.value.goldEarrings = 5
-            calculatorData.value.gemRing = 4
-            calculatorData.value.loveLetter = 2
-            calculatorData.value.forage = 10
+            calcValues.value.concubines = 2
+            calcValues.value.ordos = 4
+            calcValues.value.takya = 6
+            calcValues.value.jadeBracelet = 1
+            calcValues.value.sandalwoodBracelet = 3
+            calcValues.value.goldEarrings = 5
+            calcValues.value.gemRing = 4
+            calcValues.value.loveLetter = 2
+            calcValues.value.forage = 10
 
-            formulaSettings.value.intimacy.ordos = 2
-            formulaSettings.value.intimacy.sandalwoodBracelet = 4
-            formulaSettings.value.intimacy.forage = 2
+            calcSettings.value.intimacy.ordos = 2
+            calcSettings.value.intimacy.sandalwoodBracelet = 4
+            calcSettings.value.intimacy.forage = 2
 
             const wrapper = createWrapper()
 
@@ -212,7 +212,7 @@ describe('IntimacyTab.vue', () => {
 
             expect(wrapper.emitted('update-items')).toBeTruthy()
             expect(wrapper.emitted('update-items')[0]).toEqual([
-                { ...calculatorData.value, [testId]: testValue }
+                { ...calcValues.value, [testId]: testValue }
             ])
         })
 
@@ -223,7 +223,7 @@ describe('IntimacyTab.vue', () => {
             const expectedItem = intimacyItemsConfig[0]
 
             expect(firstIntimacyItem.props('item')).toEqual(expectedItem)
-            expect(firstIntimacyItem.props('value')).toBe(calculatorData.value[expectedItem.id])
+            expect(firstIntimacyItem.props('value')).toBe(calcValues.value[expectedItem.id])
             expect(firstIntimacyItem.props('total')).toBe(wrapper.vm.totals[expectedItem.id])
         })
     })
@@ -235,16 +235,16 @@ describe('IntimacyTab.vue', () => {
 
             expect(formulaInfo.exists()).toBe(true)
             expect(formulaInfo.text()).toContain('Формулы расчета:')
-            expect(formulaInfo.text()).toContain(`Ордос: количество × количество наложниц × ${formulaSettings.value.intimacy.ordos}`)
-            expect(formulaInfo.text()).toContain(`Сандаловый браслет: количество × ${formulaSettings.value.intimacy.sandalwoodBracelet}`)
-            expect(formulaInfo.text()).toContain(`Фураж: количество × ${formulaSettings.value.intimacy.forage}`)
+            expect(formulaInfo.text()).toContain(`Ордос: количество × количество наложниц × ${calcSettings.value.intimacy.ordos}`)
+            expect(formulaInfo.text()).toContain(`Сандаловый браслет: количество × ${calcSettings.value.intimacy.sandalwoodBracelet}`)
+            expect(formulaInfo.text()).toContain(`Фураж: количество × ${calcSettings.value.intimacy.forage}`)
         })
 
         it('should update formula info when settings change', async () => {
             const wrapper = createWrapper()
 
-            formulaSettings.value.intimacy.ordos = 2.5
-            formulaSettings.value.intimacy.sandalwoodBracelet = 4
+            calcSettings.value.intimacy.ordos = 2.5
+            calcSettings.value.intimacy.sandalwoodBracelet = 4
 
             await wrapper.vm.$nextTick()
 
@@ -255,33 +255,33 @@ describe('IntimacyTab.vue', () => {
     })
 
     describe('Reactivity', () => {
-        it('should recalculate totals when calculatorData changes', async () => {
+        it('should recalculate totals when calcValues changes', async () => {
             const wrapper = createWrapper()
             const initialTotal = wrapper.vm.total
 
-            calculatorData.value.ordos = 10
+            calcValues.value.ordos = 10
             await wrapper.vm.$nextTick()
 
             expect(wrapper.vm.total).not.toBe(initialTotal)
-            expect(wrapper.vm.totals.ordos).toBe(Math.floor(10 * calculatorData.value.concubines * formulaSettings.value.intimacy.ordos))
+            expect(wrapper.vm.totals.ordos).toBe(Math.floor(10 * calcValues.value.concubines * calcSettings.value.intimacy.ordos))
         })
 
-        it('should recalculate totals when formulaSettings changes', async () => {
+        it('should recalculate totals when calcSettings changes', async () => {
             const wrapper = createWrapper()
             const initialTotal = wrapper.vm.total
 
-            formulaSettings.value.intimacy.ordos = 2
+            calcSettings.value.intimacy.ordos = 2
             await wrapper.vm.$nextTick()
 
             expect(wrapper.vm.total).not.toBe(initialTotal)
-            expect(wrapper.vm.totals.ordos).toBe(Math.floor(calculatorData.value.ordos * calculatorData.value.concubines * 2))
+            expect(wrapper.vm.totals.ordos).toBe(Math.floor(calcValues.value.ordos * calcValues.value.concubines * 2))
         })
 
         it('should recalculate totals when concubines changes', async () => {
             const wrapper = createWrapper()
             const initialTotal = wrapper.vm.total
 
-            calculatorData.value.concubines = 5
+            calcValues.value.concubines = 5
             await wrapper.vm.$nextTick()
 
             expect(wrapper.vm.total).not.toBe(initialTotal)
@@ -290,7 +290,7 @@ describe('IntimacyTab.vue', () => {
 
     describe('Edge cases', () => {
         it('should handle zero values correctly', () => {
-            calculatorData.value = {
+            calcValues.value = {
                 concubines: 1,
                 ordos: 0,
                 takya: 0,
@@ -311,9 +311,9 @@ describe('IntimacyTab.vue', () => {
         })
 
         it('should handle decimal values in formulas', () => {
-            calculatorData.value.ordos = 3
-            calculatorData.value.concubines = 2
-            formulaSettings.value.intimacy.ordos = 1.7 // 3 * 2 * 1.7 = 10.2 -> Math.floor = 10
+            calcValues.value.ordos = 3
+            calcValues.value.concubines = 2
+            calcSettings.value.intimacy.ordos = 1.7 // 3 * 2 * 1.7 = 10.2 -> Math.floor = 10
 
             const wrapper = createWrapper()
 
@@ -321,9 +321,9 @@ describe('IntimacyTab.vue', () => {
         })
 
         it('should handle large numbers', () => {
-            calculatorData.value.concubines = 100
-            calculatorData.value.ordos = 1000
-            formulaSettings.value.intimacy.ordos = 3
+            calcValues.value.concubines = 100
+            calcValues.value.ordos = 1000
+            calcSettings.value.intimacy.ordos = 3
 
             const wrapper = createWrapper()
 
@@ -332,8 +332,8 @@ describe('IntimacyTab.vue', () => {
 
         it('should handle items with same id (forage) appearing in both tabs', () => {
             // Проверяем что forage считается отдельно для близости
-            calculatorData.value.forage = 15
-            formulaSettings.value.intimacy.forage = 1.2
+            calcValues.value.forage = 15
+            calcSettings.value.intimacy.forage = 1.2
 
             const wrapper = createWrapper()
 
@@ -346,16 +346,16 @@ describe('IntimacyTab.vue', () => {
             const wrapper = createWrapper()
 
             intimacyItemsConfig.forEach(item => {
-                expect(calculatorData.value).toHaveProperty(item.id)
+                expect(calcValues.value).toHaveProperty(item.id)
             })
         })
 
         it('should have all required formula settings', () => {
             const wrapper = createWrapper()
 
-            expect(formulaSettings.value.intimacy).toHaveProperty('ordos')
-            expect(formulaSettings.value.intimacy).toHaveProperty('sandalwoodBracelet')
-            expect(formulaSettings.value.intimacy).toHaveProperty('forage')
+            expect(calcSettings.value.intimacy).toHaveProperty('ordos')
+            expect(calcSettings.value.intimacy).toHaveProperty('sandalwoodBracelet')
+            expect(calcSettings.value.intimacy).toHaveProperty('forage')
         })
     })
 })

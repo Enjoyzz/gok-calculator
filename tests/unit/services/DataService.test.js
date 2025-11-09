@@ -123,7 +123,7 @@ describe('DataService.js', () => {
             const service = new DataService()
 
             // Создаем реальный инстанс SharedRepository с мок методом tab
-            const sharedRepo = new SharedRepository({})
+            const sharedRepo = new SharedRepository({setting: {}, activeTab: 'intimacy', calcValues: {}})
             sharedRepo.tab = vi.fn(() => 'intimacy')
             service.repository = sharedRepo
 

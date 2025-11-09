@@ -6,8 +6,6 @@ export class LocalStorageRepository extends BaseRepository {
     constructor() {
         super()
         this.keys = {
-            CALCULATOR_DATA: 'calculatorData',
-            FORMULAS: 'formulaSettings',
             APP_STATE: 'appState'
         }
     }

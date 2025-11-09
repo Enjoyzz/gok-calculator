@@ -26,8 +26,7 @@ describe('LocalStorageRepository.js', () => {
 
     describe('Initialization', () => {
         it('should create repository with correct keys', () => {
-            expect(repository.keys.CALCULATOR_DATA).toBe('calculatorData')
-            expect(repository.keys.FORMULAS).toBe('formulaSettings')
+            expect(repository.keys.APP_STATE).toBe('appState')
         })
 
         it('should have correct name', () => {
@@ -40,7 +39,7 @@ describe('LocalStorageRepository.js', () => {
             const savedData = { concubines: 5, blueHadak: 10 }
             localStorageMock.getItem.mockReturnValue(JSON.stringify(savedData))
 
-            const result = await repository.loadCalculatorData()
+            const result = await repository.loadAppState()
 
             expect(localStorageMock.getItem).toHaveBeenCalledWith('calculatorData')
             expect(result).toEqual({ ...defaultCalculatorData, ...savedData })

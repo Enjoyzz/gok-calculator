@@ -4,6 +4,7 @@ import { ref } from 'vue'
 import App from '@/App.vue'
 import { useCalculator } from '@/composables/calculator.js'
 import { useSaveIndicator } from '@/composables/saveIndicator.js'
+import {defaultAppState} from "@/data/defaults.js";
 
 // Моки композаблов
 vi.mock('@/composables/calculator.js')
@@ -19,14 +20,15 @@ describe('App.vue', () => {
 
         // Настройка моков с использованием ref для реактивности
         mockUseCalculator = {
-            formulaSettings: ref({ charm: {}, intimacy: {} }),
-            calculatorData: ref({ concubines: 1 }),
+            calcSettings: ref({ charm: {}, intimacy: {} }),
+            calcValues: ref({ concubines: 1 }),
+            appState: ref({...defaultAppState}),
+            activeTab: ref(),
             isLoading: ref(false),
             error: ref(null),
             isSharedView: ref(false),
-            saveCalculatorData: vi.fn().mockResolvedValue(true),
-            saveFormulas: vi.fn().mockResolvedValue(true),
-            resetFormulas: vi.fn().mockResolvedValue(true),
+            saveAppState: vi.fn().mockResolvedValue(true),
+            resetSettings: vi.fn().mockResolvedValue(true),
             clearSharedMode: vi.fn(),
             savedActiveTab: 'charm',
             showInvalidShareModal: ref(false),
@@ -154,7 +156,7 @@ describe('App.vue', () => {
 
     describe('Concubines input', () => {
         it('should bind concubines input to calculatorData', async () => {
-            mockUseCalculator.calculatorData.value.concubines = 5
+            mockUseCalculator.calcValues.value.concubines = 5
             const wrapper = mount(App)
 
             await wrapper.vm.$nextTick()
@@ -191,7 +193,8 @@ describe('App.vue', () => {
 
             await wrapper.vm.handleUpdateCalculatorItems(newItems)
 
-            expect(mockUseCalculator.saveCalculatorData).toHaveBeenCalledWith(newItems)
+            const passedArg = mockUseCalculator.saveAppState.mock.calls[0][0]
+            expect(passedArg.value.calcValues).toEqual(newItems)
             expect(mockUseSaveIndicator.triggerSaveIndicator).toHaveBeenCalled()
         })
 
@@ -201,7 +204,9 @@ describe('App.vue', () => {
 
             await wrapper.vm.handleSaveFormulas(newFormulas)
 
-            expect(mockUseCalculator.saveFormulas).toHaveBeenCalledWith(newFormulas)
+
+            const passedArg = mockUseCalculator.saveAppState.mock.calls[0][0]
+            expect(passedArg.value.setting).toEqual(newFormulas)
             expect(mockUseSaveIndicator.triggerSaveIndicator).toHaveBeenCalledWith('✓ Настройки сохранены')
         })
 
@@ -210,7 +215,7 @@ describe('App.vue', () => {
 
             await wrapper.vm.handleResetSettings()
 
-            expect(mockUseCalculator.resetFormulas).toHaveBeenCalled()
+            expect(mockUseCalculator.resetSettings).toHaveBeenCalled()
             expect(mockUseSaveIndicator.triggerSaveIndicator).toHaveBeenCalledWith('✓ Настройки сброшены')
         })
     })
