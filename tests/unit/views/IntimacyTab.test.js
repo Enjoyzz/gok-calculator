@@ -5,7 +5,7 @@ import IntimacyTab from '@/views/IntimacyTab.vue'
 import IntimacyItem from '@/views/IntimacyItem.vue'
 import ShareButton from '@/components/ShareButton.vue'
 import { intimacyItemsConfig } from '@/data/intimacyItemsConfig.js'
-import { SharedKeySymbol, calculatorDataKey, formulaSettingsKey } from '@/data/keys.js'
+import { SharedKeySymbol, calcValuesKey, calcSettingsKey } from '@/data/keys.js'
 
 describe('IntimacyTab.vue', () => {
     let calculatorData
@@ -41,8 +41,8 @@ describe('IntimacyTab.vue', () => {
             global: {
                 provide: {
                     [SharedKeySymbol]: { isSharedView },
-                    [calculatorDataKey]: { calculatorData },
-                    [formulaSettingsKey]: { formulaSettings }
+                    [calcValuesKey]: { calculatorData },
+                    [calcSettingsKey]: { formulaSettings }
                 },
                 stubs: {
                     ShareButton: true

@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import SettingsModal from '@/components/SettingsModal.vue'
-import {formulaSettingsKey} from "@/data/keys.js";
+import {calcSettingsKey} from "@/data/keys.js";
 import {ref} from "vue";
 
 describe('SettingsModal.vue', () => {
@@ -23,7 +23,7 @@ describe('SettingsModal.vue', () => {
         return mount(SettingsModal, {
             global: {
                 provide: {
-                    [formulaSettingsKey]: {
+                    [calcSettingsKey]: {
                         formulaSettings: ref(defaultFormulas)
                     }
                 }

@@ -5,7 +5,7 @@ import CharmTab from '@/views/CharmTab.vue'
 import CharmItem from '@/views/CharmItem.vue'
 import ShareButton from '@/components/ShareButton.vue'
 import { charmItemsConfig } from '@/data/charmItemsConfig.js'
-import { SharedKeySymbol, calculatorDataKey, formulaSettingsKey } from '@/data/keys.js'
+import { SharedKeySymbol, calcValuesKey, calcSettingsKey } from '@/data/keys.js'
 
 describe('CharmTab.vue', () => {
     let calculatorData
@@ -41,8 +41,8 @@ describe('CharmTab.vue', () => {
             global: {
                 provide: {
                     [SharedKeySymbol]: { isSharedView },
-                    [calculatorDataKey]: { calculatorData },
-                    [formulaSettingsKey]: { formulaSettings }
+                    [calcValuesKey]: { calculatorData },
+                    [calcSettingsKey]: { formulaSettings }
                 },
                 stubs: {
                     ShareButton: true

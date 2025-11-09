@@ -1,11 +1,11 @@
 <script setup>
 import {inject, ref} from 'vue'
-import {formulaSettingsKey} from "@/data/keys.js";
+import {calcSettingsKey} from "@/data/keys.js";
 
 const showSettings = ref(false)
-let tempFormulas = ref({})
+let tempSettings = ref({})
 
-const {formulaSettings} = inject(formulaSettingsKey)
+const {calcSettings} = inject(calcSettingsKey)
 
 const emit = defineEmits(['save', 'reset'])
 
@@ -28,7 +28,7 @@ const validate = () => {
 }
 
 const openSettings = () => {
-  tempFormulas.value = JSON.parse(JSON.stringify(formulaSettings.value))
+  tempSettings.value = JSON.parse(JSON.stringify(calcSettings.value))
   showSettings.value = true
 }
 
@@ -41,7 +41,7 @@ const resetSettings = () => {
 const saveSettings = () => {
   if (!validate()) return
 
-  emit('save', tempFormulas.value)
+  emit('save', tempSettings.value)
   closeSettings()
 }
 
@@ -79,7 +79,7 @@ const intimacySettings = ref([
           <span class="settings-label">{{ setting.label }}:</span>
           <input
               type="number"
-              v-model.number="tempFormulas.charm[setting.key]"
+              v-model.number="tempSettings.charm[setting.key]"
               :step="setting.step"
               :min="setting.min"
               :max="setting.max"
@@ -96,7 +96,7 @@ const intimacySettings = ref([
           <span class="settings-label">{{ setting.label }}:</span>
           <input
               type="number"
-              v-model.number="tempFormulas.intimacy[setting.key]"
+              v-model.number="tempSettings.intimacy[setting.key]"
               :step="setting.step"
               :min="setting.min"
               :max="setting.max"

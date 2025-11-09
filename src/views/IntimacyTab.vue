@@ -2,24 +2,24 @@
 import {computed, inject} from 'vue'
 import IntimacyItem from './IntimacyItem.vue'
 import {intimacyItemsConfig} from './../data/intimacyItemsConfig.js'
-import {calculatorDataKey, formulaSettingsKey, SharedKeySymbol} from "@/data/keys.js";
+import {calcValuesKey, calcSettingsKey, SharedKeySymbol} from "@/data/keys.js";
 import ShareButton from "@/components/ShareButton.vue";
 
 const { isSharedView } = inject(SharedKeySymbol)
-const { calculatorData } = inject(calculatorDataKey)
-const { formulaSettings } = inject(formulaSettingsKey)
+const { calcValues } = inject(calcValuesKey)
+const { calcSettings } = inject(calcSettingsKey)
 
 const emit = defineEmits(['update-items'])
 
 const totals = computed(() => ({
-  ordos: Math.floor(calculatorData.value.ordos * calculatorData.value.concubines * formulaSettings.value.intimacy.ordos),
-  takya: calculatorData.value.takya * calculatorData.value.concubines,
-  jadeBracelet: calculatorData.value.jadeBracelet * 5,
-  sandalwoodBracelet: Math.floor(calculatorData.value.sandalwoodBracelet * formulaSettings.value.intimacy.sandalwoodBracelet),
-  goldEarrings: calculatorData.value.goldEarrings * 2,
-  gemRing: calculatorData.value.gemRing,
-  loveLetter: calculatorData.value.loveLetter,
-  forage: Math.floor(calculatorData.value.forage * formulaSettings.value.intimacy.forage)
+  ordos: Math.floor(calcValues.value.ordos * calcValues.value.concubines * calcSettings.value.intimacy.ordos),
+  takya: calcValues.value.takya * calcValues.value.concubines,
+  jadeBracelet: calcValues.value.jadeBracelet * 5,
+  sandalwoodBracelet: Math.floor(calcValues.value.sandalwoodBracelet * calcSettings.value.intimacy.sandalwoodBracelet),
+  goldEarrings: calcValues.value.goldEarrings * 2,
+  gemRing: calcValues.value.gemRing,
+  loveLetter: calcValues.value.loveLetter,
+  forage: Math.floor(calcValues.value.forage * calcSettings.value.intimacy.forage)
 }))
 
 const total = computed(() =>
@@ -27,7 +27,7 @@ const total = computed(() =>
 )
 
 const updateItem = (id, value) => {
-  emit('update-items', {...calculatorData.value, [id]: value})
+  emit('update-items', {...calcValues.value, [id]: value})
 }
 </script>
 
@@ -39,7 +39,7 @@ const updateItem = (id, value) => {
           v-for="item in intimacyItemsConfig"
           :key="item.id"
           :item="item"
-          :value="calculatorData[item.id]"
+          :value="calcValues[item.id]"
           :total="totals[item.id]"
           @update="updateItem"
       />
@@ -58,14 +58,14 @@ const updateItem = (id, value) => {
   <div class="formula-info">
     <p><strong>Формулы расчета:</strong></p>
     <ul>
-      <li>Ордос: количество × количество наложниц × {{ formulaSettings.intimacy.ordos }}</li>
+      <li>Ордос: количество × количество наложниц × {{ calcSettings.intimacy.ordos }}</li>
       <li>Такъя: количество × количество наложниц × 1</li>
       <li>Нефритовый браслет: количество × 5</li>
-      <li>Сандаловый браслет: количество × {{ formulaSettings.intimacy.sandalwoodBracelet }}</li>
+      <li>Сандаловый браслет: количество × {{ calcSettings.intimacy.sandalwoodBracelet }}</li>
       <li>Золотые серьги: количество × 2</li>
       <li>Самоцветное кольцо: количество × 1</li>
       <li>Любовное письмо: количество × 1</li>
-      <li>Фураж: количество × {{ formulaSettings.intimacy.forage }}</li>
+      <li>Фураж: количество × {{ calcSettings.intimacy.forage }}</li>
     </ul>
   </div>
 </template>

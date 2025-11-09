@@ -4,12 +4,14 @@ import {useSaveIndicator} from '@/composables/saveIndicator.js'
 import SettingsModal from "@/components/SettingsModal.vue";
 import SaveIndicator from "@/components/SaveIndicator.vue";
 import CalculatorTabs from "@/views/CalculatorTabs.vue";
-import {activeTabKey, calculatorDataKey, formulaSettingsKey, SharedKeySymbol} from "@/data/keys.js"
+import {activeTabKey, calcValuesKey, calcSettingsKey, SharedKeySymbol} from "@/data/keys.js"
 import {provide, watch} from "vue";
 
 const {
-  formulaSettings,
-  calculatorData,
+  calcSettings,
+  calcValues,
+  activeTab,
+  appState,
   isLoading,
   error,
   isSharedView,
@@ -21,8 +23,7 @@ const {
   resetSettings,
   showInvalidShareModal,
   handleInvalidShareConfirm,
-  appState,
-  activeTab
+
 } = useCalculator()
 
 
@@ -83,8 +84,8 @@ provide(SharedKeySymbol, {
 })
 
 
-provide(calculatorDataKey, {calculatorData})
-provide(formulaSettingsKey, {formulaSettings})
+provide(calcValuesKey, {calcValues})
+provide(calcSettingsKey, {calcSettings})
 provide(activeTabKey, activeTab)
 
 </script>
@@ -118,8 +119,8 @@ provide(activeTabKey, activeTab)
       </div>
 
       <div class="py-3">Кол-во наложниц:
-        <input type="number" v-model.number="calculatorData.concubines"
-               @input="handleUpdateCalculatorItems({...calculatorData, concubines: calculatorData.concubines})" min="1"
+        <input type="number" v-model.number="calcValues.concubines"
+               @input="handleUpdateCalculatorItems({...calcValues, concubines: calcValues.concubines})" min="1"
                :disabled="isSharedView">
       </div>
 

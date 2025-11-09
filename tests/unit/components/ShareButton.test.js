@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils'
 import { ref } from 'vue'
 import ShareButton from '@/components/ShareButton.vue'
 import { ShareService } from '@/services/ShareService.js'
-import { SharedKeySymbol, calculatorDataKey, formulaSettingsKey, activeTabKey } from '@/data/keys.js'
+import { SharedKeySymbol, calcValuesKey, calcSettingsKey, activeTabKey } from '@/data/keys.js'
 
 // Мокаем ShareService
 vi.mock('@/services/ShareService.js')
@@ -29,8 +29,8 @@ describe('ShareButton.vue', () => {
             global: {
                 provide: {
                     [SharedKeySymbol]: { isSharedView },
-                    [calculatorDataKey]: { calculatorData },
-                    [formulaSettingsKey]: { formulaSettings },
+                    [calcValuesKey]: { calculatorData },
+                    [calcSettingsKey]: { formulaSettings },
                     [activeTabKey]: activeTab
                 }
             }

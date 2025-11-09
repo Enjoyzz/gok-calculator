@@ -1,26 +1,33 @@
 import { BaseRepository } from './BaseRepository.js'
-import { defaultFormulas } from '@/data/defaults.js'
+import { defaultAppState } from '@/data/defaults.js'
 
 
 export class SharedRepository extends BaseRepository {
     constructor(sharedData) {
         super()
+
+        if (!this.validateStructure(sharedData)) {
+            throw new Error('Invalid shared data structure')
+        }
+
         this.sharedData = sharedData
+    }
+
+    validateStructure(sharedData) {
+        const requiredKeys = Object.keys(defaultAppState)
+        return requiredKeys.every(key => key in sharedData)
     }
 
     get name() {
         return 'SharedRepository'
     }
 
-    async loadCalculatorData() {
-        return this.sharedData.calculatorData || {}
+    async loadAppState() {
+        return this.sharedData || {}
     }
 
-    async loadFormulas() {
-        return this.sharedData.formulaSettings || defaultFormulas
-    }
 
-    async saveCalculatorData() {
+    async saveAppState() {
         console.warn('📖 Read-only mode: Cannot save in shared view')
         return false
     }

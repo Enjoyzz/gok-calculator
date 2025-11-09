@@ -10,8 +10,8 @@ export function useCalculator() {
     const showInvalidShareModal = ref(false)
     const appState = ref({})
 
-    const calculatorData = computed(() => appState.value.calcValues || {})
-    const formulaSettings = computed(() => appState.value.setting || {})
+    const calcValues = computed(() => appState.value.calcValues || {})
+    const calcSettings = computed(() => appState.value.setting || {})
     const activeTab = computed({
         get: () => appState.value.activeTab || 'charm',
         set: (value) => { appState.value.activeTab = value }
@@ -48,8 +48,8 @@ export function useCalculator() {
             isLoading.value = true
             error.value = null
             const { calculatorData: data, formulaSettings: settings } = await dataService.loadAllData()
-            calculatorData.value = data
-            formulaSettings.value = settings
+            calcValues.value = data
+            calcSettings.value = settings
         } catch (err) {
             error.value = 'Не удалось загрузить данные'
             console.error('Error in loadData:', err)
@@ -70,8 +70,8 @@ export function useCalculator() {
 
     const saveCalculatorData = async (newData) => {
         try {
-            Object.assign(calculatorData.value, newData)
-            return await dataService.saveCalculatorData(calculatorData.value)
+            Object.assign(calcValues.value, newData)
+            return await dataService.saveCalculatorData(calcValues.value)
         } catch (err) {
             console.error('Error in saveCalculatorData:', err)
             return false
@@ -80,7 +80,7 @@ export function useCalculator() {
 
     const saveFormulas = async (newFormulas) => {
         try {
-            formulaSettings.value = newFormulas
+            calcSettings.value = newFormulas
             return await dataService.saveFormulas(newFormulas)
         } catch (err) {
             console.error('Error in saveFormulas:', err)
@@ -121,8 +121,8 @@ export function useCalculator() {
 
     return {
         appState,
-        calculatorData,
-        formulaSettings,
+        calcValues,
+        calcSettings,
         activeTab,
         concubines,
         isLoading,

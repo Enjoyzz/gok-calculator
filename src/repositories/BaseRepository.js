@@ -1,17 +1,10 @@
 export class BaseRepository {
-    async loadCalculatorData() {
+
+    async loadAppState() {
         throw new Error('Method not implemented')
     }
 
-    async loadFormulas() {
-        throw new Error('Method not implemented')
-    }
-
-    async saveCalculatorData(data) {
-        throw new Error('Method not implemented')
-    }
-
-    async saveFormulas(formulas) {
+    async saveAppState(data) {
         throw new Error('Method not implemented')
     }
 

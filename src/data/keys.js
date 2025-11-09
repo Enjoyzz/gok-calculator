@@ -1,11 +1,11 @@
 const SharedKeySymbol = Symbol()
-const formulaSettingsKey = Symbol()
-const calculatorDataKey = Symbol()
+const calcSettingsKey = Symbol()
+const calcValuesKey = Symbol()
 const activeTabKey = Symbol()
 
 export {
     SharedKeySymbol,
-    formulaSettingsKey,
-    calculatorDataKey,
+    calcSettingsKey,
+    calcValuesKey,
     activeTabKey
 }
