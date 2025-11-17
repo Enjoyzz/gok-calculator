@@ -4,12 +4,15 @@ import { ShareService } from '@/services/ShareService.js'
 describe('ShareService.js', () => {
     let originalBtoa
     let originalLocation
+    let originalFetch
 
     beforeEach(() => {
         originalBtoa = global.btoa
         originalLocation = window.location
+        originalFetch = global.fetch
 
         global.btoa = vi.fn((str) => Buffer.from(str).toString('base64'))
+        global.fetch = vi.fn()
         delete window.location
         window.location = new URL('http://localhost')
     })
@@ -17,72 +20,103 @@ describe('ShareService.js', () => {
     afterEach(() => {
         global.btoa = originalBtoa
         window.location = originalLocation
+        global.fetch = originalFetch
     })
 
     describe('generateShareLink', () => {
-        it('should generate share link with correct data', () => {
+        it('should generate share link with correct data', async () => {
             const calculatorData = { concubines: 5, blueHadak: 10 }
             const formulaSettings = { charm: { blueHadak: 1.5 } }
             const activeTab = 'intimacy'
 
-            const result = ShareService.generateShareLink(calculatorData, formulaSettings, activeTab)
+            // Мокаем успешный ответ от сервиса сокращения
+            global.fetch.mockResolvedValueOnce({
+                ok: true,
+                text: () => Promise.resolve('https://clck.ru/abc123')
+            })
 
-            expect(result).toContain('http://localhost/?share=')
+            const result = await ShareService.generateShareLink(calculatorData, formulaSettings, activeTab)
+
+            expect(result).toBe('https://clck.ru/abc123')
             expect(global.btoa).toHaveBeenCalled()
 
-            const url = new URL(result)
-            const encodedData = url.searchParams.get('share')
-            const decodedData = JSON.parse(Buffer.from(encodedData, 'base64').toString())
-
-            expect(decodedData.calculatorData).toEqual(calculatorData)
-            expect(decodedData.formulaSettings).toEqual(formulaSettings)
-            expect(decodedData.activeTab).toBe(activeTab)
-            expect(decodedData.timestamp).toBeDefined()
+            // Проверяем, что fetch был вызван с правильными параметрами
+            expect(global.fetch).toHaveBeenCalledWith(
+                'https://clck.ru/--',
+                {
+                    method: 'POST',
+                    body: expect.any(FormData)
+                }
+            )
         })
 
-        it('should handle current URL with existing parameters', () => {
+        it('should return original URL if shortening fails', async () => {
+            const calculatorData = { concubines: 5, blueHadak: 10 }
+            const formulaSettings = { charm: { blueHadak: 1.5 } }
+            const activeTab = 'intimacy'
+
+            // Мокаем ошибку от сервиса сокращения
+            global.fetch.mockRejectedValueOnce(new Error('Network error'))
+
+            const result = await ShareService.generateShareLink(calculatorData, formulaSettings, activeTab)
+
+            // Должен вернуться оригинальный URL
+            expect(result).toContain('http://localhost/?share=')
+        })
+
+        it('should handle current URL with existing parameters', async () => {
             window.location = new URL('http://localhost/?existing=param')
+            global.fetch.mockResolvedValueOnce({
+                ok: true,
+                text: () => Promise.resolve('https://clck.ru/def456')
+            })
 
-            const result = ShareService.generateShareLink({}, {}, 'charm')
+            const result = await ShareService.generateShareLink({}, {}, 'charm')
 
-            expect(result).toContain('http://localhost/?existing=param&share=')
+            expect(result).toBe('https://clck.ru/def456')
         })
 
-        it('should throw error on encoding failure', () => {
+        it('should throw error on encoding failure', async () => {
             global.btoa.mockImplementation(() => {
                 throw new Error('Encoding failed')
             })
 
-            expect(() => {
+            await expect(
                 ShareService.generateShareLink({}, {}, 'charm')
-            }).toThrow('Не удалось создать ссылку для sharing')
+            ).rejects.toThrow('Не удалось создать ссылку для sharing')
         })
 
-        it('should handle circular references in data', () => {
+        it('should handle circular references in data', async () => {
             const circularData = { test: 'data' }
             circularData.self = circularData
 
-            expect(() => {
+            await expect(
                 ShareService.generateShareLink(circularData, {}, 'charm')
-            }).toThrow()
+            ).rejects.toThrow()
         })
     })
 
     describe('Data structure', () => {
-        it('should include timestamp in share data', () => {
+        it('should include timestamp in share data', async () => {
             const before = new Date()
-            const result = ShareService.generateShareLink({}, {}, 'charm')
+            global.fetch.mockResolvedValueOnce({
+                ok: true,
+                text: () => Promise.resolve('https://clck.ru/ghi789')
+            })
 
-            const url = new URL(result)
-            const encodedData = url.searchParams.get('share')
-            const decodedData = JSON.parse(Buffer.from(encodedData, 'base64').toString())
+            const result = await ShareService.generateShareLink({}, {}, 'charm')
+
+            // Проверяем, что данные правильно формируются перед отправкой
+            expect(global.btoa).toHaveBeenCalled()
+            const encodedData = global.btoa.mock.calls[0][0]
+            const decodedData = JSON.parse(encodedData)
 
             const timestamp = new Date(decodedData.timestamp)
             expect(timestamp).toBeInstanceOf(Date)
             expect(timestamp.getTime()).toBeGreaterThanOrEqual(before.getTime())
         })
 
-        it('should preserve all input data', () => {
+        it('should preserve all input data', async () => {
             const calculatorData = {
                 concubines: 3,
                 blueHadak: 5,
@@ -95,13 +129,50 @@ describe('ShareService.js', () => {
             }
             const activeTab = 'charm'
 
-            const result = ShareService.generateShareLink(calculatorData, formulaSettings, activeTab)
-            const encodedData = result.split('share=')[1]
-            const decodedData = JSON.parse(Buffer.from(encodedData, 'base64').toString())
+            global.fetch.mockResolvedValueOnce({
+                ok: true,
+                text: () => Promise.resolve('https://clck.ru/jkl012')
+            })
+
+            await ShareService.generateShareLink(calculatorData, formulaSettings, activeTab)
+
+            // Проверяем, что правильные данные были закодированы
+            expect(global.btoa).toHaveBeenCalled()
+            const encodedData = global.btoa.mock.calls[0][0]
+            const decodedData = JSON.parse(encodedData)
 
             expect(decodedData.calculatorData).toEqual(calculatorData)
             expect(decodedData.formulaSettings).toEqual(formulaSettings)
             expect(decodedData.activeTab).toBe(activeTab)
+        })
+    })
+
+    describe('URL shortening', () => {
+        it('should handle invalid response from shortener', async () => {
+            const calculatorData = { concubines: 5, blueHadak: 10 }
+
+            // Мокаем невалидный ответ (не начинается с https://clck.ru/)
+            global.fetch.mockResolvedValueOnce({
+                ok: true,
+                text: () => Promise.resolve('invalid-response')
+            })
+
+            const result = await ShareService.generateShareLink(calculatorData, {}, 'charm')
+
+            // Должен вернуться оригинальный URL
+            expect(result).toContain('http://localhost/?share=')
+        })
+
+        it('should handle HTTP error from shortener', async () => {
+            global.fetch.mockResolvedValueOnce({
+                ok: false,
+                status: 500
+            })
+
+            const result = await ShareService.generateShareLink({}, {}, 'charm')
+
+            // Должен вернуться оригинальный URL
+            expect(result).toContain('http://localhost/?share=')
         })
     })
 })
