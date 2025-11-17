@@ -1,5 +1,5 @@
 export class ShareService {
-    static async generateShareLink(calculatorData, formulaSettings, activeTab) {
+    static generateShareLink(calculatorData, formulaSettings, activeTab) {
         try {
             // Подготавливаем данные для sharing
             const shareData = {
@@ -20,7 +20,7 @@ export class ShareService {
 
             console.log('Generate share link: ', currentUrl.toString(), currentUrl)
 
-            return await this.shortenUrl(currentUrl.toString())
+            return this.shortenUrl(currentUrl.toString())
         } catch (error) {
             console.error('Error generating share link:', error)
             throw new Error('Не удалось создать ссылку для sharing')
