@@ -1,5 +1,5 @@
 export class ShareService {
-    static generateShareLink(calculatorData, formulaSettings, activeTab) {
+    static async generateShareLink(calculatorData, formulaSettings, activeTab) {
         try {
             // Подготавливаем данные для sharing
             const shareData = {
@@ -20,10 +20,40 @@ export class ShareService {
 
             console.log('Generate share link: ', currentUrl.toString(), currentUrl)
 
-            return currentUrl.toString()
+            return await this.shortenUrl(currentUrl.toString())
         } catch (error) {
             console.error('Error generating share link:', error)
             throw new Error('Не удалось создать ссылку для sharing')
+        }
+    }
+
+    static async shortenUrl(longUrl) {
+        try {
+            const endpoint = 'https://clck.ru/--'
+
+            const formData = new FormData()
+            formData.append('url', longUrl)
+
+            const response = await fetch(endpoint, {
+                method: 'POST',
+                body: formData
+            })
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`)
+            }
+
+            const shortUrl = await response.text()
+
+            if (shortUrl && shortUrl.startsWith('https://clck.ru/')) {
+                console.log('Shortened URL:', shortUrl)
+                return shortUrl
+            } else {
+                throw new Error('Invalid response from URL shortener: ' + shortUrl)
+            }
+        } catch (error) {
+            console.error('Error shortening URL:', error)
+            return longUrl
         }
     }
 }
