@@ -12,12 +12,12 @@ const showShareModal = ref(false)
 const shareLink = ref('')
 const isCopied = ref(false)
 
-const generateShareLink = () => {
-  return ShareService.generateShareLink(calculatorData.value, formulaSettings.value, activeTab.value)
+const generateShareLink = async () => {
+  return await ShareService.generateShareLink(calculatorData.value, formulaSettings.value, activeTab.value)
 }
 
-const openShareModal = () => {
-  shareLink.value = generateShareLink()
+const openShareModal = async () => {
+  shareLink.value = await generateShareLink()
 
   if (navigator.share) {
     navigator.share({
