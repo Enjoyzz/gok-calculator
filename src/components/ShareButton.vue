@@ -9,6 +9,7 @@ const { formulaSettings } = inject(formulaSettingsKey)
 const activeTab = inject(activeTabKey)
 
 const showShareModal = ref(false)
+const loading = ref(false)
 const shareLink = ref('')
 const isCopied = ref(false)
 
@@ -17,16 +18,21 @@ const generateShareLink = async () => {
 }
 
 const openShareModal = async () => {
+  loading.value = true
   shareLink.value = await generateShareLink()
 
-  if (navigator.share) {
-    navigator.share({
-      title: 'Мои обаяние и близость в Game of Khans',
-      text: 'Посмотри мои расчеты обаяния и близости',
-      url: shareLink.value,
-    })
-  } else {
-    showShareModal.value = true
+  try {
+    if (navigator.share) {
+      navigator.share({
+        title: 'Мои обаяние и близость в Game of Khans',
+        text: 'Посмотри мои расчеты обаяния и близости',
+        url: shareLink.value,
+      })
+    } else {
+      showShareModal.value = true
+    }
+  }finally {
+    loading.value = false
   }
 }
 
@@ -44,12 +50,13 @@ const copyToClipboard = async () => {
 <template>
   <div class="share-section">
 
-    <button @click="openShareModal" class="share-btn">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share-fill"
+    <button @click="openShareModal" class="share-btn" :disabled="loading">
+      <svg v-if="!loading" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share-fill"
            viewBox="0 0 16 16">
         <path
             d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5"/>
       </svg>
+      <div v-else class="spinner"></div>
       Поделиться
     </button>
 
@@ -144,5 +151,24 @@ const copyToClipboard = async () => {
 .close-btn {
   background: #f44336;
   color: white;
+}
+
+
+.share-btn:disabled {
+  background: #ccc;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 </style>
