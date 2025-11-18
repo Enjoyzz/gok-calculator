@@ -18,20 +18,36 @@ const generateShareLink = async () => {
 }
 
 const openShareModal = async () => {
+  if (loading.value) {
+    return
+  }
+
   loading.value = true
-  shareLink.value = await generateShareLink()
 
   try {
+    shareLink.value = await generateShareLink()
+
     if (navigator.share) {
-      navigator.share({
-        title: 'Мои обаяние и близость в Game of Khans',
-        text: 'Посмотри мои расчеты обаяния и близости',
-        url: shareLink.value,
-      })
-    } else {
-      showShareModal.value = true
+      try {
+        await navigator.share({
+          title: 'Мои обаяние и близость в Game of Khans',
+          text: 'Посмотри мои расчеты обаяния и близости',
+          url: shareLink.value,
+        })
+        return
+      } catch (shareError) {
+        if (shareError.name !== 'AbortError') {
+          console.error('Share failed:', shareError)
+        }
+      }
     }
-  }finally {
+
+    showShareModal.value = true
+
+  } catch (error) {
+    console.error('Failed to generate share link:', error)
+    showShareModal.value = true
+  } finally {
     loading.value = false
   }
 }
