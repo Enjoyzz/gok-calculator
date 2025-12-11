@@ -1,9 +1,11 @@
 <script setup>
 
 import {defineEmits, defineProps, inject} from "vue";
-import {SharedKeySymbol} from "@/data/keys.js";
+import {formulaSettingsKey, SharedKeySymbol} from "@/data/keys.js";
 
 const {isSharedView} = inject(SharedKeySymbol)
+const { formulaSettings } = inject(formulaSettingsKey)
+
 defineProps({
   item: Object,
   value: Number,
@@ -25,6 +27,9 @@ defineEmits(['update'])
       {{ item.name }}<br>
       <small class="text-muted">{{ item.description }}</small>
     </td>
+    <td>
+      <code v-if="item.approximately" style="text-wrap: nowrap; font-weight: bolder; font-size: 1.5em;  color: #a9a9a9">&times;{{ formulaSettings.intimacy[item.id] }}</code>
+    </td>
     <td class="input-cell">
       <input
           type="number"
@@ -35,6 +40,6 @@ defineEmits(['update'])
           :disabled="isSharedView"
       >
     </td>
-    <td style="text-wrap: nowrap">{{ item.approximately === true ? '~ ' : '' }}{{ total }}</td>
+    <td style="text-wrap: nowrap;">{{ item.approximately === true ? '~ ' : ''}}{{ total }}</td>
   </tr>
 </template>

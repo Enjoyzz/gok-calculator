@@ -47,7 +47,8 @@ const updateItem = (id, value) => {
         <td>ИТОГ</td>
         <td></td>
         <td></td>
-        <td style="text-wrap: nowrap">~ {{ total }}</td>
+        <td style="text-wrap: nowrap; font-size: large">~ {{ total }}</td>
+        <td></td>
       </tr>
       </tbody>
     </table>
