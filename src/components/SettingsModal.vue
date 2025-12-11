@@ -1,5 +1,5 @@
 <script setup>
-import {inject, ref} from 'vue'
+import {inject, onMounted, ref, watch} from 'vue'
 import {formulaSettingsKey} from "@/data/keys.js";
 
 const showSettings = ref(false)
@@ -7,7 +7,17 @@ let tempFormulas = ref({})
 
 const {formulaSettings} = inject(formulaSettingsKey)
 
-const emit = defineEmits(['save', 'reset'])
+const emit = defineEmits(['save', 'reset', 'close-setting-modal'])
+
+const props = defineProps({
+  openSetting: Boolean
+})
+
+watch(() => props.openSetting, (newData) => {
+  if (newData === true) {
+    openSettings()
+  }
+})
 
 const validateField = (input) => {
   let isValid = input.checkValidity()
@@ -47,6 +57,7 @@ const saveSettings = () => {
 
 const closeSettings = () => {
   showSettings.value = false
+  emit('close-setting-modal')
 }
 
 const charmSettings = ref([

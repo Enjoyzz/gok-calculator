@@ -9,7 +9,7 @@ const { isSharedView } = inject(SharedKeySymbol)
 const { calculatorData } = inject(calculatorDataKey)
 const { formulaSettings } = inject(formulaSettingsKey)
 
-const emit = defineEmits(['update-items'])
+const emit = defineEmits(['update-items', 'open-setting'])
 
 const totals = computed(() => ({
   ordos: Math.floor(calculatorData.value.ordos * calculatorData.value.concubines * formulaSettings.value.intimacy.ordos),
@@ -42,6 +42,7 @@ const updateItem = (id, value) => {
           :value="calculatorData[item.id]"
           :total="totals[item.id]"
           @update="updateItem"
+          @open-setting="$emit('open-setting', $event)"
       />
       <tr class="total-row">
         <td>ИТОГ</td>

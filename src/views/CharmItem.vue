@@ -1,6 +1,6 @@
 <script setup>
-import {defineProps, defineEmits, inject} from 'vue'
-import {SharedKeySymbol, formulaSettingsKey} from "@/data/keys.js";
+import {defineEmits, defineProps, inject} from 'vue'
+import {formulaSettingsKey, SharedKeySymbol} from "@/data/keys.js";
 
 const { isSharedView } = inject(SharedKeySymbol)
 const { formulaSettings } = inject(formulaSettingsKey)
@@ -11,7 +11,7 @@ defineProps({
   total: Number
 })
 
-defineEmits(['update'])
+defineEmits(['update', 'open-setting'])
 </script>
 
 <template>
@@ -26,7 +26,9 @@ defineEmits(['update'])
       <small class="text-muted">{{ item.description }}</small>
     </td>
     <td>
-      <code v-if="item.approximately" style="text-wrap: nowrap; font-size: 1.5em; font-weight: bolder; color: #a9a9a9">&times;{{ formulaSettings.charm[item.id] }}</code>
+      <code v-if="item.approximately" style="text-wrap: nowrap; font-size: 1.5em; font-weight: bolder; color: #a9a9a9" @click="$emit('open-setting')">
+        &times;{{ formulaSettings.charm[item.id] }}
+      </code>
     </td>
     <td class="input-cell">
       <input

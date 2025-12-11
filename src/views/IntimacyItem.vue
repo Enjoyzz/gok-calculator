@@ -12,7 +12,7 @@ defineProps({
   total: Number
 })
 
-defineEmits(['update'])
+defineEmits(['update', 'open-setting'])
 
 </script>
 
@@ -28,7 +28,9 @@ defineEmits(['update'])
       <small class="text-muted">{{ item.description }}</small>
     </td>
     <td>
-      <code v-if="item.approximately" style="text-wrap: nowrap; font-weight: bolder; font-size: 1.5em;  color: #a9a9a9">&times;{{ formulaSettings.intimacy[item.id] }}</code>
+      <code v-if="item.approximately" style="text-wrap: nowrap; font-weight: bolder; font-size: 1.5em;  color: #a9a9a9" @click="$emit('open-setting')">
+        &times;{{ formulaSettings.intimacy[item.id] }}
+      </code>
     </td>
     <td class="input-cell">
       <input
