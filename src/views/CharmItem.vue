@@ -26,7 +26,12 @@ defineEmits(['update', 'open-setting'])
       <small class="text-muted">{{ item.description }}</small>
     </td>
     <td>
-      <code v-if="item.approximately" style="text-wrap: nowrap; font-size: 1.5em; font-weight: bolder; color: #a9a9a9" @click="$emit('open-setting')">
+      <code
+          v-if="item.approximately"
+          style="text-wrap: nowrap; font-size: 1.5em; font-weight: bolder; color: #a9a9a9"
+          @click="$emit('open-setting')"
+          :data-testid="`multiplier-${item.id}`"
+      >
         &times;{{ formulaSettings.charm[item.id] }}
       </code>
     </td>
