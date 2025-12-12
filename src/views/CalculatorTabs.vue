@@ -4,7 +4,7 @@ import CharmTab from './CharmTab.vue'
 import IntimacyTab from './IntimacyTab.vue'
 import {activeTabKey} from "@/data/keys.js";
 
-defineEmits(['update-calculator-items'])
+defineEmits(['update-calculator-items', 'open-setting'])
 const activeTab = inject(activeTabKey)
 
 </script>
@@ -31,11 +31,13 @@ const activeTab = inject(activeTabKey)
     <CharmTab
         v-if="activeTab === 'charm'"
         @update-items="$emit('update-calculator-items', $event)"
+        @open-setting="$emit('open-setting', $event)"
     />
 
     <IntimacyTab
         v-if="activeTab === 'intimacy'"
         @update-items="$emit('update-calculator-items', $event)"
+        @open-setting="$emit('open-setting', $event)"
     />
   </div>
 </template>

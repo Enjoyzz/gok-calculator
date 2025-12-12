@@ -2,13 +2,27 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { ref } from 'vue'
 import CharmItem from '@/views/CharmItem.vue'
-import { SharedKeySymbol } from '@/data/keys.js'
+import {formulaSettingsKey, SharedKeySymbol} from '@/data/keys.js'
 
 describe('CharmItem.vue', () => {
     let isSharedView
     let mockItem
     let mockValue
     let mockTotal
+
+    const formulaSettings = ref({
+        intimacy: {
+            ordos: 1.5,
+            sandalwoodBracelet: 3,
+            forage: 1.2
+        },
+        charm: {
+            blueHadak: 1.5,
+            silverHairpin: 3,
+            chests: 2.2,
+            forage: 1.5
+        }
+    })
 
     beforeEach(() => {
         isSharedView = ref(false)
@@ -34,7 +48,8 @@ describe('CharmItem.vue', () => {
             },
             global: {
                 provide: {
-                    [SharedKeySymbol]: { isSharedView }
+                    [SharedKeySymbol]: { isSharedView },
+                    [formulaSettingsKey]: { formulaSettings },
                 }
             }
         })
@@ -83,7 +98,7 @@ describe('CharmItem.vue', () => {
 
         it('should render total with approximately symbol when enabled', () => {
             const wrapper = createWrapper()
-            const totalCell = wrapper.findAll('td').at(3)
+            const totalCell = wrapper.findAll('td').at(4)
 
             expect(totalCell.text()).toBe(`~ ${mockTotal}`)
         })
@@ -92,7 +107,7 @@ describe('CharmItem.vue', () => {
             const wrapper = createWrapper({
                 item: { ...mockItem, approximately: false }
             })
-            const totalCell = wrapper.findAll('td').at(3)
+            const totalCell = wrapper.findAll('td').at(4)
 
             expect(totalCell.text()).toBe(mockTotal.toString())
         })
@@ -197,9 +212,9 @@ describe('CharmItem.vue', () => {
             const wrapper = createWrapper()
             const cells = wrapper.findAll('td')
 
-            expect(cells).toHaveLength(4)
+            expect(cells).toHaveLength(5)
             expect(cells[0].classes()).toContain('icon')
-            expect(cells[2].classes()).toContain('input-cell')
+            expect(cells[3].classes()).toContain('input-cell')
         })
     })
 
@@ -222,7 +237,7 @@ describe('CharmItem.vue', () => {
 
             expect(wrapper.find('img').attributes('alt')).toBe('Белый хадак')
             expect(wrapper.findAll('td').at(1).text()).toContain('Белый хадак')
-            expect(wrapper.findAll('td').at(3).text()).toBe('24') // без ~
+            expect(wrapper.findAll('td').at(4).text()).toBe('24') // без ~
         })
 
         it('should render goldHairpin item correctly', () => {
@@ -242,7 +257,7 @@ describe('CharmItem.vue', () => {
             })
 
             expect(wrapper.find('img').attributes('alt')).toBe('Золотая шпилька')
-            expect(wrapper.findAll('td').at(3).text()).toBe('15')
+            expect(wrapper.findAll('td').at(4).text()).toBe('15')
         })
 
         it('should render perfume item correctly', () => {

@@ -59,6 +59,16 @@ const handleResetSettings = () => {
 
 }
 
+const openSetting = ref(false);
+
+const handleOpenSetting = () => {
+  openSetting.value = true;
+}
+
+const closeOpenSetting = () => {
+  openSetting.value = false;
+}
+
 watch(
     () => calculatorData.value.concubines,
     (newValue, oldValue) => {
@@ -113,10 +123,10 @@ provide(activeTabKey, activeTab)
         <input type="number" v-model.number="calculatorData.concubines" min="1" :disabled="isSharedView">
       </div>
 
-      <CalculatorTabs @update-calculator-items="handleUpdateCalculatorItems"/>
+      <CalculatorTabs @update-calculator-items="handleUpdateCalculatorItems" @open-setting="handleOpenSetting"/>
 
 
-      <SettingsModal v-if="!isSharedView" @save="handleSaveFormulas" @reset="handleResetSettings"/>
+      <SettingsModal v-if="!isSharedView" @save="handleSaveFormulas" @reset="handleResetSettings" :openSetting="openSetting" @close-setting-modal="closeOpenSetting"/>
 
       <SaveIndicator :visible="showSaveIndicator" :message="saveMessage"/>
     </div>

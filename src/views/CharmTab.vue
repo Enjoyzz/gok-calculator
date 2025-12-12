@@ -9,7 +9,7 @@ const { calculatorData } = inject(calculatorDataKey)
 const { formulaSettings } = inject(formulaSettingsKey)
 
 
-const emit = defineEmits(['update-items'])
+const emit = defineEmits(['update-items', 'open-setting'])
 
 const totals = computed(() => ({
   blueHadak: Math.floor(calculatorData.value.blueHadak * calculatorData.value.concubines * formulaSettings.value.charm.blueHadak),
@@ -41,12 +41,14 @@ const updateItem = (id, value) => {
           :value="calculatorData[item.id]"
           :total="totals[item.id]"
           @update="updateItem"
+          @open-setting="$emit('open-setting', $event)"
       />
       <tr class="total-row">
         <td>ИТОГ</td>
         <td></td>
         <td></td>
-        <td style="text-wrap: nowrap">~ {{ total }}</td>
+        <td style="text-wrap: nowrap; font-size: large">~ {{ total }}</td>
+        <td></td>
       </tr>
       </tbody>
     </table>

@@ -1,8 +1,9 @@
 <script setup>
-import {defineProps, defineEmits, inject} from 'vue'
-import {SharedKeySymbol} from "@/data/keys.js";
+import {defineEmits, defineProps, inject} from 'vue'
+import {formulaSettingsKey, SharedKeySymbol} from "@/data/keys.js";
 
 const { isSharedView } = inject(SharedKeySymbol)
+const { formulaSettings } = inject(formulaSettingsKey)
 
 defineProps({
   item: Object,
@@ -10,7 +11,7 @@ defineProps({
   total: Number
 })
 
-defineEmits(['update'])
+defineEmits(['update', 'open-setting'])
 </script>
 
 <template>
@@ -24,6 +25,16 @@ defineEmits(['update'])
       {{ item.name }}<br>
       <small class="text-muted">{{ item.description }}</small>
     </td>
+    <td>
+      <code
+          v-if="item.approximately"
+          style="text-wrap: nowrap; font-size: 1.5em; font-weight: bolder; color: #a9a9a9"
+          @click="$emit('open-setting')"
+          :data-testid="`multiplier-${item.id}`"
+      >
+        &times;{{ formulaSettings.charm[item.id] }}
+      </code>
+    </td>
     <td class="input-cell">
       <input
           type="number"
@@ -34,7 +45,7 @@ defineEmits(['update'])
           :disabled="isSharedView"
       >
     </td>
-    <td>{{ item.approximately === true ? '~ ' : ''}}{{ total }}</td>
+    <td style="text-wrap: nowrap;">{{ item.approximately === true ? '~ ' : ''}}{{ total }}</td>
   </tr>
 </template>
 

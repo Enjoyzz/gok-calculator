@@ -38,8 +38,8 @@ export class CalculatorPage {
         };
 
         // Результаты
-        this.charmTotal = page.locator('td').filter({ hasText: 'ИТОГ' }).locator('..').locator('td').last();
-        this.intimacyTotal = page.locator('td').filter({ hasText: 'ИТОГ' }).locator('..').locator('td').last();
+        this.charmTotal = page.locator('td').filter({ hasText: 'ИТОГ' }).locator('..').locator('td').nth(3);
+        this.intimacyTotal = page.locator('td').filter({ hasText: 'ИТОГ' }).locator('..').locator('td').nth(3);
 
         // Модальное окно настроек
         this.settingsModal = page.locator('#settings-modal');
