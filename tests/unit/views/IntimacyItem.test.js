@@ -2,13 +2,27 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { ref } from 'vue'
 import IntimacyItem from '@/views/IntimacyItem.vue'
-import { SharedKeySymbol } from '@/data/keys.js'
+import {formulaSettingsKey, SharedKeySymbol} from '@/data/keys.js'
 
 describe('IntimacyItem.vue', () => {
     let isSharedView
     let mockItem
     let mockValue
     let mockTotal
+
+    const formulaSettings = ref({
+        intimacy: {
+            ordos: 1.5,
+            sandalwoodBracelet: 3,
+            forage: 1.2
+        },
+        charm: {
+            blueHadak: 1.5,
+            silverHairpin: 3,
+            chests: 2.2,
+            forage: 1.5
+        }
+    })
 
     beforeEach(() => {
         isSharedView = ref(false)
@@ -34,7 +48,8 @@ describe('IntimacyItem.vue', () => {
             },
             global: {
                 provide: {
-                    [SharedKeySymbol]: { isSharedView }
+                    [SharedKeySymbol]: { isSharedView },
+                    [formulaSettingsKey]: { formulaSettings }
                 }
             }
         })
@@ -67,7 +82,7 @@ describe('IntimacyItem.vue', () => {
 
         it('should render total with approximately symbol', () => {
             const wrapper = createWrapper()
-            const totalCell = wrapper.findAll('td').at(3)
+            const totalCell = wrapper.findAll('td').at(4)
             expect(totalCell.text()).toBe(`~ ${mockTotal}`)
         })
     })
