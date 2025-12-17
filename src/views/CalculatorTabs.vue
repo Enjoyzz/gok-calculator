@@ -1,5 +1,5 @@
 <script setup>
-import {inject, ref} from 'vue'
+import {inject} from 'vue'
 import CharmTab from './CharmTab.vue'
 import IntimacyTab from './IntimacyTab.vue'
 import {activeTabKey} from "@/data/keys.js";

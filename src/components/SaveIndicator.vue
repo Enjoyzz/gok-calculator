@@ -5,11 +5,6 @@
 </template>
 
 <script setup>
-import {ref} from "vue";
-
-const showSettings = ref(false)
-const showSaveIndicator = ref(false)
-
 defineProps({
   visible: Boolean,
   message: String

@@ -1,5 +1,5 @@
 <script setup>
-import {defineEmits, defineProps, inject} from 'vue'
+import {inject} from 'vue'
 import {formulaSettingsKey, SharedKeySymbol} from "@/data/keys.js";
 
 const { isSharedView } = inject(SharedKeySymbol)

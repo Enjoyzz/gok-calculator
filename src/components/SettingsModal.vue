@@ -1,5 +1,5 @@
 <script setup>
-import {inject, onMounted, ref, watch} from 'vue'
+import {inject, ref, watch } from 'vue'
 import {formulaSettingsKey} from "@/data/keys.js";
 
 const showSettings = ref(false)
@@ -63,14 +63,14 @@ const closeSettings = () => {
 const charmSettings = ref([
   {key: 'blueHadak', label: 'Синий хадак (множитель)', step: 0.1, min: 1, max: 3},
   {key: 'silverHairpin', label: 'Серебряная шпилька (множитель)', step: 0.1, min: 1, max: 5},
-  {key: 'chests', label: 'Сундуки (множитель)', step: 0.1, min: 0},
-  {key: 'forage', label: 'Фураж (множитель)', step: 0.1, min: 0}
+  {key: 'chests', label: 'Сундуки (множитель)', step: 0.1, min: 0, max: null},
+  {key: 'forage', label: 'Фураж (множитель)', step: 0.1, min: 0, max: null}
 ])
 
 const intimacySettings = ref([
   {key: 'ordos', label: 'Ордос (множитель)', step: 0.1, min: 1, max: 3},
   {key: 'sandalwoodBracelet', label: 'Сандаловый браслет (множитель)', step: 0.1, min: 1, max: 5},
-  {key: 'forage', label: 'Фураж (множитель)', step: 0.1, min: 0}
+  {key: 'forage', label: 'Фураж (множитель)', step: 0.1, min: 0, max: null}
 ])
 </script>
 
