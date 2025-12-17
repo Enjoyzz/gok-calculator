@@ -1,5 +1,5 @@
 <script setup>
-import {inject, ref, watch } from 'vue'
+import {computed, inject, ref, watch} from 'vue'
 import {formulaSettingsKey} from "@/data/keys.js";
 
 const showSettings = ref(false)
@@ -10,11 +10,11 @@ const {formulaSettings} = inject(formulaSettingsKey)
 const emit = defineEmits(['save', 'reset', 'close-setting-modal'])
 
 const props = defineProps({
-  openSetting: Boolean
+  openSetting: String | null
 })
 
 watch(() => props.openSetting, (newData) => {
-  if (newData === true) {
+  if (newData !== null) {
     openSettings()
   }
 })
@@ -60,18 +60,51 @@ const closeSettings = () => {
   emit('close-setting-modal')
 }
 
-const charmSettings = ref([
-  {key: 'blueHadak', label: 'Синий хадак (множитель)', step: 0.1, min: 1, max: 3},
-  {key: 'silverHairpin', label: 'Серебряная шпилька (множитель)', step: 0.1, min: 1, max: 5},
-  {key: 'chests', label: 'Сундуки (множитель)', step: 0.1, min: 0, max: null},
-  {key: 'forage', label: 'Фураж (множитель)', step: 0.1, min: 0, max: null}
-])
+const charmSettings = computed(() => {
 
-const intimacySettings = ref([
-  {key: 'ordos', label: 'Ордос (множитель)', step: 0.1, min: 1, max: 3},
-  {key: 'sandalwoodBracelet', label: 'Сандаловый браслет (множитель)', step: 0.1, min: 1, max: 5},
-  {key: 'forage', label: 'Фураж (множитель)', step: 0.1, min: 0, max: null}
-])
+  const baseCharmSettings = [
+    {key: 'blueHadak', label: 'Синий хадак (множитель)', step: 0.1, min: 1, max: 3},
+    {key: 'silverHairpin', label: 'Серебряная шпилька (множитель)', step: 0.1, min: 1, max: 5},
+    {key: 'chests', label: 'Сундуки (множитель)', step: 0.1, min: 0, max: null},
+    {key: 'forage', label: 'Фураж (множитель)', step: 0.1, min: 0, max: null}
+  ];
+
+  if (props.openSetting === null) {
+    return baseCharmSettings
+  }
+
+  let result = props.openSetting.split('.', 2)
+
+  if (result[0] !== 'charm') {
+    return null;
+  }
+
+  return baseCharmSettings.filter(function (i) {
+    return i.key === result[1];
+  });
+
+})
+
+const intimacySettings = computed(() => {
+  const baseIntimacySettings = [
+    {key: 'ordos', label: 'Ордос (множитель)', step: 0.1, min: 1, max: 3},
+    {key: 'sandalwoodBracelet', label: 'Сандаловый браслет (множитель)', step: 0.1, min: 1, max: 5},
+    {key: 'forage', label: 'Фураж (множитель)', step: 0.1, min: 0, max: null}
+  ]
+  if (props.openSetting === null) {
+    return baseIntimacySettings
+  }
+
+  let result = props.openSetting.split('.', 2)
+
+  if (result[0] !== 'intimacy') {
+    return null;
+  }
+
+  return baseIntimacySettings.filter(function (i) {
+    return i.key === result[1];
+  });
+})
 </script>
 
 <template>
@@ -84,7 +117,7 @@ const intimacySettings = ref([
     <div id="settings-modal-content">
       <h2>Настройки формул</h2>
 
-      <div id="settings-modal-section">
+      <div id="settings-modal-section" v-if="charmSettings">
         <h3>Обаяние</h3>
         <div class="settings-row" v-for="setting in charmSettings" :key="setting.key">
           <span class="settings-label">{{ setting.label }}:</span>
@@ -101,7 +134,7 @@ const intimacySettings = ref([
         </div>
       </div>
 
-      <div id="settings-modal-section">
+      <div id="settings-modal-section" v-if="intimacySettings">
         <h3>Близость</h3>
         <div class="settings-row" v-for="setting in intimacySettings" :key="setting.key">
           <span class="settings-label">{{ setting.label }}:</span>

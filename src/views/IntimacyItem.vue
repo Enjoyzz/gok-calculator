@@ -30,7 +30,7 @@ defineEmits(['update', 'open-setting'])
       <code
           v-if="item.approximately"
           style="text-wrap: nowrap; font-weight: bolder; font-size: 1.5em;  color: #a9a9a9"
-          @click="$emit('open-setting')"
+          @click="$emit('open-setting', 'intimacy.' + item.id)"
           :data-testid="`multiplier-${item.id}`"
       >
         &times;{{ formulaSettings.intimacy[item.id] }}

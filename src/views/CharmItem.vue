@@ -29,7 +29,7 @@ defineEmits(['update', 'open-setting'])
       <code
           v-if="item.approximately"
           style="text-wrap: nowrap; font-size: 1.5em; font-weight: bolder; color: #a9a9a9"
-          @click="$emit('open-setting')"
+          @click="$emit('open-setting', 'charm.' + item.id)"
           :data-testid="`multiplier-${item.id}`"
       >
         &times;{{ formulaSettings.charm[item.id] }}

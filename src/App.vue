@@ -59,14 +59,14 @@ const handleResetSettings = () => {
 
 }
 
-const openSetting = ref(false);
+const openSetting = ref(null);
 
-const handleOpenSetting = () => {
-  openSetting.value = true;
+const handleOpenSetting = (e) => {
+  openSetting.value = e;
 }
 
 const closeOpenSetting = () => {
-  openSetting.value = false;
+  openSetting.value = null;
 }
 
 watch(
