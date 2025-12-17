@@ -10,10 +10,7 @@ const {formulaSettings} = inject(formulaSettingsKey)
 const emit = defineEmits(['save', 'reset', 'close-setting-modal'])
 
 const props = defineProps({
-  openSetting: {
-    type: String | null,
-    default: null
-  }
+  openSetting: String | null
 })
 
 watch(() => props.openSetting, (newData) => {
@@ -72,11 +69,11 @@ const charmSettings = computed(() => {
     {key: 'forage', label: 'Фураж (множитель)', step: 0.1, min: 0, max: null}
   ];
 
-  if (props.openSetting === null) {
+  if (props.openSetting === null  || props.openSetting === undefined) {
     return baseCharmSettings
   }
 
-  let result = props.openSetting.split('.', 2)
+  let result = props.openSetting?.split('.', 2)
 
   if (result[0] !== 'charm') {
     return null;
@@ -94,7 +91,7 @@ const intimacySettings = computed(() => {
     {key: 'sandalwoodBracelet', label: 'Сандаловый браслет (множитель)', step: 0.1, min: 1, max: 5},
     {key: 'forage', label: 'Фураж (множитель)', step: 0.1, min: 0, max: null}
   ]
-  if (props.openSetting === null) {
+  if (props.openSetting === null || props.openSetting === undefined) {
     return baseIntimacySettings
   }
 
