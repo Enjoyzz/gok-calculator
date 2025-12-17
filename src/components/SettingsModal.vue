@@ -10,7 +10,10 @@ const {formulaSettings} = inject(formulaSettingsKey)
 const emit = defineEmits(['save', 'reset', 'close-setting-modal'])
 
 const props = defineProps({
-  openSetting: String | null
+  openSetting: {
+    type: String | null,
+    default: null
+  }
 })
 
 watch(() => props.openSetting, (newData) => {
