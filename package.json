@@ -22,7 +22,7 @@
     "test:e2e:report": "playwright show-report"
   },
   "dependencies": {
-    "vue": "^3.5.25"
+    "vue": "^3.5.26"
   },
   "devDependencies": {
     "@playwright/test": "^1.56.1",
