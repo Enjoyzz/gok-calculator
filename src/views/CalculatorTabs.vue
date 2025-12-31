@@ -17,6 +17,19 @@ const {isSharedView} = useCalculator();
     <input type="number" v-model.number="calculatorData.concubines" min="1" :disabled="isSharedView">
   </div>
 
+  <div class="py-3 d-flex" v-if="['silver', 'meat', 'soldiers'].includes(activeTab)">
+    <div>Серебро:
+      <input type="number" v-model.number="calculatorData.silver" min="1" :disabled="isSharedView">
+    </div>
+    <div>Мясо:
+      <input type="number" v-model.number="calculatorData.meat" min="1" :disabled="isSharedView">
+    </div>
+    <div>Солдаты:
+      <input type="number" v-model.number="calculatorData.soldiers" min="1" :disabled="isSharedView">
+    </div>
+  </div>
+
+
   <div class="calculator">
     <div class="tabs">
       <div
@@ -71,5 +84,8 @@ const {isSharedView} = useCalculator();
 </template>
 
 <style scoped>
-
+  .d-flex {
+    display: flex;
+    gap: 1em;
+  }
 </style>

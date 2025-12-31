@@ -76,6 +76,41 @@ watch(
     },
 );
 
+watch(
+    () => calculatorData.value.meat,
+    (newValue, oldValue) => {
+      saveCalculatorData({meat: newValue}).then(result => {
+        if (result === true && oldValue !== undefined) {
+          triggerSaveIndicator();
+        }
+      });
+    },
+);
+
+
+watch(
+    () => calculatorData.value.soldiers,
+    (newValue, oldValue) => {
+      saveCalculatorData({soldiers: newValue}).then(result => {
+        if (result === true && oldValue !== undefined) {
+          triggerSaveIndicator();
+        }
+      });
+    },
+);
+
+
+watch(
+    () => calculatorData.value.silver,
+    (newValue, oldValue) => {
+      saveCalculatorData({silver: newValue}).then(result => {
+        if (result === true && oldValue !== undefined) {
+          triggerSaveIndicator();
+        }
+      });
+    },
+);
+
 provide(SharedKeySymbol, {
   isSharedView,
   clearSharedMode,
