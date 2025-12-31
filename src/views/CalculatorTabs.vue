@@ -33,6 +33,27 @@ const {isSharedView} = useCalculator();
       >
         Близость
       </div>
+      <div
+          class="tab"
+          :class="{ active: activeTab === 'silver' }"
+          @click="activeTab = 'silver'"
+      >
+        Серебро
+      </div>
+      <div
+          class="tab"
+          :class="{ active: activeTab === 'meat' }"
+          @click="activeTab = 'meat'"
+      >
+        Мясо
+      </div>
+      <div
+          class="tab"
+          :class="{ active: activeTab === 'soldiers' }"
+          @click="activeTab = 'soldiers'"
+      >
+        Солдаты
+      </div>
     </div>
 
     <CharmTab
