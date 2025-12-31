@@ -3,7 +3,7 @@
  * @param {number} num - Число для форматирования
  * @param {Object} options - Настройки форматирования
  * @param {number} [options.decimals=1] - Количество знаков после запятой
- * @param {number} [options.removeZero=false] - Убираем лишние нули после запятой
+ * @param {boolean} [options.removeZero=false] - Убираем лишние нули после запятой
  * @param {string} [options.locale='ru-RU'] - Локаль для разделителей
  * @param {boolean} [options.withCurrency=false] - Добавить символ валюты
  * @param {string} [options.currency='₽'] - Символ валюты

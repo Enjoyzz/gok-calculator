@@ -3,6 +3,7 @@ import {inject} from 'vue';
 import CharmTab from './CharmTab.vue';
 import IntimacyTab from './IntimacyTab.vue';
 import {activeTabKey, calculatorDataKey} from '@/data/keys.js';
+import {formatLargeNumber} from '@/utils/formatNumbers.js';
 import {useCalculator} from '@/composables/calculator.js';
 
 defineEmits(['update-calculator-items', 'open-setting']);
@@ -18,14 +19,29 @@ const {isSharedView} = useCalculator();
   </div>
 
   <div class="py-3 d-flex" v-if="['silver', 'meat', 'soldiers'].includes(activeTab)">
-    <div>Серебро:
+    <div>
+
       <input type="number" v-model.number="calculatorData.silver" min="1" :disabled="isSharedView">
+      <div class="craft">
+        <img src="@/assets/img/icon/1-2.png" alt="Серебро"> {{
+          formatLargeNumber(calculatorData.silver, {removeZero: true, currency: '/мин.', withCurrency: true})
+        }}
+      </div>
     </div>
-    <div>Мясо:
+    <div>
       <input type="number" v-model.number="calculatorData.meat" min="1" :disabled="isSharedView">
+      <div class="craft">
+        <img src="@/assets/img/icon/1-3.png" alt="Мясо">
+        {{ formatLargeNumber(calculatorData.meat, {removeZero: true, currency: '/мин.', withCurrency: true}) }}
+      </div>
     </div>
-    <div>Солдаты:
+    <div>
       <input type="number" v-model.number="calculatorData.soldiers" min="1" :disabled="isSharedView">
+
+      <div class="craft">
+        <img src="@/assets/img/icon/1-4.png" alt="Солдаты">
+        {{ formatLargeNumber(calculatorData.soldiers, {removeZero: true, currency: '/мин.', withCurrency: true}) }}
+      </div>
     </div>
   </div>
 
@@ -84,8 +100,21 @@ const {isSharedView} = useCalculator();
 </template>
 
 <style scoped>
-  .d-flex {
-    display: flex;
-    gap: 1em;
-  }
+.d-flex {
+  display: flex;
+  gap: 1em;
+}
+
+.craft {
+  margin-left: 1em;
+  color: #000;
+  background-color: #ccc;
+  padding: 3px;
+  border-radius: 5px;
+
+}
+
+.craft img {
+  max-height: 32px;
+}
 </style>
