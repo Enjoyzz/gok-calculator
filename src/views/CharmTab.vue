@@ -1,33 +1,40 @@
 <script setup>
-import {computed, inject} from 'vue'
-import CharmItem from './CharmItem.vue'
-import {charmItemsConfig} from './../data/charmItemsConfig.js'
-import {SharedKeySymbol, calculatorDataKey, formulaSettingsKey} from "@/data/keys.js";
-import ShareButton from "@/components/ShareButton.vue";
-const { isSharedView } = inject(SharedKeySymbol)
-const { calculatorData } = inject(calculatorDataKey)
-const { formulaSettings } = inject(formulaSettingsKey)
+import {computed, inject} from 'vue';
+import CharmItem from './CharmItem.vue';
+import {charmItemsConfig} from './../data/charmItemsConfig.js';
+import {formatLargeNumber} from '@/utils/formatNumbers.js';
+import {calculatorDataKey, formulaSettingsKey, SharedKeySymbol} from '@/data/keys.js';
+import ShareButton from '@/components/ShareButton.vue';
+
+const {isSharedView} = inject(SharedKeySymbol);
+const {calculatorData} = inject(calculatorDataKey);
+const {formulaSettings} = inject(formulaSettingsKey);
 
 
-const emit = defineEmits(['update-items', 'open-setting'])
+const emit = defineEmits(['update-items', 'open-setting']);
 
 const totals = computed(() => ({
-  blueHadak: Math.floor(calculatorData.value.blueHadak * calculatorData.value.concubines * formulaSettings.value.charm.blueHadak),
+  blueHadak: Math.floor(
+      calculatorData.value.blueHadak * calculatorData.value.concubines * formulaSettings.value.charm.blueHadak),
   whiteHadak: calculatorData.value.whiteHadak * calculatorData.value.concubines,
   goldHairpin: calculatorData.value.goldHairpin * 5,
   silverHairpin: Math.floor(calculatorData.value.silverHairpin * formulaSettings.value.charm.silverHairpin),
   perfume: calculatorData.value.perfume,
   chests: Math.floor(calculatorData.value.chests * formulaSettings.value.charm.chests),
-  forage: Math.floor(calculatorData.value.forage * formulaSettings.value.charm.forage)
-}))
+  forage: Math.floor(calculatorData.value.forage * formulaSettings.value.charm.forage),
+}));
 
 const total = computed(() =>
-    Object.values(totals.value).reduce((sum, val) => sum + val, 0)
-)
+    Object.values(totals.value).reduce((sum, val) => sum + val, 0),
+);
+
+const totalFormatted = computed(() =>
+    formatLargeNumber(total.value),
+);
 
 const updateItem = (id, value) => {
-  emit('update-items', { ...calculatorData.value, [id]: value })
-}
+  emit('update-items', {...calculatorData.value, [id]: value});
+};
 </script>
 
 <template>
@@ -47,14 +54,14 @@ const updateItem = (id, value) => {
         <td>ИТОГ</td>
         <td></td>
         <td></td>
-        <td style="text-wrap: nowrap; font-size: large">~ {{ total }}</td>
+        <td style="text-wrap: nowrap; font-size: large">~ {{ totalFormatted }} <span style="color: #ccc; font-size: small"> / {{ total }}</span></td>
         <td></td>
       </tr>
       </tbody>
     </table>
   </div>
 
-  <ShareButton v-if="!isSharedView" ></ShareButton>
+  <ShareButton v-if="!isSharedView"></ShareButton>
 
   <div class="formula-info">
     <p><strong>Формулы расчета:</strong></p>
