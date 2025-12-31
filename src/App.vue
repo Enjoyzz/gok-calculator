@@ -1,11 +1,11 @@
 <script setup>
-import {useCalculator} from '@/composables/calculator.js'
-import {useSaveIndicator} from '@/composables/saveIndicator.js'
-import SettingsModal from "@/components/SettingsModal.vue";
-import SaveIndicator from "@/components/SaveIndicator.vue";
-import CalculatorTabs from "@/views/CalculatorTabs.vue";
-import {activeTabKey, calculatorDataKey, formulaSettingsKey, SharedKeySymbol} from "@/data/keys.js"
-import {provide, ref, watch} from "vue";
+import {useCalculator} from '@/composables/calculator.js';
+import {useSaveIndicator} from '@/composables/saveIndicator.js';
+import SettingsModal from '@/components/SettingsModal.vue';
+import SaveIndicator from '@/components/SaveIndicator.vue';
+import CalculatorTabs from '@/views/CalculatorTabs.vue';
+import {activeTabKey, calculatorDataKey, formulaSettingsKey, SharedKeySymbol} from '@/data/keys.js';
+import {provide, ref, watch} from 'vue';
 
 const {
   formulaSettings,
@@ -19,75 +19,71 @@ const {
   clearSharedMode,
   savedActiveTab,
   showInvalidShareModal,
-  handleInvalidShareConfirm
-} = useCalculator()
+  handleInvalidShareConfirm,
+} = useCalculator();
 
-
-const activeTab = ref(savedActiveTab)
-
+const activeTab = ref(savedActiveTab);
 
 const {
   showSaveIndicator,
   saveMessage,
-  triggerSaveIndicator
-} = useSaveIndicator()
-
+  triggerSaveIndicator,
+} = useSaveIndicator();
 
 const handleUpdateCalculatorItems = (newItems) => {
   saveCalculatorData(newItems).then(result => {
     if (result === true) {
-      triggerSaveIndicator()
+      triggerSaveIndicator();
     }
-  })
-}
-
+  });
+};
 
 const handleSaveFormulas = (newFormulas) => {
   saveFormulas(newFormulas).then(result => {
     if (result === true) {
-      triggerSaveIndicator('✓ Настройки сохранены')
+      triggerSaveIndicator('✓ Настройки сохранены');
     }
-  })
-}
+  });
+};
 
 const handleResetSettings = () => {
   resetFormulas().then(result => {
     if (result === true) {
-      triggerSaveIndicator('✓ Настройки сброшены')
+      triggerSaveIndicator('✓ Настройки сброшены');
     }
-  })
+  });
 
-}
+};
 
 const openSetting = ref(null);
 
 const handleOpenSetting = (e) => {
   openSetting.value = e;
-}
+};
 
 const closeOpenSetting = () => {
   openSetting.value = null;
-}
+};
 
 watch(
     () => calculatorData.value.concubines,
     (newValue, oldValue) => {
       saveCalculatorData({concubines: newValue}).then(result => {
         if (result === true && oldValue !== undefined) {
-          triggerSaveIndicator()
+          triggerSaveIndicator();
         }
-      })
-    }
-)
+      });
+    },
+);
 
 provide(SharedKeySymbol, {
   isSharedView,
-  clearSharedMode
-})
+  clearSharedMode,
+});
 
-provide(calculatorDataKey, {calculatorData})
-provide(formulaSettingsKey, {formulaSettings})
-provide(activeTabKey, activeTab)
+provide(calculatorDataKey, {calculatorData});
+provide(formulaSettingsKey, {formulaSettings});
+provide(activeTabKey, activeTab);
 
 </script>
 
@@ -113,21 +109,14 @@ provide(activeTabKey, activeTab)
 
       <h1>Калькулятор обаяния и близости</h1>
 
-
       <div v-if="isSharedView" class="readonly-banner">
         🔒 Просмотр чужих данных · <small>Ваши данные остались в сохранности.
         <a href="#" @click.prevent="clearSharedMode">Вернутся к себе</a> </small>
       </div>
 
-      <div class="py-3">Кол-во наложниц:
-        <input type="number" v-model.number="calculatorData.concubines" min="1" :disabled="isSharedView">
-      </div>
-
       <CalculatorTabs @update-calculator-items="handleUpdateCalculatorItems" @open-setting="handleOpenSetting"/>
-
-
-      <SettingsModal v-if="!isSharedView" @save="handleSaveFormulas" @reset="handleResetSettings" :openSetting="openSetting" @close-setting-modal="closeOpenSetting"/>
-
+      <SettingsModal v-if="!isSharedView" @save="handleSaveFormulas" @reset="handleResetSettings"
+                     :openSetting="openSetting" @close-setting-modal="closeOpenSetting"/>
       <SaveIndicator :visible="showSaveIndicator" :message="saveMessage"/>
     </div>
   </div>

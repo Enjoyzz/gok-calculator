@@ -1,15 +1,22 @@
 <script setup>
-import {inject} from 'vue'
-import CharmTab from './CharmTab.vue'
-import IntimacyTab from './IntimacyTab.vue'
-import {activeTabKey} from "@/data/keys.js";
+import {inject} from 'vue';
+import CharmTab from './CharmTab.vue';
+import IntimacyTab from './IntimacyTab.vue';
+import {activeTabKey, calculatorDataKey} from '@/data/keys.js';
+import {useCalculator} from '@/composables/calculator.js';
 
-defineEmits(['update-calculator-items', 'open-setting'])
-const activeTab = inject(activeTabKey)
+defineEmits(['update-calculator-items', 'open-setting']);
 
+const activeTab = inject(activeTabKey);
+const {calculatorData} = inject(calculatorDataKey);
+const {isSharedView} = useCalculator();
 </script>
 
 <template>
+  <div class="py-3" v-if="['charm', 'intimacy'].includes(activeTab)">Кол-во наложниц:
+    <input type="number" v-model.number="calculatorData.concubines" min="1" :disabled="isSharedView">
+  </div>
+
   <div class="calculator">
     <div class="tabs">
       <div
