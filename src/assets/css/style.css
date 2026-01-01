@@ -23,7 +23,7 @@ h1 {
     display: flex;
     margin-bottom: 20px;
     border-bottom: 1px solid #ddd;
-    /*overflow-x: auto;*/
+    overflow-x: auto;
 }
 
 .tab {

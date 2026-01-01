@@ -21,26 +21,55 @@ const {isSharedView} = useCalculator();
   <div class="py-3 d-flex" v-if="['silver', 'meat', 'soldiers'].includes(activeTab)">
     <div>
 
-      <input type="number" v-model.number="calculatorData.silver" min="1" :disabled="isSharedView">
-      <div class="craft">
-        <img src="@/assets/img/icon/1-2.png" alt="Серебро"> {{
-          formatLargeNumber(calculatorData.silver, {removeZero: true, currency: '/мин.', withCurrency: true})
-        }}
-      </div>
-    </div>
-    <div>
-      <input type="number" v-model.number="calculatorData.meat" min="1" :disabled="isSharedView">
-      <div class="craft">
-        <img src="@/assets/img/icon/1-3.png" alt="Мясо">
-        {{ formatLargeNumber(calculatorData.meat, {removeZero: true, currency: '/мин.', withCurrency: true}) }}
-      </div>
-    </div>
-    <div>
-      <input type="number" v-model.number="calculatorData.soldiers" min="1" :disabled="isSharedView">
 
-      <div class="craft">
-        <img src="@/assets/img/icon/1-4.png" alt="Солдаты">
-        {{ formatLargeNumber(calculatorData.soldiers, {removeZero: true, currency: '/мин.', withCurrency: true}) }}
+      <div class="container">
+        <input type="number" v-model.number="calculatorData.silver" min="1" :disabled="isSharedView">
+        <div class="icon">
+          <img src="@/assets/img/icon/1-2.png">
+        </div>
+        <div class="text">{{
+            formatLargeNumber(calculatorData.silver, {
+              removeZero: true,
+              currency: '/мин.',
+              withCurrency: true
+            })
+          }}
+        </div>
+      </div>
+
+    </div>
+    <div>
+
+      <div class="container">
+        <input type="number" v-model.number="calculatorData.meat" min="1" :disabled="isSharedView">
+        <div class="icon">
+          <img src="@/assets/img/icon/1-3.png">
+        </div>
+        <div class="text">{{
+            formatLargeNumber(calculatorData.meat, {
+              removeZero: true,
+              currency: '/мин.',
+              withCurrency: true
+            })
+          }}
+        </div>
+      </div>
+    </div>
+    <div>
+
+      <div class="container">
+        <input type="number" v-model.number="calculatorData.soldiers" min="1" :disabled="isSharedView">
+        <div class="icon">
+          <img src="@/assets/img/icon/1-4.png">
+        </div>
+        <div class="text">{{
+            formatLargeNumber(calculatorData.soldiers, {
+              removeZero: true,
+              currency: '/мин.',
+              withCurrency: true
+            })
+          }}
+        </div>
       </div>
     </div>
   </div>
@@ -103,18 +132,44 @@ const {isSharedView} = useCalculator();
 .d-flex {
   display: flex;
   gap: 1em;
+  overflow-x: auto;
 }
 
-.craft {
-  margin-left: 1em;
-  color: #000;
-  background-color: #ccc;
-  padding: 3px;
-  border-radius: 5px;
-
+@media (max-width: 600px) {
+  .d-flex {
+    display: flex;
+    gap: 1em;
+    flex-direction: column;
+  }
 }
 
-.craft img {
-  max-height: 32px;
+.container {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Расстояние между иконкой и текстом */
+  padding: 10px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  font-family: Arial, sans-serif;
+}
+
+.icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden; /* Обрезаем лишнее, если изображение больше блока */
+}
+
+.icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Изображение заполняет блок без искажений */
+}
+
+.text {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  white-space: nowrap; /* Текст не переносится */
 }
 </style>
