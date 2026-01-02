@@ -1,10 +1,26 @@
-import { BaseRepository } from './BaseRepository.js'
-import { defaultFormulas, defaultConcubines, defaultCharmItems, defaultIntimacyItems } from '@/data/defaults.js'
+import {BaseRepository} from './BaseRepository.js'
+import {
+    defaultCharmItems,
+    defaultConcubines,
+    defaultFormulas,
+    defaultIntimacyItems,
+    defaultMeat,
+    defaultMeatItems,
+    defaultSilver,
+    defaultSilverItems,
+    defaultSoldiers, defaultSoldiersItems
+} from '@/data/defaults.js'
 
 const defaultCalculatorData = {
-    'concubines':  defaultConcubines,
+    'concubines': defaultConcubines,
+    'silver': defaultSilver,
+    'meat': defaultMeat,
+    'soldiers': defaultSoldiers,
     ...defaultIntimacyItems,
     ...defaultCharmItems,
+    ...defaultSoldiersItems,
+    ...defaultMeatItems,
+    ...defaultSilverItems
 }
 
 export class LocalStorageRepository extends BaseRepository {
@@ -24,7 +40,7 @@ export class LocalStorageRepository extends BaseRepository {
         try {
             const saved = localStorage.getItem(this.keys.CALCULATOR_DATA)
             return saved
-                ? { ...defaultCalculatorData, ...JSON.parse(saved) }
+                ? {...defaultCalculatorData, ...JSON.parse(saved)}
                 : defaultCalculatorData
         } catch (error) {
             console.warn('Error loading calculator data:', error)
@@ -36,7 +52,7 @@ export class LocalStorageRepository extends BaseRepository {
         try {
             const saved = localStorage.getItem(this.keys.FORMULAS)
             return saved
-                ? { ...defaultFormulas, ...JSON.parse(saved) }
+                ? {...defaultFormulas, ...JSON.parse(saved)}
                 : defaultFormulas
         } catch (error) {
             console.warn('Error loading formulas:', error)

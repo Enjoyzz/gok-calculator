@@ -5,6 +5,9 @@ import IntimacyTab from './IntimacyTab.vue';
 import {activeTabKey, calculatorDataKey} from '@/data/keys.js';
 import {formatLargeNumber} from '@/utils/formatNumbers.js';
 import {useCalculator} from '@/composables/calculator.js';
+import SilverTab from "@/views/SilverTab.vue";
+import MeatTab from "@/views/MeatTab.vue";
+import SoldierTab from "@/views/SoldierTab.vue";
 
 defineEmits(['update-calculator-items', 'open-setting']);
 
@@ -122,6 +125,26 @@ const {isSharedView} = useCalculator();
 
     <IntimacyTab
         v-if="activeTab === 'intimacy'"
+        @update-items="$emit('update-calculator-items', $event)"
+        @open-setting="$emit('open-setting', $event)"
+    />
+
+    <SilverTab
+        v-if="activeTab === 'silver'"
+        @update-items="$emit('update-calculator-items', $event)"
+        @open-setting="$emit('open-setting', $event)"
+    />
+
+
+    <MeatTab
+        v-if="activeTab === 'meat'"
+        @update-items="$emit('update-calculator-items', $event)"
+        @open-setting="$emit('open-setting', $event)"
+    />
+
+
+    <SoldierTab
+        v-if="activeTab === 'soldiers'"
         @update-items="$emit('update-calculator-items', $event)"
         @open-setting="$emit('open-setting', $event)"
     />

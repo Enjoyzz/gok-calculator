@@ -1,6 +1,7 @@
-import {ref} from "vue";
-
 const defaultConcubines = 1
+const defaultSilver = 1
+const defaultMeat = 1
+const defaultSoldiers = 1
 const defaultCharmItems = {
     blueHadak: 0,
     whiteHadak: 0,
@@ -21,6 +22,43 @@ const defaultIntimacyItems = {
     forage: 0
 }
 
+const defaultSilverItems = {
+    silver1M: 0,
+    silver100K: 0,
+    silver88K_8M: 0,
+    silver1h: 0,
+    silver30m: 0,
+    silver15m: 0,
+    silver5m: 0,
+    medal: 0,
+    chest: 0,
+}
+
+
+const defaultMeatItems = {
+    meat1M: 0,
+    meat100K: 0,
+    meat88K_8M: 0,
+    meat1h: 0,
+    meat30m: 0,
+    meat15m: 0,
+    meat5m: 0,
+    medal: 0,
+    chest: 0,
+}
+
+const defaultSoldiersItems = {
+    soldiers1M: 0,
+    soldiers100K: 0,
+    soldiers88K_8M: 0,
+    soldiers1h: 0,
+    soldiers30m: 0,
+    soldiers15m: 0,
+    soldiers5m: 0,
+    medal: 0,
+    chest: 0,
+}
+
 const defaultFormulas = {
     charm: {
         blueHadak: 1.5,
@@ -32,7 +70,21 @@ const defaultFormulas = {
         ordos: 1.5,
         sandalwoodBracelet: 3,
         forage: 1.2
-    }
+    },
+    silver: {},
+    meat: {},
+    soldiers: {}
 }
 
-export {defaultFormulas, defaultIntimacyItems, defaultCharmItems, defaultConcubines}
+export {
+    defaultFormulas,
+    defaultIntimacyItems,
+    defaultCharmItems,
+    defaultSilverItems,
+    defaultMeatItems,
+    defaultSoldiersItems,
+    defaultConcubines,
+    defaultSilver,
+    defaultMeat,
+    defaultSoldiers
+}
