@@ -1,5 +1,6 @@
 import { bgIcon } from './../utils/bgIcon.js'
 
+import meat10MIcon from '@/assets/img/icon/2-1038.png'
 import meat1MIcon from '@/assets/img/icon/2-1037.png'
 import meat100KIcon from '@/assets/img/icon/2-1036.png'
 import meat2hIcon from '@/assets/img/icon/2-1035.png'
@@ -12,6 +13,14 @@ import medalIcon from '@/assets/img/icon/2-3001.png'
 import chestIcon from '@/assets/img/icon/2-1001.png'
 
 export const meatItemsConfig = [
+    {
+        id: 'meat10M',
+        name: 'Купон мяса III',
+        description: 'Содержит 10 млн. мяса',
+        icon: meat10MIcon,
+        bgColor: bgIcon.orange,
+        approximately: false
+    },
     {
         id: 'meat1M',
         name: 'Купон мяса II',

@@ -23,9 +23,11 @@ const defaultIntimacyItems = {
 }
 
 const defaultSilverItems = {
+    silver10M: 0,
     silver1M: 0,
     silver100K: 0,
     silver88K_8M: 0,
+    silver2h: 0,
     silver1h: 0,
     silver30m: 0,
     silver15m: 0,
@@ -36,9 +38,11 @@ const defaultSilverItems = {
 
 
 const defaultMeatItems = {
+    meat10M: 0,
     meat1M: 0,
     meat100K: 0,
     meat88K_8M: 0,
+    meat2h: 0,
     meat1h: 0,
     meat30m: 0,
     meat15m: 0,
@@ -48,9 +52,10 @@ const defaultMeatItems = {
 }
 
 const defaultSoldiersItems = {
+    soldiers10M: 0,
     soldiers1M: 0,
     soldiers100K: 0,
-    soldiers88K_8M: 0,
+    soldiers2h: 0,
     soldiers1h: 0,
     soldiers30m: 0,
     soldiers15m: 0,

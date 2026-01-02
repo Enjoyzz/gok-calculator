@@ -1,8 +1,10 @@
 import { bgIcon } from './../utils/bgIcon.js'
 
+import silver10MIcon from '@/assets/img/icon/2-1028.png'
 import silver1MIcon from '@/assets/img/icon/2-1027.png'
 import silver100KIcon from '@/assets/img/icon/2-1026.png'
 import silver88K_8MIcons from '@/assets/img/icon/2-1101.png'
+import silver2hIcon from '@/assets/img/icon/2-1025.png'
 import silver1hIcon from '@/assets/img/icon/2-1024.png'
 import silver30mIcon from '@/assets/img/icon/2-1023.png'
 import silver15mIcon from '@/assets/img/icon/2-1022.png'
@@ -12,6 +14,22 @@ import medalIcon from '@/assets/img/icon/2-3001.png'
 import chestIcon from '@/assets/img/icon/2-1001.png'
 
 export const silverItemsConfig = [
+    {
+        id: 'silver88K_8M',
+        name: 'Набор удачи - Серебро',
+        description: 'При открытии можно случ. получить Серебро (88К-8M)',
+        icon: silver88K_8MIcons,
+        bgColor: bgIcon.violet,
+        approximately: true
+    },
+    {
+        id: 'silver10M',
+        name: 'Редкий купон серебра',
+        description: 'Содержит 10 млн. серебра',
+        icon: silver10MIcon,
+        bgColor: bgIcon.orange,
+        approximately: false
+    },
     {
         id: 'silver1M',
         name: 'Редкий купон серебра',
@@ -29,12 +47,12 @@ export const silverItemsConfig = [
         approximately: false
     },
     {
-        id: 'silver88K_8M',
-        name: 'Набор удачи - Серебро',
-        description: 'При открытии можно случ. получить Серебро (88К-8M)',
-        icon: silver88K_8MIcons,
-        bgColor: bgIcon.violet,
-        approximately: true
+        id: 'silver2h',
+        name: 'Сундук серебра',
+        description: 'Моментальное получение дохода серебра за 2 ч.',
+        icon: silver2hIcon,
+        bgColor: bgIcon.orange,
+        approximately: false
     },
     {
         id: 'silver1h',

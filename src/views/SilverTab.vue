@@ -1,6 +1,5 @@
 <script setup>
 import {computed, inject} from 'vue';
-import CharmItem from './CharmItem.vue';
 import {formatLargeNumber} from '@/utils/formatNumbers.js';
 import {calculatorDataKey, formulaSettingsKey, SharedKeySymbol} from '@/data/keys.js';
 import ShareButton from '@/components/ShareButton.vue';
@@ -15,9 +14,11 @@ const {formulaSettings} = inject(formulaSettingsKey);
 const emit = defineEmits(['update-items', 'open-setting']);
 
 const totals = computed(() => ({
+  silver10M: calculatorData.value.silver10M * 10_000_000,
   silver1M: calculatorData.value.silver1M * 1_000_000,
   silver100K: calculatorData.value.silver100K * 100_000,
   silver88K_8M: calculatorData.value.silver88K_8M * 4_000_000,
+  silver2h: calculatorData.value.silver2h * 120 * calculatorData.value.silver,
   silver1h: calculatorData.value.silver1h * 60 * calculatorData.value.silver,
   silver30m: calculatorData.value.silver30m * 30 * calculatorData.value.silver,
   silver15m: calculatorData.value.silver15m * 15 * calculatorData.value.silver,
@@ -31,7 +32,7 @@ const total = computed(() =>
 );
 
 const totalFormatted = computed(() =>
-    formatLargeNumber(total.value),
+    formatLargeNumber(total.value, {removeZero: true}),
 );
 
 const updateItem = (id, value) => {

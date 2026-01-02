@@ -14,9 +14,10 @@ const {formulaSettings} = inject(formulaSettingsKey);
 const emit = defineEmits(['update-items', 'open-setting']);
 
 const totals = computed(() => ({
+  soldiers10M: calculatorData.value.soldiers10M * 10_000_000,
   soldiers1M: calculatorData.value.soldiers1M * 1_000_000,
   soldiers100K: calculatorData.value.soldiers100K * 100_000,
-  soldiers88K_8M: calculatorData.value.soldiers88K_8M * 4_000_000,
+  soldiers2h: calculatorData.value.soldiers2h * 120 * calculatorData.value.soldiers,
   soldiers1h: calculatorData.value.soldiers1h * 60 * calculatorData.value.soldiers,
   soldiers30m: calculatorData.value.soldiers30m * 30 * calculatorData.value.soldiers,
   soldiers15m: calculatorData.value.soldiers15m * 15 * calculatorData.value.soldiers,
@@ -30,7 +31,7 @@ const total = computed(() =>
 );
 
 const totalFormatted = computed(() =>
-    formatLargeNumber(total.value),
+    formatLargeNumber(total.value, {removeZero: true}),
 );
 
 const updateItem = (id, value) => {

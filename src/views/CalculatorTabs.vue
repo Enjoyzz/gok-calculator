@@ -25,53 +25,60 @@ const {isSharedView} = useCalculator();
     <div>
 
 
-      <div class="container">
-        <input type="number" v-model.number="calculatorData.silver" min="1" :disabled="isSharedView">
-        <div class="icon">
-          <img src="@/assets/img/icon/1-2.png">
-        </div>
-        <div class="text">{{
-            formatLargeNumber(calculatorData.silver, {
-              removeZero: true,
-              currency: '/мин.',
-              withCurrency: true
-            })
-          }}
+      <div class="container2">
+        <input type="number"  @click="e => e.target.select()" v-model.number="calculatorData.silver" min="1" :disabled="isSharedView">
+        <div style="display: flex; gap: 0; align-items: center">
+          <div class="icon">
+            <img src="@/assets/img/icon/1-2.png">
+          </div>
+          <div class="text">{{
+              formatLargeNumber(calculatorData.silver, {
+                removeZero: true,
+                currency: '/мин.',
+                withCurrency: true
+              })
+            }}
+          </div>
         </div>
       </div>
 
     </div>
     <div>
 
-      <div class="container">
-        <input type="number" v-model.number="calculatorData.meat" min="1" :disabled="isSharedView">
-        <div class="icon">
-          <img src="@/assets/img/icon/1-3.png">
-        </div>
-        <div class="text">{{
-            formatLargeNumber(calculatorData.meat, {
-              removeZero: true,
-              currency: '/мин.',
-              withCurrency: true
-            })
-          }}
+      <div class="container2">
+        <input type="number"  @click="e => e.target.select()" v-model.number="calculatorData.meat" min="1" :disabled="isSharedView">
+        <div style="display: flex; gap: 0; align-items: center">
+          <div class="icon">
+            <img src="@/assets/img/icon/1-3.png">
+          </div>
+          <div class="text">{{
+              formatLargeNumber(calculatorData.meat, {
+                removeZero: true,
+                currency: '/мин.',
+                withCurrency: true
+              })
+            }}
+          </div>
         </div>
       </div>
     </div>
     <div>
 
-      <div class="container">
-        <input type="number" v-model.number="calculatorData.soldiers" min="1" :disabled="isSharedView">
-        <div class="icon">
-          <img src="@/assets/img/icon/1-4.png">
-        </div>
-        <div class="text">{{
-            formatLargeNumber(calculatorData.soldiers, {
-              removeZero: true,
-              currency: '/мин.',
-              withCurrency: true
-            })
-          }}
+
+      <div class="container2">
+        <input type="number"  @click="e => e.target.select()" v-model.number="calculatorData.soldiers" min="1" :disabled="isSharedView">
+        <div style="display: flex; gap: 0; align-items: center">
+          <div class="icon">
+            <img src="@/assets/img/icon/1-4.png">
+          </div>
+          <div class="text">{{
+              formatLargeNumber(calculatorData.soldiers, {
+                removeZero: true,
+                currency: '/мин.',
+                withCurrency: true
+              })
+            }}
+          </div>
         </div>
       </div>
     </div>
@@ -166,20 +173,24 @@ const {isSharedView} = useCalculator();
   }
 }
 
-.container {
+.container2 {
   display: flex;
   align-items: center;
   gap: 10px; /* Расстояние между иконкой и текстом */
   padding: 10px;
-  background-color: #f5f5f5;
-  border-radius: 8px;
-  font-family: Arial, sans-serif;
+  flex-direction: column;
+}
+
+.container2 input {
+  width: 100%;
 }
 
 .icon {
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
+  background-color: #f5f5f5;
+  border: 1px solid #f5f5f5;
   overflow: hidden; /* Обрезаем лишнее, если изображение больше блока */
 }
 
@@ -190,9 +201,13 @@ const {isSharedView} = useCalculator();
 }
 
 .text {
+  margin-left: -8px;
   font-size: 18px;
   font-weight: bold;
   color: #333;
+  padding: 8px;
+  background-color: #f5f5f5;
+  border-radius: 0 8px 8px 0;
   white-space: nowrap; /* Текст не переносится */
 }
 </style>

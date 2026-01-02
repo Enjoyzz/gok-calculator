@@ -1,8 +1,9 @@
 import { bgIcon } from './../utils/bgIcon.js'
 
+import soldiers10MIcon from '@/assets/img/icon/2-1048.png'
 import soldiers1MIcon from '@/assets/img/icon/2-1047.png'
 import soldiers100KIcon from '@/assets/img/icon/2-1046.png'
-import soldiers88K_8MIcons from '@/assets/img/icon/2-1101.png'
+import soldiers2hIcon from '@/assets/img/icon/2-1045.png'
 import soldiers1hIcon from '@/assets/img/icon/2-1044.png'
 import soldiers30mIcon from '@/assets/img/icon/2-1043.png'
 import soldiers15mIcon from '@/assets/img/icon/2-1042.png'
@@ -12,6 +13,14 @@ import medalIcon from '@/assets/img/icon/2-3001.png'
 import chestIcon from '@/assets/img/icon/2-1001.png'
 
 export const soldiersItemsConfig = [
+    {
+        id: 'soldiers10M',
+        name: 'Печать генерала III',
+        description: 'Содержит 10 млн. солдат',
+        icon: soldiers10MIcon,
+        bgColor: bgIcon.orange,
+        approximately: false
+    },
     {
         id: 'soldiers1M',
         name: 'Печать генерала II',
@@ -29,8 +38,16 @@ export const soldiersItemsConfig = [
         approximately: false
     },
     {
+        id: 'soldiers2h',
+        name: 'Колчан стрел V',
+        description: 'Моментальное получение дохода солдат за 2 ч.',
+        icon: soldiers2hIcon,
+        bgColor: bgIcon.orange,
+        approximately: false
+    },
+    {
         id: 'soldiers1h',
-        name: 'Кочан стрел IV',
+        name: 'Колчан стрел IV',
         description: 'Моментальное получение дохода солдат за 1 ч.',
         icon: soldiers1hIcon,
         bgColor: bgIcon.violet,
@@ -38,7 +55,7 @@ export const soldiersItemsConfig = [
     },
     {
         id: 'soldiers30m',
-        name: 'Кочан стрел III',
+        name: 'Колчан стрел III',
         description: 'Моментальное получение дохода солдат за 30 мин.',
         icon: soldiers30mIcon,
         bgColor: bgIcon.blue,
@@ -46,7 +63,7 @@ export const soldiersItemsConfig = [
     },
     {
         id: 'soldiers15m',
-        name: 'Кочан стрел II',
+        name: 'Колчан стрел II',
         description: 'Моментальное получение дохода солдат за 15 мин.',
         icon: soldiers15mIcon,
         bgColor: bgIcon.blue,
@@ -54,7 +71,7 @@ export const soldiersItemsConfig = [
     },
     {
         id: 'soldiers5m',
-        name: 'Кочан стрел I',
+        name: 'Колчан стрел I',
         description: 'Моментальное получение дохода солдат за 5 мин.',
         icon: soldiers5mIcon,
         bgColor: bgIcon.green,
