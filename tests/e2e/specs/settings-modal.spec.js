@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test'
 test.describe('Settings Modal from multiplier click', () => {
     test.beforeEach(async ({ page }) => {
         await page.goto('http://localhost:5173')
-        await page.waitForSelector('h1:has-text("Калькулятор обаяния и близости")')
+        await page.waitForSelector('h1:has-text("Калькулятор ресурсов")')
     })
 
     test('should open settings modal when clicking on blueHadak multiplier', async ({ page }) => {
