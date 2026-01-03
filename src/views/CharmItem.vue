@@ -1,6 +1,7 @@
 <script setup>
 import {inject} from 'vue'
 import {formulaSettingsKey, SharedKeySymbol} from "@/data/keys.js";
+import {formatLargeNumber} from "@/utils/formatNumbers.js";
 
 const { isSharedView } = inject(SharedKeySymbol)
 const { formulaSettings } = inject(formulaSettingsKey)
@@ -45,7 +46,7 @@ defineEmits(['update', 'open-setting'])
           :disabled="isSharedView"
       >
     </td>
-    <td style="text-wrap: nowrap;">{{ item.approximately === true ? '~ ' : ''}}{{ total }}</td>
+    <td style="text-wrap: nowrap;">{{ item.approximately === true ? '~ ' : ''}}{{ formatLargeNumber(total, {decimals: 2, removeZero: true}) }}</td>
   </tr>
 </template>
 

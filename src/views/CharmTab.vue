@@ -29,7 +29,7 @@ const total = computed(() =>
 );
 
 const totalFormatted = computed(() =>
-    formatLargeNumber(total.value),
+    formatLargeNumber(total.value, {removeZero: true}),
 );
 
 const updateItem = (id, value) => {
@@ -54,8 +54,10 @@ const updateItem = (id, value) => {
         <td>ИТОГ</td>
         <td></td>
         <td></td>
-        <td style="text-wrap: nowrap; font-size: large">~ {{ totalFormatted }} <span style="color: #ccc; font-size: small"> / {{ total }}</span></td>
         <td></td>
+        <td style="text-wrap: nowrap; font-size: large; text-align: end">~ {{ totalFormatted }}
+          <div style="color: #ccc; font-size: small"> {{ total }}</div>
+        </td>
       </tr>
       </tbody>
     </table>
