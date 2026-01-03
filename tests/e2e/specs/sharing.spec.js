@@ -113,7 +113,7 @@ test.describe('Sharing functionality', () => {
 
         await expect(page.locator('.modal-overlay')).not.toBeVisible()
 
-        await expect(page.locator('h1:has-text("Калькулятор обаяния и близости")')).toBeVisible()
+        await expect(page.locator('h1:has-text("Калькулятор ресурсов")')).toBeVisible()
 
         await expect(page.locator('.readonly-banner')).not.toBeVisible()
 

@@ -128,7 +128,7 @@ describe('App.vue', () => {
             await wrapper.vm.$nextTick()
 
             expect(wrapper.find('.gok_logo').exists()).toBe(true)
-            expect(wrapper.find('h1').text()).toBe('Калькулятор обаяния и близости')
+            expect(wrapper.find('h1').text()).toBe('Калькулятор ресурсов')
             expect(wrapper.find('input[type="number"]').exists()).toBe(true)
         })
 

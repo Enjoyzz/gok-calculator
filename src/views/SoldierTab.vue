@@ -1,10 +1,10 @@
 <script setup>
 import {computed, inject} from 'vue';
-import CharmItem from './CharmItem.vue';
-import {charmItemsConfig} from './../data/charmItemsConfig.js';
 import {formatLargeNumber} from '@/utils/formatNumbers.js';
 import {calculatorDataKey, formulaSettingsKey, SharedKeySymbol} from '@/data/keys.js';
 import ShareButton from '@/components/ShareButton.vue';
+import {soldiersItemsConfig} from "@/data/soldiersItemsConfig.js";
+import SoldierItem from "@/views/SoldierItem.vue";
 
 const {isSharedView} = inject(SharedKeySymbol);
 const {calculatorData} = inject(calculatorDataKey);
@@ -14,14 +14,20 @@ const {formulaSettings} = inject(formulaSettingsKey);
 const emit = defineEmits(['update-items', 'open-setting']);
 
 const totals = computed(() => ({
-  blueHadak: Math.floor(
-      calculatorData.value.blueHadak * calculatorData.value.concubines * formulaSettings.value.charm.blueHadak),
-  whiteHadak: calculatorData.value.whiteHadak * calculatorData.value.concubines,
-  goldHairpin: calculatorData.value.goldHairpin * 5,
-  silverHairpin: Math.floor(calculatorData.value.silverHairpin * formulaSettings.value.charm.silverHairpin),
-  perfume: calculatorData.value.perfume,
-  chests: Math.floor(calculatorData.value.chests * formulaSettings.value.charm.chests),
-  forage: Math.floor(calculatorData.value.forage * formulaSettings.value.charm.forage),
+  soldiers88K_8M: calculatorData.value.soldiers88K_8M * 4_000_000,
+
+  soldiers10M: calculatorData.value.soldiers10M * 10_000_000,
+  soldiers1M: calculatorData.value.soldiers1M * 1_000_000,
+  soldiers100K: calculatorData.value.soldiers100K * 100_000,
+
+  soldiers2h: calculatorData.value.soldiers2h * 120 * calculatorData.value.soldiers,
+  soldiers1h: calculatorData.value.soldiers1h * 60 * calculatorData.value.soldiers,
+  soldiers30m: calculatorData.value.soldiers30m * 30 * calculatorData.value.soldiers,
+  soldiers15m: calculatorData.value.soldiers15m * 15 * calculatorData.value.soldiers,
+  soldiers5m: calculatorData.value.soldiers5m * 5 * calculatorData.value.soldiers,
+
+  medal: calculatorData.value.medal * 30 * calculatorData.value.soldiers,
+  chest: calculatorData.value.chest * 60 * calculatorData.value.soldiers,
 }));
 
 const total = computed(() =>
@@ -41,8 +47,8 @@ const updateItem = (id, value) => {
   <div class="tab-content active">
     <table>
       <tbody>
-      <CharmItem
-          v-for="item in charmItemsConfig"
+      <SoldierItem
+          v-for="item in soldiersItemsConfig"
           :key="item.id"
           :item="item"
           :value="calculatorData[item.id]"
@@ -65,18 +71,7 @@ const updateItem = (id, value) => {
 
   <ShareButton v-if="!isSharedView"></ShareButton>
 
-  <div class="formula-info">
-    <p><strong>Формулы расчета:</strong></p>
-    <ul>
-      <li>Синий хадак: количество × количество наложниц × {{ formulaSettings.charm.blueHadak }}</li>
-      <li>Белый хадак: количество × количество наложниц × 1</li>
-      <li>Золотая шпилька: количество × 5</li>
-      <li>Серебряная шпилька: количество × {{ formulaSettings.charm.silverHairpin }}</li>
-      <li>Сундуки: количество × {{ formulaSettings.charm.chests }}</li>
-      <li>Духи: количество × 1</li>
-      <li>Фураж: количество × {{ formulaSettings.charm.forage }}</li>
-    </ul>
-  </div>
+
 </template>
 
 <style scoped>
