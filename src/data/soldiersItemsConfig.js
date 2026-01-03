@@ -12,7 +12,7 @@ import soldiers30mIcon from '@/assets/img/icon/2-1043.png'
 import soldiers15mIcon from '@/assets/img/icon/2-1042.png'
 import soldiers5mIcon from '@/assets/img/icon/2-1041.png'
 
-import medalIcon from '@/assets/img/icon/2-3001.png'
+import medalIcon from '@/assets/img/icon/2-0000.png'
 import chestIcon from '@/assets/img/icon/2-1001.png'
 
 export const soldiersItemsConfig = [

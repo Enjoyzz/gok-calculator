@@ -12,9 +12,8 @@ import meat30mIcon from '@/assets/img/icon/2-1033.png'
 import meat15mIcon from '@/assets/img/icon/2-1032.png'
 import meat5mIcon from '@/assets/img/icon/2-1031.png'
 
-import medalIcon from '@/assets/img/icon/2-3001.png'
+import medalIcon from '@/assets/img/icon/2-0000.png'
 import chestIcon from '@/assets/img/icon/2-1001.png'
-import silver88K_8MIcons from "@/assets/img/icon/2-1101.png";
 
 export const meatItemsConfig = [
     {

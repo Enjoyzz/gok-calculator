@@ -12,7 +12,7 @@ import silver30mIcon from '@/assets/img/icon/2-1023.png'
 import silver15mIcon from '@/assets/img/icon/2-1022.png'
 import silver5mIcon from '@/assets/img/icon/2-1021.png'
 
-import medalIcon from '@/assets/img/icon/2-3001.png'
+import medalIcon from '@/assets/img/icon/2-0000.png'
 import chestIcon from '@/assets/img/icon/2-1001.png'
 
 export const silverItemsConfig = [
