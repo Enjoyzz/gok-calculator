@@ -1,7 +1,7 @@
 const defaultConcubines = 1
-const defaultSilver = 1
-const defaultMeat = 1
-const defaultSoldiers = 1
+const defaultSilver = 0
+const defaultMeat = 0
+const defaultSoldiers = 0
 const defaultCharmItems = {
     blueHadak: 0,
     whiteHadak: 0,
@@ -23,10 +23,10 @@ const defaultIntimacyItems = {
 }
 
 const defaultSilverItems = {
+    silver88K_8M: 0,
     silver10M: 0,
     silver1M: 0,
     silver100K: 0,
-    silver88K_8M: 0,
     silver2h: 0,
     silver1h: 0,
     silver30m: 0,
@@ -38,10 +38,10 @@ const defaultSilverItems = {
 
 
 const defaultMeatItems = {
+    meat88K_8M: 0,
     meat10M: 0,
     meat1M: 0,
     meat100K: 0,
-    meat88K_8M: 0,
     meat2h: 0,
     meat1h: 0,
     meat30m: 0,
@@ -52,6 +52,7 @@ const defaultMeatItems = {
 }
 
 const defaultSoldiersItems = {
+    soldiers88K_8M: 0,
     soldiers10M: 0,
     soldiers1M: 0,
     soldiers100K: 0,

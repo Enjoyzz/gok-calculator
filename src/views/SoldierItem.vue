@@ -24,7 +24,7 @@ defineEmits(['update', 'open-setting'])
     </td>
     <td>
       {{ item.name }}<br>
-      <small class="text-muted">{{ item.description }}</small>
+      <small class="text-muted" v-html="item.description"></small>
     </td>
     <td>
 

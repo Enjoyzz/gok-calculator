@@ -1,8 +1,11 @@
-import { bgIcon } from './../utils/bgIcon.js'
+import {bgIcon} from './../utils/bgIcon.js'
+
+import soldiers88K_8MIcons from '@/assets/img/icon/2-1103.png'
 
 import soldiers10MIcon from '@/assets/img/icon/2-1048.png'
 import soldiers1MIcon from '@/assets/img/icon/2-1047.png'
 import soldiers100KIcon from '@/assets/img/icon/2-1046.png'
+
 import soldiers2hIcon from '@/assets/img/icon/2-1045.png'
 import soldiers1hIcon from '@/assets/img/icon/2-1044.png'
 import soldiers30mIcon from '@/assets/img/icon/2-1043.png'
@@ -13,6 +16,14 @@ import medalIcon from '@/assets/img/icon/2-3001.png'
 import chestIcon from '@/assets/img/icon/2-1001.png'
 
 export const soldiersItemsConfig = [
+    {
+        id: 'soldiers88K_8M',
+        name: 'Набор удачи - Солдаты',
+        description: 'При открытии можно случ. получить Солдаты (88К-8M)<br><span style="font-weight: bold; color: #9b0505">Внимание! Расчет зависит от рандома. В расчете берется среднее число</span>',
+        icon: soldiers88K_8MIcons,
+        bgColor: bgIcon.violet,
+        approximately: true
+    },
     {
         id: 'soldiers10M',
         name: 'Печать генерала III',
@@ -88,9 +99,9 @@ export const soldiersItemsConfig = [
     {
         id: 'chest',
         name: 'Сундук ресурсов',
-        description: 'Есть шанс получить серебро, мясо, солдат (1ч., 2ч., 6ч.) или медаль таланта',
+        description: 'Есть шанс получить серебро, мясо, солдат (1ч., 2ч., 6ч.) или медаль таланта<br><span style="font-weight: bold; color: #9b0505">Внимание! Расчет зависит от рандома, т.о. чем больше количество, тем точнее будет расчет. Рекомендуется считать от 10шт</span>',
         icon: chestIcon,
         bgColor: bgIcon.orange,
-        approximately: true
+        approximately: true,
     }
 ]

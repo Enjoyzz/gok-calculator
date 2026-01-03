@@ -14,15 +14,18 @@ const {formulaSettings} = inject(formulaSettingsKey);
 const emit = defineEmits(['update-items', 'open-setting']);
 
 const totals = computed(() => ({
+  silver88K_8M: calculatorData.value.silver88K_8M * 4_000_000,
+
   silver10M: calculatorData.value.silver10M * 10_000_000,
   silver1M: calculatorData.value.silver1M * 1_000_000,
   silver100K: calculatorData.value.silver100K * 100_000,
-  silver88K_8M: calculatorData.value.silver88K_8M * 4_000_000,
+
   silver2h: calculatorData.value.silver2h * 120 * calculatorData.value.silver,
   silver1h: calculatorData.value.silver1h * 60 * calculatorData.value.silver,
   silver30m: calculatorData.value.silver30m * 30 * calculatorData.value.silver,
   silver15m: calculatorData.value.silver15m * 15 * calculatorData.value.silver,
   silver5m: calculatorData.value.silver5m * 5 * calculatorData.value.silver,
+
   medal: calculatorData.value.medal * 30 * calculatorData.value.silver,
   chest: calculatorData.value.chest * 60 * calculatorData.value.silver,
 }));

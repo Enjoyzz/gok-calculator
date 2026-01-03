@@ -1,8 +1,11 @@
 import { bgIcon } from './../utils/bgIcon.js'
 
+import meat88K_8MIcon from '@/assets/img/icon/2-1102.png'
+
 import meat10MIcon from '@/assets/img/icon/2-1038.png'
 import meat1MIcon from '@/assets/img/icon/2-1037.png'
 import meat100KIcon from '@/assets/img/icon/2-1036.png'
+
 import meat2hIcon from '@/assets/img/icon/2-1035.png'
 import meat1hIcon from '@/assets/img/icon/2-1034.png'
 import meat30mIcon from '@/assets/img/icon/2-1033.png'
@@ -11,8 +14,17 @@ import meat5mIcon from '@/assets/img/icon/2-1031.png'
 
 import medalIcon from '@/assets/img/icon/2-3001.png'
 import chestIcon from '@/assets/img/icon/2-1001.png'
+import silver88K_8MIcons from "@/assets/img/icon/2-1101.png";
 
 export const meatItemsConfig = [
+    {
+        id: 'meat88K_8M',
+        name: 'Набор удачи - Мясо',
+        description: 'При открытии можно случ. получить Мясо (88К-8M)<br><span style="font-weight: bold; color: #9b0505">Внимание! Расчет зависит от рандома. В расчете берется среднее число</span>',
+        icon: meat88K_8MIcon,
+        bgColor: bgIcon.violet,
+        approximately: true
+    },
     {
         id: 'meat10M',
         name: 'Купон мяса III',
@@ -88,7 +100,7 @@ export const meatItemsConfig = [
     {
         id: 'chest',
         name: 'Сундук ресурсов',
-        description: 'Есть шанс получить серебро, мясо, солдат (1ч., 2ч., 6ч.) или медаль таланта',
+        description: 'Есть шанс получить серебро, мясо, солдат (1ч., 2ч., 6ч.) или медаль таланта<br><span style="font-weight: bold; color: #9b0505">Внимание! Расчет зависит от рандома, т.о. чем больше количество, тем точнее будет расчет. Рекомендуется считать от 10шт</span>',
         icon: chestIcon,
         bgColor: bgIcon.orange,
         approximately: true

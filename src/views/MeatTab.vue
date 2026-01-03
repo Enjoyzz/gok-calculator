@@ -1,6 +1,5 @@
 <script setup>
 import {computed, inject} from 'vue';
-import CharmItem from './CharmItem.vue';
 import {formatLargeNumber} from '@/utils/formatNumbers.js';
 import {calculatorDataKey, formulaSettingsKey, SharedKeySymbol} from '@/data/keys.js';
 import ShareButton from '@/components/ShareButton.vue';
@@ -15,14 +14,18 @@ const {formulaSettings} = inject(formulaSettingsKey);
 const emit = defineEmits(['update-items', 'open-setting']);
 
 const totals = computed(() => ({
+  meat88K_8M: calculatorData.value.meat88K_8M * 4_000_000,
+
   meat10M: calculatorData.value.meat10M * 10_000_000,
   meat1M: calculatorData.value.meat1M * 1_000_000,
   meat100K: calculatorData.value.meat100K * 100_000,
+
   meat2h: calculatorData.value.meat2h * 120 * calculatorData.value.meat,
   meat1h: calculatorData.value.meat1h * 60 * calculatorData.value.meat,
   meat30m: calculatorData.value.meat30m * 30 * calculatorData.value.meat,
   meat15m: calculatorData.value.meat15m * 15 * calculatorData.value.meat,
   meat5m: calculatorData.value.meat5m * 5 * calculatorData.value.meat,
+
   medal: calculatorData.value.medal * 30 * calculatorData.value.meat,
   chest: calculatorData.value.chest * 60 * calculatorData.value.meat,
 }));
