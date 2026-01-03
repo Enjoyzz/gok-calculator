@@ -1,6 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { LocalStorageRepository } from '@/repositories/LocalStorageRepository.js'
-import { defaultFormulas, defaultConcubines, defaultCharmItems, defaultIntimacyItems } from '@/data/defaults.js'
+import {
+    defaultFormulas,
+    defaultConcubines,
+    defaultCharmItems,
+    defaultIntimacyItems,
+    defaultSilver, defaultMeat, defaultSoldiers, defaultSilverItems, defaultMeatItems, defaultSoldiersItems
+} from '@/data/defaults.js'
 
 describe('LocalStorageRepository.js', () => {
     let repository
@@ -8,8 +14,15 @@ describe('LocalStorageRepository.js', () => {
 
     const defaultCalculatorData = {
         concubines: defaultConcubines,
+        silver: defaultSilver,
+        meat: defaultMeat,
+        soldiers: defaultSoldiers,
         ...defaultIntimacyItems,
-        ...defaultCharmItems
+        ...defaultCharmItems,
+        ...defaultSilverItems,
+        ...defaultMeatItems,
+        ...defaultSoldiersItems
+
     }
 
     beforeEach(() => {
