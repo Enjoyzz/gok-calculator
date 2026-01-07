@@ -90,11 +90,7 @@ export class DataService {
     }
 
     savedActiveTab() {
-        console.log(this.repository)
-        if (this.repository instanceof SharedRepository) {
-            return this.repository.tab()
-        }
-        return 'charm'
+        return this.repository.tab() || 'charm'
     }
 }
 

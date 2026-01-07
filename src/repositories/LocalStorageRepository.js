@@ -83,4 +83,9 @@ export class LocalStorageRepository extends BaseRepository {
     async resetFormulas() {
         localStorage.removeItem(this.keys.FORMULAS)
     }
+
+    tab() {
+        return localStorage.getItem('activeTab') || 'charm'
+    }
+
 }

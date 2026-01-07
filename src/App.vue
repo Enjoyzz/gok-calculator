@@ -66,6 +66,13 @@ const closeOpenSetting = () => {
 };
 
 watch(
+    () => activeTab.value,
+    (newValue) => {
+      localStorage.setItem('activeTab', newValue)
+    },
+);
+
+watch(
     () => calculatorData.value.concubines,
     (newValue, oldValue) => {
       saveCalculatorData({concubines: newValue}).then(result => {
