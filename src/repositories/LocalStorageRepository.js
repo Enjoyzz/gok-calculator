@@ -85,7 +85,16 @@ export class LocalStorageRepository extends BaseRepository {
     }
 
     tab() {
-        return localStorage.getItem('activeTab') || 'charm'
+        if (typeof localStorage === 'undefined' || !localStorage.getItem) {
+            return 'charm' // значение по умолчанию
+        }
+
+        try {
+            return localStorage.getItem('activeTab') || 'charm'
+        } catch (error) {
+            console.warn('localStorage недоступен:', error)
+            return 'charm'
+        }
     }
 
 }
