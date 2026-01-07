@@ -83,4 +83,18 @@ export class LocalStorageRepository extends BaseRepository {
     async resetFormulas() {
         localStorage.removeItem(this.keys.FORMULAS)
     }
+
+    tab() {
+        if (typeof localStorage === 'undefined' || !localStorage.getItem) {
+            return 'charm' // значение по умолчанию
+        }
+
+        try {
+            return localStorage.getItem('activeTab') || 'charm'
+        } catch (error) {
+            console.warn('localStorage недоступен:', error)
+            return 'charm'
+        }
+    }
+
 }

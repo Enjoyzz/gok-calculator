@@ -25,6 +25,8 @@ describe('CalculatorTabs.vue', () => {
       loveLetter: 3,
       forage: 20
     })
+
+
   });
 
   const createWrapper = () => {

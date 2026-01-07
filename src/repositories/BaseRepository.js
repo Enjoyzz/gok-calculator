@@ -19,6 +19,10 @@ export class BaseRepository {
         return true
     }
 
+    tab() {
+        throw new Error('Method not implemented')
+    }
+
     get name() {
         return 'BaseRepository'
     }
