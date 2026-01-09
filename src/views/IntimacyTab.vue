@@ -5,12 +5,13 @@ import {intimacyItemsConfig} from './../data/intimacyItemsConfig.js';
 import {calculatorDataKey, formulaSettingsKey, SharedKeySymbol} from '@/data/keys.js';
 import ShareButton from '@/components/ShareButton.vue';
 import {formatLargeNumber} from '@/utils/formatNumbers.js';
+import SettingsButtons from '@/components/SettingsButtons.vue';
 
 const {isSharedView} = inject(SharedKeySymbol);
 const {calculatorData} = inject(calculatorDataKey);
 const {formulaSettings} = inject(formulaSettingsKey);
 
-const emit = defineEmits(['update-items', 'open-setting']);
+const emit = defineEmits(['update-items', 'open-setting', 'reset-settings']);
 
 const totals = computed(() => ({
   ordos: Math.floor(
@@ -79,6 +80,9 @@ const updateItem = (id, value) => {
       <li>Фураж: количество × {{ formulaSettings.intimacy.forage }}</li>
     </ul>
   </div>
+
+  <SettingsButtons v-if="!isSharedView" @open-settings-modal="$emit('open-setting', $event)"
+                   @reset-settings="$emit('reset-settings', $event)"/>
 </template>
 
 <style scoped>

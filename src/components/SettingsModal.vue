@@ -1,64 +1,60 @@
 <script setup>
-import {computed, inject, ref, watch} from 'vue'
-import {formulaSettingsKey} from "@/data/keys.js";
+import {computed, inject, ref, watch} from 'vue';
+import {formulaSettingsKey} from '@/data/keys.js';
 
-const showSettings = ref(false)
-let tempFormulas = ref({})
+const showSettings = ref(false);
+let tempFormulas = ref({});
 
-const {formulaSettings} = inject(formulaSettingsKey)
+const {formulaSettings} = inject(formulaSettingsKey);
 
-const emit = defineEmits(['save', 'reset', 'close-setting-modal'])
+const emit = defineEmits(['save', 'close-setting-modal']);
 
 const props = defineProps({
-  openSetting: String | null
-})
+  openSetting: String | null,
+});
 
 watch(() => props.openSetting, (newData) => {
   if (newData !== null) {
-    openSettings()
+    openSettings();
   }
-})
+});
 
 const validateField = (input) => {
-  let isValid = input.checkValidity()
+  let isValid = input.checkValidity();
   if (!isValid) {
-    input.reportValidity()
+    input.reportValidity();
   }
-  return isValid
-}
+  return isValid;
+};
 
 const validate = () => {
-  const inputs = document.querySelectorAll('.settings-input')
+  const inputs = document.querySelectorAll('.settings-input');
   for (let input of inputs) {
     if (!validateField(input)) {
-      return false
+      return false;
     }
   }
-  return true
-}
+  return true;
+};
 
 const openSettings = () => {
-  tempFormulas.value = JSON.parse(JSON.stringify(formulaSettings.value))
-  showSettings.value = true
-}
+  tempFormulas.value = JSON.parse(JSON.stringify(formulaSettings.value));
+  showSettings.value = true;
+};
 
-const resetSettings = () => {
-  if (confirm('Сбросить все настройки формул к значениям по умолчанию?')) {
-    emit('reset')
-  }
-}
+
 
 const saveSettings = () => {
-  if (!validate()) return
+  if (!validate()) return;
 
-  emit('save', tempFormulas.value)
-  closeSettings()
-}
+  emit('save', tempFormulas.value);
+  closeSettings();
+};
 
 const closeSettings = () => {
-  showSettings.value = false
-  emit('close-setting-modal')
-}
+  showSettings.value = false;
+  emit('close-setting-modal');
+};
 
 const charmSettings = computed(() => {
 
@@ -66,53 +62,48 @@ const charmSettings = computed(() => {
     {key: 'blueHadak', label: 'Синий хадак (множитель)', step: 0.1, min: 1, max: 3},
     {key: 'silverHairpin', label: 'Серебряная шпилька (множитель)', step: 0.1, min: 1, max: 5},
     {key: 'chests', label: 'Сундуки (множитель)', step: 0.1, min: 0, max: null},
-    {key: 'forage', label: 'Фураж (множитель)', step: 0.1, min: 0, max: null}
+    {key: 'forage', label: 'Фураж (множитель)', step: 0.1, min: 0, max: null},
   ];
 
-  if (props.openSetting === null  || props.openSetting === undefined) {
-    return baseCharmSettings
+  if (props.openSetting === null || props.openSetting === undefined) {
+    return baseCharmSettings;
   }
 
-  let result = props.openSetting?.split('.', 2)
+  let result = props.openSetting?.split('.', 2);
 
   if (result[0] !== 'charm') {
     return null;
   }
 
-  return baseCharmSettings.filter(function (i) {
+  return baseCharmSettings.filter(function(i) {
     return i.key === result[1];
   });
 
-})
+});
 
 const intimacySettings = computed(() => {
   const baseIntimacySettings = [
     {key: 'ordos', label: 'Ордос (множитель)', step: 0.1, min: 1, max: 3},
     {key: 'sandalwoodBracelet', label: 'Сандаловый браслет (множитель)', step: 0.1, min: 1, max: 5},
-    {key: 'forage', label: 'Фураж (множитель)', step: 0.1, min: 0, max: null}
-  ]
+    {key: 'forage', label: 'Фураж (множитель)', step: 0.1, min: 0, max: null},
+  ];
   if (props.openSetting === null || props.openSetting === undefined) {
-    return baseIntimacySettings
+    return baseIntimacySettings;
   }
 
-  let result = props.openSetting.split('.', 2)
+  let result = props.openSetting.split('.', 2);
 
   if (result[0] !== 'intimacy') {
     return null;
   }
 
-  return baseIntimacySettings.filter(function (i) {
+  return baseIntimacySettings.filter(function(i) {
     return i.key === result[1];
   });
-})
+});
 </script>
 
 <template>
-  <div class="settings-buttons">
-    <button @click="openSettings" class="btn-settings">Настройки формул</button>
-    <button @click="resetSettings" class="btn-reset">Сбросить настройки</button>
-  </div>
-
   <div id="settings-modal" v-if="showSettings" @click.self="closeSettings">
     <div id="settings-modal-content">
       <h2>Настройки формул</h2>
@@ -159,33 +150,6 @@ const intimacySettings = computed(() => {
 </template>
 
 <style scoped>
-.btn-settings {
-  padding: 7px 10px;
-  background: #747a81;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background 0.2s ease;
-  margin-bottom: 15px;
-}
-
-.btn-settings:hover {
-  background: #727d83;
-}
-
-.btn-reset {
-  padding: 7px 10px;
-  background: transparent;
-  color: #333333;
-  border: none;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background 0.2s ease;
-  margin-bottom: 15px;
-}
-
 #settings-modal {
   position: fixed;
   top: 0;

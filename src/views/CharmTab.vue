@@ -5,13 +5,14 @@ import {charmItemsConfig} from './../data/charmItemsConfig.js';
 import {formatLargeNumber} from '@/utils/formatNumbers.js';
 import {calculatorDataKey, formulaSettingsKey, SharedKeySymbol} from '@/data/keys.js';
 import ShareButton from '@/components/ShareButton.vue';
+import SettingsButtons from '@/components/SettingsButtons.vue';
 
 const {isSharedView} = inject(SharedKeySymbol);
 const {calculatorData} = inject(calculatorDataKey);
 const {formulaSettings} = inject(formulaSettingsKey);
 
 
-const emit = defineEmits(['update-items', 'open-setting']);
+const emit = defineEmits(['update-items', 'open-setting', 'reset-settings']);
 
 const totals = computed(() => ({
   blueHadak: Math.floor(
@@ -77,6 +78,8 @@ const updateItem = (id, value) => {
       <li>Фураж: количество × {{ formulaSettings.charm.forage }}</li>
     </ul>
   </div>
+
+  <SettingsButtons v-if="!isSharedView" @open-settings-modal="$emit('open-setting', $event)" @reset-settings="$emit('reset-settings', $event)"/>
 </template>
 
 <style scoped>

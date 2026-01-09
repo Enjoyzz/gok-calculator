@@ -12,7 +12,7 @@ import silverGenIcon from '@/assets/img/icon/1-2.png'
 import meatGenIcon from '@/assets/img/icon/1-3.png'
 import soldiersGenIcon from '@/assets/img/icon/1-4.png'
 
-defineEmits(['update-calculator-items', 'open-setting']);
+defineEmits(['update-calculator-items', 'open-setting', 'reset-setting']);
 
 const activeTab = inject(activeTabKey);
 const {calculatorData} = inject(calculatorDataKey);
@@ -142,12 +142,14 @@ const openResourceGenerationSettingModal = function (type) {
         v-if="activeTab === 'charm'"
         @update-items="$emit('update-calculator-items', $event)"
         @open-setting="$emit('open-setting', $event)"
+        @reset-settings="$emit('reset-setting', $event)"
     />
 
     <IntimacyTab
         v-if="activeTab === 'intimacy'"
         @update-items="$emit('update-calculator-items', $event)"
         @open-setting="$emit('open-setting', $event)"
+        @reset-settings="$emit('reset-setting', $event)"
     />
 
     <SilverTab
