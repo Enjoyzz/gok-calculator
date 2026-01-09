@@ -68,7 +68,7 @@ const closeOpenSetting = () => {
 watch(
     () => activeTab.value,
     (newValue) => {
-      localStorage.setItem('activeTab', newValue)
+      localStorage.setItem('activeTab', newValue);
     },
 );
 
@@ -94,7 +94,6 @@ watch(
     },
 );
 
-
 watch(
     () => calculatorData.value.soldiers,
     (newValue, oldValue) => {
@@ -105,7 +104,6 @@ watch(
       });
     },
 );
-
 
 watch(
     () => calculatorData.value.silver,
@@ -156,9 +154,16 @@ provide(activeTabKey, activeTab);
         <a href="#" @click.prevent="clearSharedMode">Вернутся к себе</a> </small>
       </div>
 
-      <CalculatorTabs @update-calculator-items="handleUpdateCalculatorItems" @open-setting="handleOpenSetting"/>
-      <SettingsModal v-if="!isSharedView" @save="handleSaveFormulas" @reset="handleResetSettings"
-                     :openSetting="openSetting" @close-setting-modal="closeOpenSetting"/>
+      <CalculatorTabs
+          @update-calculator-items="handleUpdateCalculatorItems"
+          @open-setting="handleOpenSetting"
+          @reset-setting="handleResetSettings"
+      />
+      <SettingsModal v-if="!isSharedView"
+                     @save="handleSaveFormulas"
+                     :openSetting="openSetting"
+                     @close-setting-modal="closeOpenSetting"
+      />
       <SaveIndicator :visible="showSaveIndicator" :message="saveMessage"/>
     </div>
   </div>
