@@ -49,8 +49,40 @@ jobs:
         run: npm ci
       - name: Create .env file with release info
         run: |
-         echo "VITE_APP_RELEASE_VERSION=${{ github.ref_name }}" >> .env.production
-         echo "VITE_APP_BUILD_DATE=$(date -u '+%Y-%m-%dT%H:%M:%SZ')" >> .env.production
+          # Отладочный вывод того, что записываем
+          echo "=== DEBUG ENV CREATION ==="
+          
+          VERSION="${{ github.ref_name }}"
+          echo "Original version: $VERSION"
+          
+          # Убираем 'v' если есть
+          CLEAN_VERSION="${VERSION#v}"
+          echo "Clean version: $CLEAN_VERSION"
+          
+          # Пробуем получить дату релиза
+          RELEASE_DATE="${{ github.event.release.published_at || github.event.release.created_at }}"
+          echo "Release date from GitHub: $RELEASE_DATE"
+          
+          # Если даты нет, используем текущую
+          if [ -z "$RELEASE_DATE" ]; then
+            RELEASE_DATE=$(date -u '+%Y-%m-%dT%H:%M:%SZ')
+            echo "Using current date: $RELEASE_DATE"
+          fi
+          
+          echo "Final release date: $RELEASE_DATE"
+          
+          # Создаем .env.production
+          echo "VITE_APP_RELEASE_VERSION=$CLEAN_VERSION" > .env.production
+          echo "VITE_APP_BUILD_DATE=$RELEASE_DATE" >> .env.production
+          
+          # Добавляем отладочные переменные
+          echo "VITE_APP_DEPLOY_DEBUG=true" >> .env.production
+          echo "VITE_APP_GIT_REF=${{ github.ref }}" >> .env.production
+          echo "VITE_APP_GIT_SHA_SHORT=${GITHUB_SHA:0:7}" >> .env.production
+          
+          echo "=== ENV FILE CONTENT ==="
+          cat .env.production
+          echo "=== END ENV FILE ==="
       - name: Build
         run: npm run build
       - name: Setup Pages
