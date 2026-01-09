@@ -79,7 +79,7 @@ const updateItem = (id, value) => {
     </ul>
   </div>
 
-  <SettingsButtons @open-settings-modal="$emit('open-setting', $event)" @reset-settings="$emit('reset-settings', $event)"/>
+  <SettingsButtons v-if="!isSharedView" @open-settings-modal="$emit('open-setting', $event)" @reset-settings="$emit('reset-settings', $event)"/>
 </template>
 
 <style scoped>
