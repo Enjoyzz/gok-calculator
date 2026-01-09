@@ -172,7 +172,7 @@ const openResourceGenerationSettingModal = function (type) {
 
     <div id="resource-setting-modal" v-if="openingResourceGenerationSettingModal">
       <div id="modal-content">
-         <div class="container2">
+         <div class="container2" style="flex-direction: column">
           <div style="display: flex; gap: 0; align-items: center">
             <div class="icon">
               <img :src="icons[`${resourceSettingType}GenIcon`]">
@@ -186,7 +186,7 @@ const openResourceGenerationSettingModal = function (type) {
               }}
             </div>
           </div>
-           <input type="number" style="width: 100%;"
+           <input type="number" style="width: 100%"
                   @click="e => e.target.select()"
                   @keyup.enter="openingResourceGenerationSettingModal = false"
                   v-model.number="calculatorData[resourceSettingType]" min="1"
@@ -209,13 +209,14 @@ const openResourceGenerationSettingModal = function (type) {
   display: flex;
   gap: 1em;
   overflow-x: auto;
+  margin-bottom: 10px;
 }
 
 @media (max-width: 600px) {
   .d-flex {
     display: flex;
-    gap: 1em;
-    flex-direction: column;
+    gap: 0em;
+    flex-direction: row;
   }
 }
 
@@ -223,8 +224,7 @@ const openResourceGenerationSettingModal = function (type) {
   display: flex;
   align-items: center;
   gap: 10px; /* Расстояние между иконкой и текстом */
-  padding: 10px;
-  flex-direction: column;
+  padding: 0 5px;
 }
 
 .container2 input {
@@ -232,8 +232,8 @@ const openResourceGenerationSettingModal = function (type) {
 }
 
 .icon {
-  width: 50px;
-  height: 50px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background-color: #f5f5f5;
   border: 1px solid #f5f5f5;
@@ -247,11 +247,10 @@ const openResourceGenerationSettingModal = function (type) {
 }
 
 .text {
-  margin-left: -8px;
-  font-size: 18px;
-  font-weight: bold;
+  margin-left: -5px;
+  font-size: small;
   color: #333;
-  padding: 8px;
+  padding: 3px;
   background-color: #f5f5f5;
   border-radius: 0 8px 8px 0;
   white-space: nowrap;
