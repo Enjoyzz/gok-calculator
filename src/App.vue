@@ -6,6 +6,7 @@ import SaveIndicator from '@/components/SaveIndicator.vue';
 import CalculatorTabs from '@/views/CalculatorTabs.vue';
 import {activeTabKey, calculatorDataKey, formulaSettingsKey, SharedKeySymbol} from '@/data/keys.js';
 import {provide, ref, watch} from 'vue';
+import VersionInfo from '@/components/VersionInfo.vue';
 
 const {
   formulaSettings,
@@ -128,6 +129,7 @@ provide(activeTabKey, activeTab);
 </script>
 
 <template>
+
   <div v-if="showInvalidShareModal" class="modal-overlay" @click="handleInvalidShareConfirm">
     <div class="modal-content" @click.stop>
       <h3>Некорректная ссылка</h3>
@@ -139,6 +141,12 @@ provide(activeTabKey, activeTab);
     </div>
   </div>
   <div v-else class="container">
+    <VersionInfo
+        style="float: right"
+        :hideInDev="false"
+        prefix="v"
+        :showBuildTime="true"
+    />
     <div v-if="isLoading" class="loading">Загрузка...</div>
     <div v-else-if="error" class="error">{{ error }}</div>
 
@@ -147,7 +155,11 @@ provide(activeTabKey, activeTab);
         <img src="/gok.png" alt="Game of Khans">
       </div>
 
-      <h1>Калькулятор ресурсов</h1>
+      <h1>Калькулятор ресурсов
+
+      </h1>
+
+
 
       <div v-if="isSharedView" class="readonly-banner">
         🔒 Просмотр чужих данных · <small>Ваши данные остались в сохранности.
