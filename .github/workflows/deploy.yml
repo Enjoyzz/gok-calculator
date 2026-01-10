@@ -71,12 +71,8 @@ jobs:
           
           echo "Final release date: $RELEASE_DATE"
           
-          # Создаем .env.production
           echo "VITE_APP_RELEASE_VERSION=$CLEAN_VERSION" > .env.production
           echo "VITE_APP_BUILD_DATE=$RELEASE_DATE" >> .env.production
-          
-          # Добавляем отладочные переменные
-          echo "VITE_APP_DEPLOY_DEBUG=true" >> .env.production
           echo "VITE_APP_GIT_REF=${{ github.ref }}" >> .env.production
           echo "VITE_APP_GIT_SHA_SHORT=${GITHUB_SHA:0:7}" >> .env.production
           
