@@ -145,7 +145,8 @@ provide(activeTabKey, activeTab);
         style="float: right"
         :hideInDev="false"
         prefix="v"
-        :showBuildTime="true"
+        :showBuildTime="false"
+        :showGitShaShort="true"
     />
     <div v-if="isLoading" class="loading">Загрузка...</div>
     <div v-else-if="error" class="error">{{ error }}</div>
