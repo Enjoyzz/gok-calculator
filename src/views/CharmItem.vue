@@ -2,6 +2,7 @@
 import {inject} from 'vue'
 import {formulaSettingsKey, SharedKeySymbol} from "@/data/keys.js";
 import {formatLargeNumber} from "@/utils/formatNumbers.js";
+import {defaultFormulas} from "@/data/defaults.js";
 
 const { isSharedView } = inject(SharedKeySymbol)
 const { formulaSettings } = inject(formulaSettingsKey)
@@ -29,9 +30,11 @@ defineEmits(['update', 'open-setting'])
     <td>
       <code
           v-if="item.approximately"
-          style="text-wrap: nowrap; font-size: 1.5em; font-weight: bolder; color: #a9a9a9"
+          style="text-wrap: nowrap; font-size: 1.5em; font-weight: bolder; cursor: pointer"
           @click="$emit('open-setting', 'charm.' + item.id)"
           :data-testid="`multiplier-${item.id}`"
+          :style="{ color: formulaSettings.charm[item.id] === defaultFormulas.charm[item.id] ? '#a9a9a9' : '#ee8f4e'}"
+
       >
         &times;{{ formulaSettings.charm[item.id] }}
       </code>
