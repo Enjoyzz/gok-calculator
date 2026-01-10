@@ -9,6 +9,10 @@ const props = defineProps({
   },
   showBuildTime: {
     type: Boolean,
+    default: false
+  },
+  showGitShaShort: {
+    type: Boolean,
     default: true
   },
   prefix: {
@@ -25,6 +29,10 @@ const buildDate  = computed(() =>
     import.meta.env.VITE_APP_BUILD_DATE ||  ''
 )
 
+const gitShaShort  = computed(() =>
+    import.meta.env.VITE_APP_GIT_SHA_SHORT ||  ''
+)
+
 const isDevelopment = computed(() =>
     import.meta.env.DEV ||
     import.meta.env.NODE_ENV === 'development'
@@ -39,9 +47,9 @@ const versionText = computed(() => {
 
   if (!showVersion.value) return ''
 
-  // if (isDevelopment.value) {
-  //   return 'dev'
-  // }
+  if (isDevelopment.value) {
+    return 'dev'
+  }
 
   // Убираем 'v' из начала, если есть
   const cleanVersion = ver.startsWith('v') ? ver.slice(1) : ver
@@ -65,7 +73,13 @@ const versionText = computed(() => {
     }
   }
 
-  return `${props.prefix}${cleanVersion}${buildTime}`
+  let gitShaShortValue = ''
+  if (props.showGitShaShort && gitShaShort.value !== '') {
+      gitShaShortValue = '@' + gitShaShort.value
+  }
+
+
+  return `${props.prefix}${cleanVersion}${buildTime}${gitShaShortValue}`
 })
 </script>
 
