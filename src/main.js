@@ -1,20 +1,23 @@
-import './assets/css/style.css'
+/**
+ * main.js
+ *
+ * Bootstraps Vuetify and other plugins then mounts the App`
+ */
 
-import {createApp} from 'vue'
-import PrimeVue from "primevue/config";
-import Aura from '@primeuix/themes/aura';
+// Plugins
+import { registerPlugins } from '@/plugins'
+
+// Components
 import App from './App.vue'
 
+// Composables
+import { createApp } from 'vue'
 
-const app = createApp(App);
-app.use(PrimeVue, {
-    theme: {
-        preset: Aura,
-        options: {
-            // prefix: 'p',
-            darkModeSelector: 'light',
-            // cssLayer: false
-        }
-    }
-});
+// Styles
+import 'unfonts.css'
+
+const app = createApp(App)
+
+registerPlugins(app)
+
 app.mount('#app')
