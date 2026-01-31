@@ -99,78 +99,75 @@ const openResourceGenerationSettingModal = function (type) {
   </div>
 
 
-  <div class="calculator">
-    <div class="tabs">
-      <div
-          class="tab"
-          :class="{ active: activeTab === 'charm' }"
+  <Tabs>
+    <TabList>
+      <Tab
           @click="activeTab = 'charm'"
+          value="charm"
       >
         Обаяние
-      </div>
-      <div
-          class="tab"
-          :class="{ active: activeTab === 'intimacy' }"
+      </Tab>
+      <Tab
           @click="activeTab = 'intimacy'"
+          value="intimacy"
       >
         Близость
-      </div>
-      <div
-          class="tab"
-          :class="{ active: activeTab === 'silver' }"
+      </Tab>
+      <Tab
           @click="activeTab = 'silver'"
+          value="silver"
       >
         Серебро
-      </div>
-      <div
-          class="tab"
-          :class="{ active: activeTab === 'meat' }"
+      </Tab>
+      <Tab
           @click="activeTab = 'meat'"
+          value="meat"
       >
         Мясо
-      </div>
-      <div
-          class="tab"
-          :class="{ active: activeTab === 'soldiers' }"
+      </Tab>
+      <Tab
           @click="activeTab = 'soldiers'"
+          value="soldiers"
       >
         Солдаты
-      </div>
-    </div>
+      </Tab>
+    </TabList>
+    <TabPanels>
+      <CharmTab
+          v-if="activeTab === 'charm'"
+          @update-items="$emit('update-calculator-items', $event)"
+          @open-setting="$emit('open-setting', $event)"
+          @reset-settings="$emit('reset-setting', $event)"
+      />
 
-    <CharmTab
-        v-if="activeTab === 'charm'"
-        @update-items="$emit('update-calculator-items', $event)"
-        @open-setting="$emit('open-setting', $event)"
-        @reset-settings="$emit('reset-setting', $event)"
-    />
+      <IntimacyTab
+          v-if="activeTab === 'intimacy'"
+          @update-items="$emit('update-calculator-items', $event)"
+          @open-setting="$emit('open-setting', $event)"
+          @reset-settings="$emit('reset-setting', $event)"
+      />
 
-    <IntimacyTab
-        v-if="activeTab === 'intimacy'"
-        @update-items="$emit('update-calculator-items', $event)"
-        @open-setting="$emit('open-setting', $event)"
-        @reset-settings="$emit('reset-setting', $event)"
-    />
-
-    <SilverTab
-        v-if="activeTab === 'silver'"
-        @update-items="$emit('update-calculator-items', $event)"
-        @open-setting="$emit('open-setting', $event)"
-    />
-
-
-    <MeatTab
-        v-if="activeTab === 'meat'"
-        @update-items="$emit('update-calculator-items', $event)"
-        @open-setting="$emit('open-setting', $event)"
-    />
+      <SilverTab
+          v-if="activeTab === 'silver'"
+          @update-items="$emit('update-calculator-items', $event)"
+          @open-setting="$emit('open-setting', $event)"
+      />
 
 
-    <SoldierTab
-        v-if="activeTab === 'soldiers'"
-        @update-items="$emit('update-calculator-items', $event)"
-        @open-setting="$emit('open-setting', $event)"
-    />
+      <MeatTab
+          v-if="activeTab === 'meat'"
+          @update-items="$emit('update-calculator-items', $event)"
+          @open-setting="$emit('open-setting', $event)"
+      />
+
+
+      <SoldierTab
+          v-if="activeTab === 'soldiers'"
+          @update-items="$emit('update-calculator-items', $event)"
+          @open-setting="$emit('open-setting', $event)"
+      />
+    </TabPanels>
+
 
     <div id="resource-setting-modal" v-if="openingResourceGenerationSettingModal">
       <div id="modal-content">
@@ -203,7 +200,7 @@ const openResourceGenerationSettingModal = function (type) {
       </div>
 
     </div>
-  </div>
+  </Tabs>
 </template>
 
 <style scoped>

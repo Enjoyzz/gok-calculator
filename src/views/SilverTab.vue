@@ -44,7 +44,7 @@ const updateItem = (id, value) => {
 </script>
 
 <template>
-  <div class="tab-content active">
+  <TabPanel value="silver">
     <table>
       <tbody>
       <SilverItem
@@ -67,7 +67,7 @@ const updateItem = (id, value) => {
       </tr>
       </tbody>
     </table>
-  </div>
+  </TabPanel>
 
   <ShareButton v-if="!isSharedView"></ShareButton>
 
