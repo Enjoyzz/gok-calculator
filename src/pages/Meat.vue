@@ -1,5 +1,7 @@
 <script setup>
 definePage({
+  path: '/meat',
+  name: 'Meat',
   meta: {
     title: 'Мясо',
   },

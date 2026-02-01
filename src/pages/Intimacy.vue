@@ -1,5 +1,7 @@
 <script setup>
 definePage({
+  path: '/intimacy',
+  name: 'Intimacy',
   meta: {
     title: 'Близость',
   },

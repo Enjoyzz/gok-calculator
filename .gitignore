@@ -20,3 +20,6 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+/typed-router.d.ts
+/components.d.ts
+/auto-imports.d.ts

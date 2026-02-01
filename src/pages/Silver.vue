@@ -1,5 +1,7 @@
 <script setup>
 definePage({
+  path: '/silver',
+  name: 'Silver',
   meta: {
     title: 'Серебро',
   },
