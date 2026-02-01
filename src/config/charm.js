@@ -1,0 +1,81 @@
+import blueHadakIcon from '@/assets/img/icon/2-4214.png'
+import whiteHadakIcon from '@/assets/img/icon/2-4213.png'
+import forageIcon from "@/assets/img/icon/2-3026.png";
+import goldHairpinIcon from "@/assets/img/icon/2-4216.png";
+import silverHairpinIcon from "@/assets/img/icon/2-4215.png";
+import perfumeIcon from "@/assets/img/icon/2-4211.png";
+import chestsIcon from "@/assets/img/icon/2-6001.png";
+import ordosIcon from "@/assets/img/icon/2-4224.png";
+
+export const charmItems = [
+  {
+    id: 'blueHadak',
+    name: 'Синий хадак',
+    description: 'Добавляет всем вашим наложницам по 1-3 ед. обаяния',
+    icon: {
+      bg: 'red',
+      src: blueHadakIcon
+    },
+    approximately: true
+  },
+  {
+    id: 'whiteHadak',
+    name: 'Белый хадак',
+    description: 'Добавляет всем наложницам 1 ед. обаяния',
+    icon: {
+      bg: 'orange',
+      src: whiteHadakIcon
+    },
+    approximately: false
+  },
+  {
+    id: 'goldHairpin',
+    name: 'Золотая шпилька',
+    description: 'Даёт обаяние (5 ед.) одной случайной наложнице',
+    icon: {
+      bg: 'orange',
+      src: goldHairpinIcon
+    },
+    approximately: false
+  },
+  {
+    id: 'silverHairpin',
+    name: 'Серебряная шпилька',
+    description: 'Даёт обаяние (2-5 ед.) одной случайной наложнице',
+    icon: {
+      bg: 'violet',
+      src: silverHairpinIcon
+    },
+    approximately: true
+  },
+  {
+    id: 'perfume',
+    name: 'Османтусовые духи',
+    description: 'Обаяние наложницы +1 ед.',
+    icon: {
+      bg: 'blue',
+      src: perfumeIcon
+    },
+    approximately: false
+  },
+  {
+    id: 'chests',
+    name: 'Сундук странствий',
+    description: 'Внимание! Расчет по этому предмету может быть не корректен, зависит не только от количества и рандома',
+    icon: {
+      bg: 'violet',
+      src: chestsIcon
+    },
+    approximately: true
+  },
+  {
+    id: 'forage',
+    name: 'Фураж',
+    description: 'Внимание! Расчет по этому предмету может быть не корректен, зависит не только от количества и рандома',
+    icon: {
+      bg: 'violet',
+      src: forageIcon
+    },
+    approximately: true
+  }
+]

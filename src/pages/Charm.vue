@@ -4,14 +4,13 @@ definePage({
   name: 'Charm',
   meta: {
     title: 'Обаяние',
+    extendedTitle: 'Калькулятор обаяния',
+    layout: 'calculator'
   },
 });
+
 </script>
 
 <template>
-  Обаяние
+  <CharmCalculator/>
 </template>
-
-<style scoped lang="sass">
-
-</style>

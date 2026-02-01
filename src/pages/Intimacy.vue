@@ -4,14 +4,12 @@ definePage({
   name: 'Intimacy',
   meta: {
     title: 'Близость',
+    extendedTitle: 'Калькулятор близости',
+    layout: 'calculator'
   },
 });
 </script>
 
 <template>
-  Близость
+  <IntimacyCalculator/>
 </template>
-
-<style scoped lang="sass">
-
-</style>

@@ -44,6 +44,7 @@ const toggleDrawer = () => drawer.value = !drawer.value
     <v-navigation-drawer :model-value="drawer" @update:model-value="toggleDrawer" theme="dark" >
       <Sidebar />
     </v-navigation-drawer>
+
     <v-main class="d-flex align-center justify-center">
       <v-container>
         <v-sheet rounded="lg" width="100%">
