@@ -1,22 +1,23 @@
 <script setup>
-import {intimacyItems as items} from '@/config/intimacy.js';
+import {defaultIntimacySettings, intimacyItems as items} from '@/config/intimacy.js';
 import {useIntimacyStore} from '@/stores/intimacy.js';
-import {formatLargeNumber} from '@/utils/formatNumbers.js';
 import CalculatorBottom from '@/components/CalculatorBottom.vue';
 
 const store = useIntimacyStore();
 
+const input = ref(store.intimacyValues);
+
 const totals = computed(() => ({
   ordos: Math.floor(
-    store.intimacyValues.ordos * store.intimacyValues.concubines * store.intimacySettings.ordos),
-  takya: Number(store.intimacyValues.takya * store.intimacyValues.concubines),
-  jadeBracelet: Number(store.intimacyValues.jadeBracelet * 5),
+    input.value.ordos * input.value.concubines * store.intimacySettings.ordos),
+  takya: Number(input.value.takya * input.value.concubines),
+  jadeBracelet: Number(input.value.jadeBracelet * 5),
   sandalwoodBracelet: Math.floor(
-    store.intimacyValues.sandalwoodBracelet * store.intimacySettings.sandalwoodBracelet),
-  goldEarrings: Number(store.intimacyValues.goldEarrings * 2),
-  gemRing: Number(store.intimacyValues.gemRing),
-  loveLetter: Number(store.intimacyValues.loveLetter),
-  forage: Math.floor(store.intimacyValues.forage * store.intimacySettings.forage),
+    input.value.sandalwoodBracelet * store.intimacySettings.sandalwoodBracelet),
+  goldEarrings: Number(input.value.goldEarrings * 2),
+  gemRing: Number(input.value.gemRing),
+  loveLetter: Number(input.value.loveLetter),
+  forage: Math.floor(input.value.forage * store.intimacySettings.forage),
 }));
 
 const total = computed(() =>
@@ -24,7 +25,11 @@ const total = computed(() =>
 );
 
 const saveValues = () => {
-  store.setIntimacyValues(store.intimacyValues);
+  store.setIntimacyValues(input.value);
+};
+
+const saveSettings = function(settings) {
+  store.setIntimacySettings(settings);
 };
 
 </script>
@@ -40,7 +45,7 @@ const saveValues = () => {
               label="Количество наложниц"
               persistent-hint
               density="comfortable"
-              v-model="store.intimacyValues.concubines"
+              v-model="input.concubines"
               @update:model-value="saveValues"
               :name="`${Math.random().toString(36).substring(2)}`"
               type="number"
@@ -52,12 +57,12 @@ const saveValues = () => {
           <v-col cols="12" md="6" v-for="item in items" :key="item.id">
             <v-row>
               <v-col class="flex-grow-0 pt-0">
-                <GokIcon :bg="item.icon.bg" :icon="item.icon.src" :size="72"/>
+                <GokIcon :icon="item.icon" :size="72"/>
               </v-col>
               <v-col class="flex-grow-1">
                 <v-text-field
                   variant="outlined"
-                  v-model="store.intimacyValues[item.id]"
+                  v-model="input[item.id]"
                   @update:model-value="saveValues"
                   :name="`${Math.random().toString(36).substring(2)}`"
                   :hint="item.description"
@@ -85,7 +90,13 @@ const saveValues = () => {
       </v-container>
     </v-card-text>
   </v-card>
-  <CalculatorBottom :total=" '~&nbsp;' + formatLargeNumber(total, {removeZero: true})" />
+  <CalculatorBottom
+    :total="total"
+    :settings="store.intimacySettings"
+    :items="items"
+    :defaultsSettings="defaultIntimacySettings"
+    @save-settings="saveSettings"
+  />
 </template>
 
 <style scoped lang="sass">

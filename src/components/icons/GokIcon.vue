@@ -5,7 +5,15 @@ import bgViolet from '@/assets/img/bg/bg-violet.png'
 import bgBlue from '@/assets/img/bg/bg-blue.png'
 import bgGreen from '@/assets/img/bg/bg-green.png'
 
-const props = defineProps(['icon', 'bg', 'name', 'size'])
+const props = defineProps(['icon', 'src', 'bg', 'name', 'size'])
+
+const iconPath = computed(() => {
+  return props.icon ? props.icon.src : props.src
+})
+
+const bgValue = computed(() => {
+  return bgList[props.icon ? props.icon.bg : props.bg]
+})
 
 const bgList = {
   orange: bgOrange,
@@ -18,8 +26,8 @@ const bgList = {
 
 <template>
   <div class="icon" :style="{'--icon-size': `${size}px`}">
-    <div class="bg" :style="{backgroundImage:  `url(${bgList[bg]})`}">
-      <img :src="icon" :alt="name || ''">
+    <div class="bg" :style="{backgroundImage:  `url(${bgValue})`}">
+      <img :src="iconPath" :alt="name || ''">
     </div>
   </div>
 </template>

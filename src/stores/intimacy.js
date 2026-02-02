@@ -1,62 +1,46 @@
-import {defineStore} from 'pinia'
+import {defineStore} from 'pinia';
+import {defaultIntimacySettings, defaultValues} from '@/config/intimacy.js';
 
-const defaultValues = {
-  concubines: 0,
-  ordos: 0,
-  takya: 0,
-  jadeBracelet: 0,
-  sandalwoodBracelet: 0,
-  goldEarrings: 0,
-  gemRing: 0,
-  loveLetter: 0,
-  forage: 0,
-};
-
-const defaultIntimacySettings = {
-  ordos: 1.5,
-  sandalwoodBracelet: 3,
-  forage: 1.2
-}
-
-const intimacyValuesRawKey = 'intimacy'
-const intimacySettingsRawKey = 'intimacy-setting'
+const intimacyValuesRawKey = 'intimacy';
+const intimacySettingsRawKey = 'intimacy-setting';
 
 export const useIntimacyStore = defineStore('intimacy', {
   state: () => ({
-    intimacyValuesRaw: localStorage.getItem(intimacyValuesRawKey) || JSON.stringify(defaultValues),
-    intimacySettingsRaw: localStorage.getItem(intimacySettingsRawKey) || JSON.stringify(defaultIntimacySettings),
+    intimacyValuesRaw: localStorage.getItem(intimacyValuesRawKey) ||
+      JSON.stringify(defaultValues),
+    intimacySettingsRaw: localStorage.getItem(intimacySettingsRawKey) ||
+      JSON.stringify(defaultIntimacySettings),
   }),
 
   getters: {
     intimacyValues: (state) => {
       try {
-        console.log(state.intimacyValuesRaw)
-        return JSON.parse(state.intimacyValuesRaw)
+        return JSON.parse(state.intimacyValuesRaw);
       } catch (e) {
-        console.error(e)
-        return defaultValues
+        console.error(e);
+        return defaultValues;
       }
     },
 
     intimacySettings: (state) => {
       try {
-        // console.log(state.intimacySettingsRaw)
-        return JSON.parse(state.intimacySettingsRaw)
+        return JSON.parse(state.intimacySettingsRaw);
       } catch (e) {
-        console.error(e)
-        return defaultIntimacySettings
+        console.error(e);
+        return defaultIntimacySettings;
       }
-    }
+    },
+    defaultIntimacySettings: () => defaultIntimacySettings,
   },
 
   actions: {
     setIntimacyValues(newValues) {
       this.intimacyValuesRaw = JSON.stringify(newValues);
-      localStorage.setItem(intimacyValuesRawKey, this.intimacyValuesRaw );
+      localStorage.setItem(intimacyValuesRawKey, this.intimacyValuesRaw);
     },
     setIntimacySettings(newValues) {
       this.intimacySettingsRaw = JSON.stringify(newValues);
-      localStorage.setItem(intimacySettingsRawKey, this.intimacySettingsRaw );
+      localStorage.setItem(intimacySettingsRawKey, this.intimacySettingsRaw);
     },
   },
-})
+});

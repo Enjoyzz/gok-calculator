@@ -6,6 +6,25 @@ import goldEarringsIcon from '@/assets/img/icon/2-4222.png'
 import gemRingIcon from '@/assets/img/icon/2-4221.png'
 import loveLetterIcon from '@/assets/img/icon/2-3007.png'
 import forageIcon from '@/assets/img/icon/2-3026.png'
+import {defineStore} from 'pinia';
+
+export const defaultValues = {
+  concubines: 0,
+  ordos: 0,
+  takya: 0,
+  jadeBracelet: 0,
+  sandalwoodBracelet: 0,
+  goldEarrings: 0,
+  gemRing: 0,
+  loveLetter: 0,
+  forage: 0,
+};
+
+export const defaultIntimacySettings = {
+  ordos: 1.5,
+  sandalwoodBracelet: 3,
+  forage: 1.2
+}
 
 export const intimacyItems = [
   {

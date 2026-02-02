@@ -1,11 +1,28 @@
-import blueHadakIcon from '@/assets/img/icon/2-4214.png'
-import whiteHadakIcon from '@/assets/img/icon/2-4213.png'
-import forageIcon from "@/assets/img/icon/2-3026.png";
-import goldHairpinIcon from "@/assets/img/icon/2-4216.png";
-import silverHairpinIcon from "@/assets/img/icon/2-4215.png";
-import perfumeIcon from "@/assets/img/icon/2-4211.png";
-import chestsIcon from "@/assets/img/icon/2-6001.png";
-import ordosIcon from "@/assets/img/icon/2-4224.png";
+import blueHadakIcon from '@/assets/img/icon/2-4214.png';
+import whiteHadakIcon from '@/assets/img/icon/2-4213.png';
+import forageIcon from '@/assets/img/icon/2-3026.png';
+import goldHairpinIcon from '@/assets/img/icon/2-4216.png';
+import silverHairpinIcon from '@/assets/img/icon/2-4215.png';
+import perfumeIcon from '@/assets/img/icon/2-4211.png';
+import chestsIcon from '@/assets/img/icon/2-6001.png';
+
+export const defaultValues = {
+  concubines: 0,
+  blueHadak: 0,
+  whiteHadak: 0,
+  goldHairpin: 0,
+  silverHairpin: 0,
+  perfume: 0,
+  chests: 0,
+  forage: 0,
+};
+
+export const defaultCharmSettings = {
+  blueHadak: 1.5,
+  silverHairpin: 3,
+  chests: 2.2,
+  forage: 1.5,
+};
 
 export const charmItems = [
   {
@@ -14,9 +31,9 @@ export const charmItems = [
     description: 'Добавляет всем вашим наложницам по 1-3 ед. обаяния',
     icon: {
       bg: 'red',
-      src: blueHadakIcon
+      src: blueHadakIcon,
     },
-    approximately: true
+    approximately: true,
   },
   {
     id: 'whiteHadak',
@@ -24,9 +41,9 @@ export const charmItems = [
     description: 'Добавляет всем наложницам 1 ед. обаяния',
     icon: {
       bg: 'orange',
-      src: whiteHadakIcon
+      src: whiteHadakIcon,
     },
-    approximately: false
+    approximately: false,
   },
   {
     id: 'goldHairpin',
@@ -34,9 +51,9 @@ export const charmItems = [
     description: 'Даёт обаяние (5 ед.) одной случайной наложнице',
     icon: {
       bg: 'orange',
-      src: goldHairpinIcon
+      src: goldHairpinIcon,
     },
-    approximately: false
+    approximately: false,
   },
   {
     id: 'silverHairpin',
@@ -44,9 +61,9 @@ export const charmItems = [
     description: 'Даёт обаяние (2-5 ед.) одной случайной наложнице',
     icon: {
       bg: 'violet',
-      src: silverHairpinIcon
+      src: silverHairpinIcon,
     },
-    approximately: true
+    approximately: true,
   },
   {
     id: 'perfume',
@@ -54,9 +71,9 @@ export const charmItems = [
     description: 'Обаяние наложницы +1 ед.',
     icon: {
       bg: 'blue',
-      src: perfumeIcon
+      src: perfumeIcon,
     },
-    approximately: false
+    approximately: false,
   },
   {
     id: 'chests',
@@ -64,9 +81,9 @@ export const charmItems = [
     description: 'Внимание! Расчет по этому предмету может быть не корректен, зависит не только от количества и рандома',
     icon: {
       bg: 'violet',
-      src: chestsIcon
+      src: chestsIcon,
     },
-    approximately: true
+    approximately: true,
   },
   {
     id: 'forage',
@@ -74,8 +91,8 @@ export const charmItems = [
     description: 'Внимание! Расчет по этому предмету может быть не корректен, зависит не только от количества и рандома',
     icon: {
       bg: 'violet',
-      src: forageIcon
+      src: forageIcon,
     },
-    approximately: true
-  }
-]
+    approximately: true,
+  },
+];

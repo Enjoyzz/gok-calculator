@@ -1,20 +1,21 @@
 <script setup>
-import {charmItems as items} from '@/config/charm.js';
+import {charmItems as items, defaultCharmSettings} from '@/config/charm.js';
 import {useCharmStore} from '@/stores/charm.js';
-import {formatLargeNumber} from '@/utils/formatNumbers.js';
 import CalculatorBottom from '@/components/CalculatorBottom.vue';
 
 const store = useCharmStore();
 
+const input = ref(store.charmValues);
+
 const totals = computed(() => ({
   blueHadak: Math.floor(
-    store.charmValues.blueHadak * store.charmValues.concubines * store.charmSettings.blueHadak),
-  whiteHadak: Number(store.charmValues.whiteHadak * store.charmValues.concubines),
-  goldHairpin: Number(store.charmValues.goldHairpin * 5),
-  silverHairpin: Math.floor(store.charmValues.silverHairpin * store.charmSettings.silverHairpin),
-  perfume: Number(store.charmValues.perfume),
-  chests: Math.floor(store.charmValues.chests * store.charmSettings.chests),
-  forage: Math.floor(store.charmValues.forage * store.charmSettings.forage),
+    input.value.blueHadak * input.value.concubines * store.charmSettings.blueHadak),
+  whiteHadak: Number(input.value.whiteHadak * input.value.concubines),
+  goldHairpin: Number(input.value.goldHairpin * 5),
+  silverHairpin: Math.floor(input.value.silverHairpin * store.charmSettings.silverHairpin),
+  perfume: Number(input.value.perfume),
+  chests: Math.floor(input.value.chests * store.charmSettings.chests),
+  forage: Math.floor(input.value.forage * store.charmSettings.forage),
 }));
 
 const total = computed(() =>
@@ -22,7 +23,11 @@ const total = computed(() =>
 );
 
 const saveValues = () => {
-  store.setCharmValues(store.charmValues);
+  store.setCharmValues(input.value);
+};
+
+const saveSettings = function(settings) {
+  store.setCharmSettings(settings);
 };
 
 </script>
@@ -38,7 +43,7 @@ const saveValues = () => {
               label="Количество наложниц"
               persistent-hint
               density="comfortable"
-              v-model="store.charmValues.concubines"
+              v-model="input.concubines"
               @update:model-value="saveValues"
               :name="`${Math.random().toString(36).substring(2)}`"
               type="number"
@@ -50,12 +55,12 @@ const saveValues = () => {
           <v-col cols="12" md="6" v-for="item in items" :key="item.id">
             <v-row>
               <v-col class="flex-grow-0">
-                <GokIcon :bg="item.icon.bg" :icon="item.icon.src" :size="72"/>
+                <GokIcon :icon="item.icon" :size="72"/>
               </v-col>
               <v-col class="flex-grow-1">
                 <v-text-field
                   variant="outlined"
-                  v-model="store.charmValues[item.id]"
+                  v-model="input[item.id]"
                   @update:model-value="saveValues"
                   :name="`${Math.random().toString(36).substring(2)}`"
                   :hint="item.description"
@@ -83,7 +88,13 @@ const saveValues = () => {
       </v-container>
     </v-card-text>
   </v-card>
-  <CalculatorBottom :total=" '~&nbsp;' + formatLargeNumber(total, {removeZero: true})" />
+  <CalculatorBottom
+    :total="total"
+    :settings="store.charmSettings"
+    :items="items"
+    :defaultsSettings="defaultCharmSettings"
+    @save-settings="saveSettings"
+  />
 </template>
 
 <style scoped lang="sass">
