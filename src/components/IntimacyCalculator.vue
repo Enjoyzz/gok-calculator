@@ -1,5 +1,5 @@
 <script setup>
-import {defaultIntimacySettings, intimacyItems as items} from '@/config/intimacy.js';
+import {defaultIntimacySettings, intimacyItems as items, multiplierConstraints} from '@/config/intimacy.js';
 import {useIntimacyStore} from '@/stores/intimacy.js';
 import CalculatorBottom from '@/components/CalculatorBottom.vue';
 
@@ -95,6 +95,7 @@ const saveSettings = function(settings) {
     :settings="store.intimacySettings"
     :items="items"
     :defaultsSettings="defaultIntimacySettings"
+    :settings-constraints="multiplierConstraints"
     @save-settings="saveSettings"
   />
 </template>

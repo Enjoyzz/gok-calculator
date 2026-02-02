@@ -1,11 +1,15 @@
 <script setup>
+import silverGenIcon from '@/assets/img/icon/1-2.png'
+
 definePage({
   path: '/silver',
   name: 'Silver',
   meta: {
     title: 'Серебро',
     sidebar: true,
-    groups: ['resource'],
+    groups: ['calc'],
+    extendedTitle: 'Калькулятор серебра',
+    icon: silverGenIcon,
   },
 });
 </script>

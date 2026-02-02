@@ -1,5 +1,5 @@
 <script setup>
-import {charmItems as items, defaultCharmSettings} from '@/config/charm.js';
+import {charmItems as items, defaultCharmSettings, multiplierConstraints} from '@/config/charm.js';
 import {useCharmStore} from '@/stores/charm.js';
 import CalculatorBottom from '@/components/CalculatorBottom.vue';
 
@@ -93,6 +93,7 @@ const saveSettings = function(settings) {
     :settings="store.charmSettings"
     :items="items"
     :defaultsSettings="defaultCharmSettings"
+    :settings-constraints="multiplierConstraints"
     @save-settings="saveSettings"
   />
 </template>

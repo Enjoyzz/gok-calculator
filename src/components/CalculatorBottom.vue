@@ -1,7 +1,26 @@
 <script setup>
 import {formatLargeNumber} from '@/utils/formatNumbers.js';
 
-const props = defineProps(['total', 'settings', 'items', 'defaultsSettings']);
+const props = defineProps({
+
+  total: {
+    type: [String, Number],
+    required: true
+  },
+  settings: {
+    type: Object
+  },
+  items: {
+    type: Array
+  },
+  defaultsSettings: {
+    type: Object
+  },
+  settingsConstraints: {
+    type: Object,
+    default: {}
+  }
+});
 const settingDialog = ref(false);
 const oldData = ref(null);
 
@@ -112,6 +131,8 @@ const resetValue = function(id) {
               variant="outlined"
               density="compact"
               v-model="setting.value"
+              :min="settingsConstraints[setting.id]?.min || null"
+              :max="settingsConstraints[setting.id]?.max || null"
               @focus="e => e.target.select()"
               clearable
               @click:clear="resetValue(setting.id)"

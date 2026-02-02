@@ -26,6 +26,21 @@ export const defaultIntimacySettings = {
   forage: 1.2
 }
 
+export const multiplierConstraints = {
+  ordos: {
+    min: 1,
+    max: 3
+  },
+  sandalwoodBracelet: {
+    min: 2,
+    max: 5
+  },
+  forage: {
+    min: 1,
+    max: null
+  }
+}
+
 export const intimacyItems = [
   {
     id: 'ordos',

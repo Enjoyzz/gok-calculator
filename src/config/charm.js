@@ -24,6 +24,25 @@ export const defaultCharmSettings = {
   forage: 1.5,
 };
 
+export const multiplierConstraints = {
+  blueHadak: {
+    min: 1,
+    max: 3
+  },
+  silverHairpin: {
+    min: 2,
+    max: 5
+  },
+  chests: {
+    min: 1,
+    max: null
+  },
+  forage: {
+    min: 1,
+    max: null
+  }
+}
+
 export const charmItems = [
   {
     id: 'blueHadak',

@@ -1,4 +1,6 @@
 <script setup>
+import gemRingIcon from '@/assets/img/icon/2-4221.png';
+
 definePage({
   path: '/intimacy',
   name: 'Intimacy',
@@ -7,7 +9,7 @@ definePage({
     sidebar: true,
     groups: ['calc'],
     extendedTitle: 'Калькулятор близости',
-    layout: 'calculator'
+    icon: gemRingIcon,
   },
 });
 </script>
