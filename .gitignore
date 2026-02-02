@@ -23,3 +23,5 @@ pnpm-debug.log*
 /typed-router.d.ts
 /components.d.ts
 /auto-imports.d.ts
+/.env.production
+/.env.development
