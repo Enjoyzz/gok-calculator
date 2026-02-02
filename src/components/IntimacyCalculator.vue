@@ -36,7 +36,7 @@ const saveValues = () => {
               :name="`${Math.random().toString(36).substring(2)}`"
               type="number"
               min="0"
-              @click="e => e.target.select()"
+              @focus="e => e.target.select()"
             ></v-text-field>
           </v-col>
         </v-row>
@@ -57,7 +57,7 @@ const saveValues = () => {
               density="comfortable"
               type="number"
               min="0"
-              @click="e => e.target.select()"
+              @focus="e => e.target.select()"
             ></v-text-field>
           </v-col>
         </v-row>

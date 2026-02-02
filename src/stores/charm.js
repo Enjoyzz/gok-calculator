@@ -11,9 +11,20 @@ const defaultValues = {
   'forage': 0,
 };
 
+const defaultCharmSettings = {
+  blueHadak: 1.5,
+  silverHairpin: 3,
+  chests: 2.2,
+  forage: 1.5
+}
+
+const charmValuesRawKey = 'charm'
+const charmSettingsRawKey = 'charm-setting'
+
 export const useCharmStore = defineStore('charm', {
   state: () => ({
-    charmValuesRaw: localStorage.getItem('charm') || JSON.stringify(defaultValues),
+    charmValuesRaw: localStorage.getItem(charmValuesRawKey) || JSON.stringify(defaultValues),
+    charmSettingsRaw: localStorage.getItem(charmSettingsRawKey) || JSON.stringify(defaultCharmSettings),
   }),
 
   getters: {
@@ -25,13 +36,26 @@ export const useCharmStore = defineStore('charm', {
         console.error(e)
         return defaultValues
       }
+    },
+    charmSettings: (state) => {
+      try {
+        console.log(state.charmSettingsRaw)
+        return JSON.parse(state.charmSettingsRaw)
+      } catch (e) {
+        console.error(e)
+        return defaultCharmSettings
+      }
     }
   },
 
   actions: {
     setCharmValues(newValues) {
       this.charmValuesRaw = JSON.stringify(newValues);
-      localStorage.setItem('charm', this.charmValuesRaw );
+      localStorage.setItem(charmValuesRawKey, this.charmValuesRaw );
+    },
+    setCharmSettings(newValues) {
+      this.charmSettingsRaw = JSON.stringify(newValues);
+      localStorage.setItem(charmSettingsRawKey, this.charmSettingsRaw );
     },
   },
 })

@@ -1,22 +1,28 @@
 <script setup>
-import {charmItems as items} from '@/config/charm.js'
-import {useCharmStore} from "@/stores/charm.js";
-const store = useCharmStore()
+import {charmItems as items} from '@/config/charm.js';
+import {useCharmStore} from '@/stores/charm.js';
+import {formatLargeNumber} from '@/utils/formatNumbers.js';
 
-// const totals = computed(() => ({
-//   blueHadak: Math.floor(
-//     calculatorData.value.blueHadak * calculatorData.value.concubines * formulaSettings.value.charm.blueHadak),
-//   whiteHadak: calculatorData.value.whiteHadak * calculatorData.value.concubines,
-//   goldHairpin: calculatorData.value.goldHairpin * 5,
-//   silverHairpin: Math.floor(calculatorData.value.silverHairpin * formulaSettings.value.charm.silverHairpin),
-//   perfume: calculatorData.value.perfume,
-//   chests: Math.floor(calculatorData.value.chests * formulaSettings.value.charm.chests),
-//   forage: Math.floor(calculatorData.value.forage * formulaSettings.value.charm.forage),
-// }));
+const store = useCharmStore();
+
+const totals = computed(() => ({
+  blueHadak: Math.floor(
+    store.charmValues.blueHadak * store.charmValues.concubines * store.charmSettings.blueHadak),
+  whiteHadak: Number(store.charmValues.whiteHadak * store.charmValues.concubines),
+  goldHairpin: Number(store.charmValues.goldHairpin * 5),
+  silverHairpin: Math.floor(store.charmValues.silverHairpin * store.charmSettings.silverHairpin),
+  perfume: Number(store.charmValues.perfume),
+  chests: Math.floor(store.charmValues.chests * store.charmSettings.chests),
+  forage: Math.floor(store.charmValues.forage * store.charmSettings.forage),
+}));
+
+const total = computed(() =>
+  Object.values(totals.value).reduce((sum, val) => sum + val, 0),
+);
 
 const saveValues = () => {
-  store.setCharmValues(store.charmValues)
-}
+  store.setCharmValues(store.charmValues);
+};
 
 </script>
 
@@ -36,7 +42,7 @@ const saveValues = () => {
               :name="`${Math.random().toString(36).substring(2)}`"
               type="number"
               min="0"
-              @click="e => e.target.select()"
+              @focus="e => e.target.select()"
             ></v-text-field>
           </v-col>
         </v-row>
@@ -57,7 +63,7 @@ const saveValues = () => {
               density="comfortable"
               type="number"
               min="0"
-              @click="e => e.target.select()"
+              @focus="e => e.target.select()"
             ></v-text-field>
           </v-col>
         </v-row>
@@ -68,7 +74,7 @@ const saveValues = () => {
     color="primary"
   >
     <v-card-title>
-      Итого:
+      Итого: {{ formatLargeNumber(total, {removeZero: true}) }}
     </v-card-title>
 
   </v-bottom-navigation>
