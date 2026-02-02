@@ -4,6 +4,8 @@ definePage({
   name: 'Silver',
   meta: {
     title: 'Серебро',
+    sidebar: true,
+    groups: ['resource'],
   },
 });
 </script>

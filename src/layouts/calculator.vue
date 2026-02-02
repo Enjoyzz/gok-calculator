@@ -41,7 +41,10 @@ const toggleDrawer = () => drawer.value = !drawer.value
         </v-btn>
       </template>
     </v-app-bar>
-    <v-navigation-drawer :model-value="drawer" @update:model-value="toggleDrawer" theme="dark" >
+    <v-navigation-drawer
+      :model-value="drawer"
+      @update:model-value="toggleDrawer"
+      theme="dark" >
       <Sidebar />
     </v-navigation-drawer>
 

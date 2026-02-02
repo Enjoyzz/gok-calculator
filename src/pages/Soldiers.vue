@@ -4,6 +4,8 @@ definePage({
   name: 'Soldiers',
   meta: {
     title: 'Солдаты',
+    sidebar: true,
+    groups: ['resource'],
   },
 });
 </script>

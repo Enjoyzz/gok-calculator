@@ -4,6 +4,8 @@ definePage({
   name: 'Charm',
   meta: {
     title: 'Обаяние',
+    sidebar: true,
+    groups: ['calc'],
     extendedTitle: 'Калькулятор обаяния',
     layout: 'calculator'
   },

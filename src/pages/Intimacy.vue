@@ -4,6 +4,8 @@ definePage({
   name: 'Intimacy',
   meta: {
     title: 'Близость',
+    sidebar: true,
+    groups: ['calc'],
     extendedTitle: 'Калькулятор близости',
     layout: 'calculator'
   },

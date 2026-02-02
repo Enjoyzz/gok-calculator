@@ -4,3 +4,8 @@
   <router-view />
 </template>
 
+<style>
+body {
+  min-width: 350px;
+}
+</style>

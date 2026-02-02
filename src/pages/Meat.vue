@@ -4,6 +4,8 @@ definePage({
   name: 'Meat',
   meta: {
     title: 'Мясо',
+    sidebar: true,
+    groups: ['resource'],
   },
 });
 </script>
