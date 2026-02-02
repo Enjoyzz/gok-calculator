@@ -1,14 +1,14 @@
 import {defineStore} from 'pinia'
 
 const defaultValues = {
-  'concubines': 0,
-  'blueHadak': 0,
-  'whiteHadak': 0,
-  'goldHairpin': 0,
-  'silverHairpin': 0,
-  'perfume': 0,
-  'chests': 0,
-  'forage': 0,
+  concubines: 0,
+  blueHadak: 0,
+  whiteHadak: 0,
+  goldHairpin: 0,
+  silverHairpin: 0,
+  perfume: 0,
+  chests: 0,
+  forage: 0,
 };
 
 const defaultCharmSettings = {
@@ -30,7 +30,7 @@ export const useCharmStore = defineStore('charm', {
   getters: {
     charmValues: (state) => {
       try {
-        console.log(state.charmValuesRaw)
+        // console.log(state.charmValuesRaw)
         return JSON.parse(state.charmValuesRaw)
       } catch (e) {
         console.error(e)
@@ -39,7 +39,7 @@ export const useCharmStore = defineStore('charm', {
     },
     charmSettings: (state) => {
       try {
-        console.log(state.charmSettingsRaw)
+        // console.log(state.charmSettingsRaw)
         return JSON.parse(state.charmSettingsRaw)
       } catch (e) {
         console.error(e)

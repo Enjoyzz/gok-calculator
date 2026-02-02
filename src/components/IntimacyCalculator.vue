@@ -1,18 +1,26 @@
 <script setup>
 import {intimacyItems as items} from '@/config/intimacy.js'
 import {useIntimacyStore} from "@/stores/intimacy.js";
+import {formatLargeNumber} from '@/utils/formatNumbers.js';
 const store = useIntimacyStore()
 
-// const totals = computed(() => ({
-//   blueHadak: Math.floor(
-//     calculatorData.value.blueHadak * calculatorData.value.concubines * formulaSettings.value.charm.blueHadak),
-//   whiteHadak: calculatorData.value.whiteHadak * calculatorData.value.concubines,
-//   goldHairpin: calculatorData.value.goldHairpin * 5,
-//   silverHairpin: Math.floor(calculatorData.value.silverHairpin * formulaSettings.value.charm.silverHairpin),
-//   perfume: calculatorData.value.perfume,
-//   chests: Math.floor(calculatorData.value.chests * formulaSettings.value.charm.chests),
-//   forage: Math.floor(calculatorData.value.forage * formulaSettings.value.charm.forage),
-// }));
+const totals = computed(() => ({
+  ordos: Math.floor(
+    store.intimacyValues.ordos * store.intimacyValues.concubines * store.intimacySettings.ordos),
+  takya: Number(store.intimacyValues.takya * store.intimacyValues.concubines),
+  jadeBracelet: Number(store.intimacyValues.jadeBracelet * 5),
+  sandalwoodBracelet: Math.floor(
+    store.intimacyValues.sandalwoodBracelet * store.intimacySettings.sandalwoodBracelet),
+  goldEarrings: Number(store.intimacyValues.goldEarrings * 2),
+  gemRing: Number(store.intimacyValues.gemRing),
+  loveLetter: Number(store.intimacyValues.loveLetter),
+  forage: Math.floor(store.intimacyValues.forage * store.intimacySettings.forage),
+}));
+
+const total = computed(() =>
+  Object.values(totals.value).reduce((sum, val) => sum + val, 0),
+);
+
 
 const saveValues = () => {
   store.setIntimacyValues(store.intimacyValues)
@@ -68,7 +76,7 @@ const saveValues = () => {
     color="primary"
   >
     <v-card-title>
-      Итого:
+      Итого: {{ formatLargeNumber(total, {removeZero: true}) }}
     </v-card-title>
 
   </v-bottom-navigation>
