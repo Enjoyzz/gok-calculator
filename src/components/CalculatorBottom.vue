@@ -3,6 +3,7 @@ import {formatLargeNumber} from '@/utils/formatNumbers.js';
 
 const props = defineProps(['total', 'settings', 'items', 'defaultsSettings']);
 const settingDialog = ref(false);
+const oldData = ref(null);
 
 const emit = defineEmits(['save-settings']);
 
@@ -15,13 +16,28 @@ const data = ref(
     };
   }));
 
+const openDialog = function() {
+  oldData.value = data.value.map(item => {
+    return {
+      ...item
+    }
+  })
+  settingDialog.value = true;
+}
+
 const closeDialog = function(isConfirm = false) {
   if (isConfirm === true && !confirm('Все изменения не сохранятся') ) {
     settingDialog.value = true;
     return
   }
+
+  data.value = oldData.value.map(item => {
+    return {
+      ...item
+    }
+  })
+
   settingDialog.value = false;
-  delete data.value;
 };
 
 const saveSettings = function() {
@@ -29,7 +45,7 @@ const saveSettings = function() {
     data.value.map(item => [item.id, Number(item.value)]),
   ));
 
-  closeDialog();
+  settingDialog.value = false;
 };
 
 const resetValue = function(id) {
@@ -48,7 +64,7 @@ const resetValue = function(id) {
       </template>
     </v-card>
 
-    <v-btn @click.prevent="settingDialog = true">
+    <v-btn @click.prevent="openDialog">
       <v-icon icon="mdi-cog"/>
     </v-btn>
 
@@ -80,7 +96,7 @@ const resetValue = function(id) {
       </v-toolbar>
 
       <v-list lines="two">
-        <v-list-subheader>Множитель</v-list-subheader>
+        <v-list-subheader>МНОЖИТЕЛЬ</v-list-subheader>
 
         <v-list-item
           v-for="setting in data"
