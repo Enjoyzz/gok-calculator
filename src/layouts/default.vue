@@ -28,9 +28,9 @@ const toggleDrawer = () => drawer.value = !drawer.value
 <template>
   <v-layout class="rounded rounded-md border">
     <v-app-bar :elevation="2">
-      <v-app-bar-title>
-        Game of Khans
-      </v-app-bar-title>
+      <template #title>
+        <v-img src="/gok.png" alt="Game of Khans" width="150"/>
+      </template>
       <template v-slot:prepend v-if="mobile">
         <v-app-bar-nav-icon @click="toggleDrawer"></v-app-bar-nav-icon>
       </template>
