@@ -55,6 +55,13 @@ const toggleDrawer = () => drawer.value = !drawer.value;
       :color="isDarkTheme ? 'blue-grey-darken-4' : 'blue-grey-lighten-5'"
     >
       <Sidebar/>
+      <template v-slot:append>
+        <VersionInfo
+          :class="isDarkTheme ? 'text-blue-grey-lighten-1' : 'text-blue-grey-darken-1'"
+          class="ma-2"
+          :hideInDev="false"
+        />
+      </template>
     </v-navigation-drawer>
 
     <v-main class="d-flex align-center justify-center">
