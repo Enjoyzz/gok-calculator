@@ -34,6 +34,7 @@ export const useCharmStore = defineStore('charm', {
 
   actions: {
     setCharmValues(newValues) {
+      console.log(newValues);
       this.charmValuesRaw = JSON.stringify(newValues);
       localStorage.setItem(charmValuesRawKey, this.charmValuesRaw);
     },

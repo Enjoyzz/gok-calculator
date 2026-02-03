@@ -35,6 +35,7 @@ export const useIntimacyStore = defineStore('intimacy', {
 
   actions: {
     setIntimacyValues(newValues) {
+      console.log(newValues);
       this.intimacyValuesRaw = JSON.stringify(newValues);
       localStorage.setItem(intimacyValuesRawKey, this.intimacyValuesRaw);
     },
