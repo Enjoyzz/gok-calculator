@@ -1,5 +1,5 @@
 <script setup>
-import {meatItems as items} from '@/config/meat.js';
+import {defaultValues, meatItems as items} from '@/config/meat.js';
 import {useMeatStore} from '@/stores/meat.js';
 import CalculatorBottom from '@/components/CalculatorBottom.vue';
 import {formatLargeNumber} from '@/utils/formatNumbers.js';
@@ -34,9 +34,7 @@ const saveValues = () => {
   store.setMeatValues(input.value);
 };
 
-const saveSettings = function(settings) {
-  store.setMeatSettings(settings);
-};
+
 
 </script>
 
@@ -58,6 +56,7 @@ const saveSettings = function(settings) {
               hide-spin-buttons
               min="0"
               @focus="e => e.target.select()"
+
             >
               <template #append-inner>
                 <div class="container2">
@@ -89,6 +88,7 @@ const saveSettings = function(settings) {
                   variant="outlined"
                   v-model="input[item.id]"
                   @update:model-value="saveValues"
+                  @click:clear="input[item.id] = defaultValues[item.id] || 0"
                   :name="`${Math.random().toString(36).substring(2)}`"
                   active
                   density="comfortable"

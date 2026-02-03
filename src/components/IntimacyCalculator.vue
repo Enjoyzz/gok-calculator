@@ -1,5 +1,5 @@
 <script setup>
-import {defaultIntimacySettings, intimacyItems as items, multiplierConstraints} from '@/config/intimacy.js';
+import {defaultValues, defaultIntimacySettings, intimacyItems as items, multiplierConstraints} from '@/config/intimacy.js';
 import {useIntimacyStore} from '@/stores/intimacy.js';
 import CalculatorBottom from '@/components/CalculatorBottom.vue';
 
@@ -64,6 +64,7 @@ const saveSettings = function(settings) {
                   variant="outlined"
                   v-model="input[item.id]"
                   @update:model-value="saveValues"
+                  @click:clear="input[item.id] = defaultValues[item.id] || 0"
                   :name="`${Math.random().toString(36).substring(2)}`"
                   :hint="item.description"
                   persistent-hint
