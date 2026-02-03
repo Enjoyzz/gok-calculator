@@ -6,6 +6,6 @@
 
 <style>
 body {
-  min-width: 350px;
+  min-width: 370px;
 }
 </style>

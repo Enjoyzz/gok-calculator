@@ -1,26 +1,36 @@
 <script setup>
 import {formatLargeNumber} from '@/utils/formatNumbers.js';
+import {useTheme} from 'vuetify';
+
+const theme = useTheme();
 
 const props = defineProps({
 
   total: {
     type: [String, Number],
-    required: true
+    required: true,
   },
   settings: {
-    type: Object
+    type: Object,
   },
   items: {
-    type: Array
+    type: Array,
   },
   defaultsSettings: {
-    type: Object
+    type: Object,
   },
   settingsConstraints: {
     type: Object,
-    default: {}
-  }
+    default: {},
+  },
 });
+
+const isDarkTheme = ref(null);
+
+watch(theme.current, () => {
+  isDarkTheme.value = theme.current.value.dark === true;
+}, {immediate: true});
+
 const settingDialog = ref(false);
 const oldData = ref(null);
 
@@ -38,23 +48,23 @@ const data = ref(
 const openDialog = function() {
   oldData.value = data.value.map(item => {
     return {
-      ...item
-    }
-  })
+      ...item,
+    };
+  });
   settingDialog.value = true;
-}
+};
 
 const closeDialog = function(isConfirm = false) {
-  if (isConfirm === true && !confirm('Все изменения не сохранятся') ) {
-    settingDialog.value = true;
-    return
-  }
+  // if (isConfirm === true && !confirm('Все изменения не сохранятся') ) {
+  //   settingDialog.value = true;
+  //   return
+  // }
 
   data.value = oldData.value.map(item => {
     return {
-      ...item
-    }
-  })
+      ...item,
+    };
+  });
 
   settingDialog.value = false;
 };
@@ -68,16 +78,18 @@ const saveSettings = function() {
 };
 
 const resetValue = function(id) {
-  const index = data.value.findIndex(i => i.id === id)
+  const index = data.value.findIndex(i => i.id === id);
   if (index !== -1) {
-    data.value[index].value = props.defaultsSettings[id]
+    data.value[index].value = props.defaultsSettings[id];
   }
-}
+};
 </script>
 
 <template>
-  <v-bottom-navigation elevation="16">
-    <v-card elevation="0" class="text-center flex-grow-1" density="compact" color="transparent" subtitle="Итого">
+  <v-bottom-navigation elevation="16"
+                       :class="{'bg-grey-lighten-3': !isDarkTheme, 'bg-blue-grey-darken-4': isDarkTheme}">
+    <v-card elevation="0" class="text-center flex-grow-1" density="compact" color="transparent"
+            :subtitle="$route.meta?.title || 'Итого'">
       <template #title>
         ~&nbsp;{{ formatLargeNumber(total, {removeZero: true}) }}
       </template>
@@ -94,39 +106,31 @@ const resetValue = function(id) {
     v-model="settingDialog"
     transition="dialog-bottom-transition"
     @update:modelValue="closeDialog(true)"
-    fullscreen
+    :fullscreen="false"
+    scrollable
+    :max-width="600"
   >
     <v-card>
-      <v-toolbar>
-        <v-btn
-          icon="mdi-close"
-          @click="closeDialog(true)"
-        ></v-btn>
+      <v-card-title :class="{'bg-grey-lighten-4': !isDarkTheme, 'bg-blue-grey-darken-4': isDarkTheme}">
+        <v-card-item title="Настройки"
+                     prepend-icon="mdi-cogs"
+        ></v-card-item>
+      </v-card-title>
 
-        <v-toolbar-title>Настройки</v-toolbar-title>
+      <v-divider></v-divider>
 
-        <v-toolbar-items>
-          <v-btn
-            text="Сохранить"
-            variant="text"
-            @click="saveSettings"
-          ></v-btn>
-        </v-toolbar-items>
-      </v-toolbar>
+      <v-card-text>
 
-      <v-list lines="two">
         <v-list-subheader>МНОЖИТЕЛЬ</v-list-subheader>
 
-        <v-list-item
+        <div
+          class="d-flex ga-1 mb-3"
           v-for="setting in data"
           :key="setting.id"
-          :title="setting.name"
-
         >
-          <template #prepend >
-            <GokIcon :icon="setting.icon" size="64"/>
-          </template>
-          <template #default>
+          <GokIcon :icon="setting.icon" size="64"/>
+          <div class="d-flex flex-column flex-grow-1">
+            <v-list-item-title>{{setting.name}}</v-list-item-title>
             <v-text-field
               variant="outlined"
               density="compact"
@@ -145,9 +149,27 @@ const resetValue = function(id) {
                 </div>
               </template>
             </v-text-field>
-          </template>
-        </v-list-item>
-      </v-list>
+          </div>
+
+        </div>
+
+      </v-card-text>
+      <v-divider></v-divider>
+      <v-card-actions :class="{'bg-grey-lighten-3': !isDarkTheme, 'bg-blue-grey-darken-3': isDarkTheme}">
+        <v-spacer></v-spacer>
+        <v-btn
+          text="Закрыть"
+          variant="text"
+          @click="closeDialog(true)"
+        ></v-btn>
+
+        <v-btn
+          color="surface-variant"
+          text="Сохранить"
+          variant="flat"
+          @click="saveSettings"
+        ></v-btn>
+      </v-card-actions>
     </v-card>
   </v-dialog>
 </template>

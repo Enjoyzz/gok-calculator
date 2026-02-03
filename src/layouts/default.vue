@@ -1,35 +1,43 @@
 <script setup>
-import { useDisplay, useTheme } from 'vuetify'
-import {useAppStore} from "@/stores/app.js";
-const appStore = useAppStore()
+import {useDisplay, useTheme} from 'vuetify';
+import {useAppStore} from '@/stores/app.js';
 
-const drawer = shallowRef(null)
+const appStore = useAppStore();
+
+const drawer = shallowRef(null);
 const {mobile} = useDisplay();
 const theme = useTheme();
 
-
-const { theme: currentTheme } = storeToRefs(appStore)
+const {theme: currentTheme} = storeToRefs(appStore);
 
 const toggleTheme = () => {
   appStore.toggleTheme();
 };
 
+const isDarkTheme = ref(null);
+
+watch(theme.current, () => {
+  isDarkTheme.value = theme.current.value.dark === true;
+}, {immediate: true});
+
 watch(
   () => appStore.theme,
   (newTheme) => {
-    theme.change(newTheme)
+    theme.change(newTheme);
   },
-  { immediate: true }
+  {immediate: true},
 );
 
-const toggleDrawer = () => drawer.value = !drawer.value
+const toggleDrawer = () => drawer.value = !drawer.value;
 
 </script>
 <template>
   <v-layout class="rounded rounded-md border">
-    <v-app-bar :elevation="2">
+    <v-app-bar :elevation="2" :color="isDarkTheme ? 'blue-grey-darken-4' : 'blue-grey-lighten-5'">
       <template #title>
-        <v-img src="/gok.png" alt="Game of Khans" width="150"/>
+        <router-link :to="{name: 'Index'}">
+          <v-img src="/gok.png" alt="Game of Khans" width="150"/>
+        </router-link>
       </template>
       <template v-slot:prepend v-if="mobile">
         <v-app-bar-nav-icon @click="toggleDrawer"></v-app-bar-nav-icon>
@@ -44,8 +52,9 @@ const toggleDrawer = () => drawer.value = !drawer.value
     <v-navigation-drawer
       :model-value="drawer"
       @update:model-value="toggleDrawer"
-      theme="dark" >
-      <Sidebar />
+      :color="isDarkTheme ? 'blue-grey-darken-4' : 'blue-grey-lighten-5'"
+    >
+      <Sidebar/>
     </v-navigation-drawer>
 
     <v-main class="d-flex align-center justify-center">
@@ -53,7 +62,7 @@ const toggleDrawer = () => drawer.value = !drawer.value
         <v-sheet rounded="lg" width="100%">
           <v-sheet>
             <v-card-title>
-              {{ $route.meta.extendedTitle ||  $route.meta.title || $route.name}}
+              {{ $route.meta.extendedTitle || $route.meta.title || $route.name }}
             </v-card-title>
           </v-sheet>
           <router-view></router-view>
