@@ -12,12 +12,15 @@ const props = defineProps({
   },
   settings: {
     type: Object,
+    default: {},
   },
   items: {
     type: Array,
+    default: [],
   },
   defaultsSettings: {
     type: Object,
+    default: {},
   },
   settingsConstraints: {
     type: Object,
@@ -95,7 +98,7 @@ const resetValue = function(id) {
       </template>
     </v-card>
 
-    <v-btn @click.prevent="openDialog">
+    <v-btn v-if="Object.keys(settings).length > 0" @click.prevent="openDialog">
       <v-icon icon="mdi-cog"/>
     </v-btn>
 

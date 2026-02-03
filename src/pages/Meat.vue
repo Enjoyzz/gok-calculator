@@ -15,7 +15,7 @@ definePage({
 </script>
 
 <template>
-  Мясо
+  <MeatCalculator />
 </template>
 
 <style scoped lang="sass">
