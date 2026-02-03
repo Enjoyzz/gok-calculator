@@ -11,6 +11,7 @@ import Vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
 // Utilities
 import { defineConfig } from 'vite'
 import { fileURLToPath, URL } from 'node:url'
+import removeConsole from 'vite-plugin-remove-console';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -55,6 +56,9 @@ export default defineConfig({
       },
       vueTemplate: true,
     }),
+    removeConsole({
+      includes: ['log', 'warn', 'debug', 'info']
+    })
   ],
   optimizeDeps: {
     exclude: [
