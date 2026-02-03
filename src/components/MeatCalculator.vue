@@ -4,6 +4,7 @@ import {useMeatStore} from '@/stores/meat.js';
 import CalculatorBottom from '@/components/CalculatorBottom.vue';
 import {formatLargeNumber} from '@/utils/formatNumbers.js';
 import meatGenIcon from '@/assets/img/icon/1-3.png';
+import {debounce} from '@/utils/debounce.js';
 
 const store = useMeatStore();
 
@@ -30,11 +31,14 @@ const total = computed(() =>
   Object.values(totals.value).reduce((sum, val) => sum + val, 0),
 );
 
-const saveValues = () => {
-  store.setMeatValues(input.value);
-};
+const saveInputValues = debounce((values) => {
+  store.setMeatValues(values);
+}, 500);
 
-
+watch(input, (newValue) => {
+    saveInputValues(newValue);
+  }, {deep: true},
+);
 
 </script>
 
@@ -50,7 +54,6 @@ const saveValues = () => {
               persistent-hint
               density="comfortable"
               v-model="input.meat"
-              @update:model-value="saveValues"
               :name="`${Math.random().toString(36).substring(2)}`"
               type="number"
               hide-spin-buttons
@@ -87,7 +90,6 @@ const saveValues = () => {
                 <v-text-field
                   variant="outlined"
                   v-model="input[item.id]"
-                  @update:model-value="saveValues"
                   @click:clear="input[item.id] = defaultValues[item.id] || 0"
                   :name="`${Math.random().toString(36).substring(2)}`"
                   active
@@ -118,7 +120,6 @@ const saveValues = () => {
   <CalculatorBottom
     :total="total"
     :items="items"
-    @save-settings="saveSettings"
   />
 </template>
 

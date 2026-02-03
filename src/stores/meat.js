@@ -22,6 +22,7 @@ export const useMeatStore = defineStore('meat', {
 
   actions: {
     setMeatValues(newValues) {
+      console.log(newValues);
       this.meatValuesRaw = JSON.stringify(newValues);
       localStorage.setItem(meatValuesRawKey, this.meatValuesRaw);
     },

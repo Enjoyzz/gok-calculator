@@ -2,6 +2,7 @@
 import {defaultValues, defaultIntimacySettings, intimacyItems as items, multiplierConstraints} from '@/config/intimacy.js';
 import {useIntimacyStore} from '@/stores/intimacy.js';
 import CalculatorBottom from '@/components/CalculatorBottom.vue';
+import {debounce} from '@/utils/debounce.js';
 
 const store = useIntimacyStore();
 
@@ -24,9 +25,14 @@ const total = computed(() =>
   Object.values(totals.value).reduce((sum, val) => sum + val, 0),
 );
 
-const saveValues = () => {
-  store.setIntimacyValues(input.value);
-};
+const saveInputValues = debounce((values) => {
+  store.setIntimacyValues(values);
+}, 500);
+
+watch(input, (newValue) => {
+    saveInputValues(newValue);
+  }, {deep: true},
+);
 
 const saveSettings = function(settings) {
   store.setIntimacySettings(settings);
@@ -46,7 +52,6 @@ const saveSettings = function(settings) {
               persistent-hint
               density="comfortable"
               v-model="input.concubines"
-              @update:model-value="saveValues"
               :name="`${Math.random().toString(36).substring(2)}`"
               type="number"
               min="0"
@@ -63,7 +68,6 @@ const saveSettings = function(settings) {
                 <v-text-field
                   variant="outlined"
                   v-model="input[item.id]"
-                  @update:model-value="saveValues"
                   @click:clear="input[item.id] = defaultValues[item.id] || 0"
                   :name="`${Math.random().toString(36).substring(2)}`"
                   :hint="item.description"
