@@ -95,10 +95,12 @@ const saveSettings = function(settings) {
   </v-card>
   <CalculatorBottom
     :total="total"
-    :settings="store.charmSettings"
-    :items="items"
-    :defaultsSettings="defaultCharmSettings"
-    :settings-constraints="multiplierConstraints"
+    :settings="{
+      items: items,
+      input: store.charmSettings,
+      defaults: defaultCharmSettings,
+      constraints: multiplierConstraints
+    }"
     @save-settings="saveSettings"
   />
 </template>

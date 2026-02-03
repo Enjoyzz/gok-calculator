@@ -11,20 +11,8 @@ const props = defineProps({
     required: true,
   },
   settings: {
-    type: Object,
-    default: {},
-  },
-  items: {
-    type: Array,
-    default: [],
-  },
-  defaultsSettings: {
-    type: Object,
-    default: {},
-  },
-  settingsConstraints: {
-    type: Object,
-    default: {},
+    type: [Object, null],
+    default: null,
   },
 });
 
@@ -40,8 +28,8 @@ const oldData = ref(null);
 const emit = defineEmits(['save-settings']);
 
 const data = ref(
-  Object.entries(props.settings).map(([id, value]) => {
-    const item = props.items.find(i => i.id === id);
+  Object.entries(props.settings.input).map(([id, value]) => {
+    const item = props.settings.items.find(i => i.id === id);
     return {
       ...item,
       value: value,
@@ -83,7 +71,7 @@ const saveSettings = function() {
 const resetValue = function(id) {
   const index = data.value.findIndex(i => i.id === id);
   if (index !== -1) {
-    data.value[index].value = props.defaultsSettings[id];
+    data.value[index].value = props.settings.defaults[id];
   }
 };
 </script>
@@ -98,7 +86,7 @@ const resetValue = function(id) {
       </template>
     </v-card>
 
-    <v-btn v-if="Object.keys(settings).length > 0" @click.prevent="openDialog">
+    <v-btn v-if="settings" @click.prevent="openDialog">
       <v-icon icon="mdi-cog"/>
     </v-btn>
 
@@ -106,6 +94,7 @@ const resetValue = function(id) {
 
 
   <v-dialog
+    v-if="settings"
     v-model="settingDialog"
     transition="dialog-bottom-transition"
     @update:modelValue="closeDialog(true)"
@@ -138,17 +127,17 @@ const resetValue = function(id) {
               variant="outlined"
               density="compact"
               v-model="setting.value"
-              :min="settingsConstraints[setting.id]?.min || null"
-              :max="settingsConstraints[setting.id]?.max || null"
+              :min="settings.constraints[setting.id]?.min || null"
+              :max="settings.constraints[setting.id]?.max || null"
               @focus="e => e.target.select()"
               clearable
               @click:clear="resetValue(setting.id)"
-              :bg-color="setting.value !== defaultsSettings[setting.id] ? 'amber-lighten-4' : ''"
+              :bg-color="setting.value !== settings.defaults[setting.id] ? 'amber-lighten-4' : ''"
             >
-              <template #details v-if="setting.value !== defaultsSettings[setting.id]">
+              <template #details v-if="setting.value !== settings.defaults[setting.id]">
                 <div class="text-error text-body-2">
                   Внимание! Был изменён множитель! Значение по-умолчанию равно&nbsp;<span
-                  class="font-weight-bold">{{ defaultsSettings[setting.id] }}</span>
+                  class="font-weight-bold">{{ settings.defaults[setting.id] }}</span>
                 </div>
               </template>
             </v-text-field>

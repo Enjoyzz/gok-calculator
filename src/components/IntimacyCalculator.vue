@@ -1,5 +1,10 @@
 <script setup>
-import {defaultValues, defaultIntimacySettings, intimacyItems as items, multiplierConstraints} from '@/config/intimacy.js';
+import {
+  defaultIntimacySettings,
+  defaultValues,
+  intimacyItems as items,
+  multiplierConstraints,
+} from '@/config/intimacy.js';
 import {useIntimacyStore} from '@/stores/intimacy.js';
 import CalculatorBottom from '@/components/CalculatorBottom.vue';
 import {debounce} from '@/utils/debounce.js';
@@ -97,10 +102,12 @@ const saveSettings = function(settings) {
   </v-card>
   <CalculatorBottom
     :total="total"
-    :settings="store.intimacySettings"
-    :items="items"
-    :defaultsSettings="defaultIntimacySettings"
-    :settings-constraints="multiplierConstraints"
+    :settings="{
+      items: items,
+      input: store.intimacySettings,
+      defaults: defaultIntimacySettings,
+      constraints: multiplierConstraints
+    }"
     @save-settings="saveSettings"
   />
 </template>
