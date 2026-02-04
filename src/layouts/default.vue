@@ -70,7 +70,8 @@ const toggleDrawer = () => drawer.value = !drawer.value;
       <v-container>
         <v-sheet rounded="lg" width="100%">
           <v-sheet>
-            <v-card-title>
+            <v-card-title >
+<!--              <v-avatar :image="$route.meta?.icon" />-->
               {{ $route.meta.extendedTitle || $route.meta.title || $route.name }}
             </v-card-title>
           </v-sheet>
