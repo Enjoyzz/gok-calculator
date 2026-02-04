@@ -1,0 +1,218 @@
+import red from '@/assets/img/bg/bg-red.png';
+import orange from '@/assets/img/bg/bg-orange.png';
+import violet from '@/assets/img/bg/bg-violet.png';
+import blue from '@/assets/img/bg/bg-blue.png';
+import green from '@/assets/img/bg/bg-green.png';
+
+import medalIconSrc from '@/assets/img/icon/2-0000.png';
+import chestIconSrc from '@/assets/img/icon/2-1001.png';
+import forageIconSrc from '@/assets/img/icon/2-3026.png';
+import chestsIconSrc from '@/assets/img/icon/2-6001.png';
+
+import blueHadakIconSrc from '@/assets/img/icon/2-4214.png';
+import whiteHadakIconSrc from '@/assets/img/icon/2-4213.png';
+import goldHairpinIconSrc from '@/assets/img/icon/2-4216.png';
+import silverHairpinIconSrc from '@/assets/img/icon/2-4215.png';
+import perfumeIconSrc from '@/assets/img/icon/2-4211.png';
+
+import ordosIconSrc from '@/assets/img/icon/2-4224.png';
+import takyaIconSrc from '@/assets/img/icon/2-4223.png';
+import jadeBraceletIconSrc from '@/assets/img/icon/2-4226.png';
+import sandalwoodBraceletIconSrc from '@/assets/img/icon/2-4225.png';
+import goldEarringsIconSrc from '@/assets/img/icon/2-4222.png';
+import gemRingIconSrc from '@/assets/img/icon/2-4221.png';
+import loveLetterIconSrc from '@/assets/img/icon/2-3007.png';
+
+import meat88K_8MIconSrc from '@/assets/img/icon/2-1102.png';
+import meat10MIconSrc from '@/assets/img/icon/2-1038.png';
+import meat1MIconSrc from '@/assets/img/icon/2-1037.png';
+import meat100KIconSrc from '@/assets/img/icon/2-1036.png';
+import meat2hIconSrc from '@/assets/img/icon/2-1035.png';
+import meat1hIconSrc from '@/assets/img/icon/2-1034.png';
+import meat30mIconSrc from '@/assets/img/icon/2-1033.png';
+import meat15mIconSrc from '@/assets/img/icon/2-1032.png';
+import meat5mIconSrc from '@/assets/img/icon/2-1031.png';
+
+import silver88K_8MIconSrc from '@/assets/img/icon/2-1101.png';
+import silver10MIconSrc from '@/assets/img/icon/2-1028.png';
+import silver1MIconSrc from '@/assets/img/icon/2-1027.png';
+import silver100KIconSrc from '@/assets/img/icon/2-1026.png';
+import silver2hIconSrc from '@/assets/img/icon/2-1025.png';
+import silver1hIconSrc from '@/assets/img/icon/2-1024.png';
+import silver30mIconSrc from '@/assets/img/icon/2-1023.png';
+import silver15mIconSrc from '@/assets/img/icon/2-1022.png';
+import silver5mIconSrc from '@/assets/img/icon/2-1021.png';
+
+export const forageIcon = {
+  src: forageIconSrc,
+  bg: violet,
+};
+
+export const chestsIcon = {
+  src: chestsIconSrc,
+  bg: violet,
+};
+
+export const blueHadakIcon = {
+  src: blueHadakIconSrc,
+  bg: red,
+};
+
+export const whiteHadakIcon = {
+  src: whiteHadakIconSrc,
+  bg: orange,
+};
+
+export const goldHairpinIcon = {
+  src: goldHairpinIconSrc,
+  bg: orange,
+};
+
+export const silverHairpinIcon = {
+  src: silverHairpinIconSrc,
+  bg: violet,
+};
+
+export const perfumeIcon = {
+  src: perfumeIconSrc,
+  bg: blue,
+};
+
+export const ordosIcon = {
+  src: ordosIconSrc,
+  bg: red,
+};
+
+export const takyaIcon = {
+  src: takyaIconSrc,
+  bg: orange,
+};
+
+export const jadeBraceletIcon = {
+  src: jadeBraceletIconSrc,
+  bg: orange,
+};
+
+export const sandalwoodBraceletIcon = {
+  src: sandalwoodBraceletIconSrc,
+  bg: violet,
+};
+
+export const goldEarringsIcon = {
+  src: goldEarringsIconSrc,
+  bg: violet,
+};
+
+export const gemRingIcon = {
+  src: gemRingIconSrc,
+  bg: blue,
+};
+
+export const loveLetterIcon = {
+  src: loveLetterIconSrc,
+  bg: red,
+};
+
+export const meat88K_8MIcon = {
+  src: meat88K_8MIconSrc,
+  bg: violet,
+};
+
+export const meat10MIcon = {
+  src: meat10MIconSrc,
+  bg: orange,
+};
+
+export const meat1MIcon = {
+  src: meat1MIconSrc,
+  bg: violet,
+};
+
+export const meat100KIcon = {
+  src: meat100KIconSrc,
+  bg: green,
+};
+
+export const meat2hIcon = {
+  src: meat2hIconSrc,
+  bg: orange,
+};
+
+export const meat1hIcon = {
+  src: meat1hIconSrc,
+  bg: violet,
+};
+
+export const meat30mIcon = {
+  src: meat30mIconSrc,
+  bg: blue,
+};
+
+export const meat15mIcon = {
+  src: meat15mIconSrc,
+  bg: blue,
+};
+
+export const meat5mIcon = {
+  src: meat5mIconSrc,
+  bg: green,
+};
+
+export const medalIcon = {
+  src: medalIconSrc,
+  bg: violet,
+};
+
+export const chestIcon = {
+  src: chestIconSrc,
+  bg: orange,
+};
+
+export const silver88K_8MIcon = {
+  src: silver88K_8MIconSrc,
+  bg: violet,
+};
+
+export const silver10MIcon = {
+  src: silver10MIconSrc,
+  bg: orange,
+};
+
+export const silver1MIcon = {
+  src: silver1MIconSrc,
+  bg: violet,
+};
+
+export const silver100KIcon = {
+  src: silver100KIconSrc,
+  bg: green,
+};
+
+export const silver2hIcon = {
+  src: silver2hIconSrc,
+  bg: orange,
+};
+
+export const silver1hIcon = {
+  src: silver1hIconSrc,
+  bg: violet,
+};
+
+export const silver30mIcon = {
+  src: silver30mIconSrc,
+  bg: blue,
+};
+
+export const silver15mIcon = {
+  src: silver15mIconSrc,
+  bg: blue,
+};
+
+export const silver5mIcon = {
+  src: silver5mIconSrc,
+  bg: green,
+};
+
+
+
+

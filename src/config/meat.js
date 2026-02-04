@@ -1,17 +1,16 @@
-import meat88K_8MIcon from '@/assets/img/icon/2-1102.png';
-
-import meat10MIcon from '@/assets/img/icon/2-1038.png';
-import meat1MIcon from '@/assets/img/icon/2-1037.png';
-import meat100KIcon from '@/assets/img/icon/2-1036.png';
-
-import meat2hIcon from '@/assets/img/icon/2-1035.png';
-import meat1hIcon from '@/assets/img/icon/2-1034.png';
-import meat30mIcon from '@/assets/img/icon/2-1033.png';
-import meat15mIcon from '@/assets/img/icon/2-1032.png';
-import meat5mIcon from '@/assets/img/icon/2-1031.png';
-
-import medalIcon from '@/assets/img/icon/2-0000.png';
-import chestIcon from '@/assets/img/icon/2-1001.png';
+import {
+  chestIcon,
+  meat100KIcon,
+  meat10MIcon,
+  meat15mIcon,
+  meat1hIcon,
+  meat1MIcon,
+  meat2hIcon,
+  meat30mIcon,
+  meat5mIcon,
+  meat88K_8MIcon,
+  medalIcon,
+} from '@/config/gok-item-icon-set.js';
 
 export const defaultValues = {
   meat: 0,
@@ -33,110 +32,77 @@ export const meatItems = [
     id: 'meat88K_8M',
     name: 'Набор удачи - Мясо',
     description: 'При открытии можно случ. получить Мясо (88К-8M)<br><span class="text-error font-weight-bold">Внимание! Расчет зависит от рандома. В расчете берется среднее число</span>',
-    icon: {
-      bg: 'violet',
-      src: meat88K_8MIcon,
-    },
+    icon: meat88K_8MIcon,
     approximately: true,
   },
   {
     id: 'meat10M',
     name: 'Купон мяса III',
     description: 'Содержит 10 млн. мяса',
-    icon: {
-      bg: 'orange',
-      src: meat10MIcon,
-    },
+    icon: meat10MIcon,
     approximately: false,
   },
   {
     id: 'meat1M',
     name: 'Купон мяса II',
     description: 'Содержит 1 млн. мяса',
-    icon: {
-      bg: 'violet',
-      src: meat1MIcon,
-    },
+    icon: meat1MIcon,
     approximately: false,
   },
   {
     id: 'meat100K',
     name: 'Купон мяса I',
     description: 'Содержит 100К мяса',
-    icon: {
-      bg: 'green',
-      src: meat100KIcon,
-    },
+    icon: meat100KIcon,
     approximately: false,
   },
   {
     id: 'meat2h',
     name: 'Бочка мяса',
     description: 'Моментальное получение дохода мяса за 2 ч.',
-    icon: {
-      bg: 'orange',
-      src: meat2hIcon,
-    },
+    icon: meat2hIcon,
     approximately: false,
   },
   {
     id: 'meat1h',
     name: 'Кадка мяса',
     description: 'Моментальное получение дохода мяса за 1 ч.',
-    icon: {
-      bg: 'violet',
-      src: meat1hIcon,
-    },
+    icon: meat1hIcon,
     approximately: false,
   },
   {
     id: 'meat30m',
     name: 'Мешок мяса',
     description: 'Моментальное получение дохода мяса за 30 мин.',
-    icon: {
-      bg: 'blue',
-      src: meat30mIcon,
-    },
+    icon: meat30mIcon,
     approximately: false,
   },
   {
     id: 'meat15m',
     name: 'Кулёк мяса',
     description: 'Моментальное получение дохода мяса за 15 мин.',
-    icon: {
-      bg: 'blue',
-      src: meat15mIcon,
-    },
+    icon: meat15mIcon,
     approximately: false,
   },
   {
     id: 'meat5m',
     name: 'Порция мяса',
     description: 'Моментальное получение дохода мяса за 5 мин.',
-    icon: {
-      bg: 'green',
-      src: meat5mIcon,
-    },
+    icon: meat5mIcon,
     approximately: false,
   },
   {
     id: 'medal',
     name: 'Медаль сбора',
     description: 'Моментальное получение дохода с поселений за 30 мин.',
-    icon: {
-      bg: 'violet',
-      src: medalIcon,
-    },
+    icon: medalIcon,
     approximately: false,
   },
   {
     id: 'chest',
     name: 'Сундук ресурсов',
     description: 'Есть шанс получить серебро, мясо, солдат (1ч., 2ч., 6ч.) или медаль таланта<br><span class="text-error font-weight-bold">Внимание! Расчет зависит от рандома, т.о. чем больше количество, тем точнее будет расчет. Рекомендуется считать от 10шт</span>',
-    icon: {
-      bg: 'orange',
-      src: chestIcon,
-    },
+    icon: chestIcon,
     approximately: true,
   },
 ];
