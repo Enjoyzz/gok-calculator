@@ -1,12 +1,11 @@
 <script setup>
 definePage({
   name: 'Index',
-  meta: {
-    title: 'Главная',
-  },
+  redirect: {name: 'Charm'},
+  meta: {},
 });
 </script>
 
 <template>
-  <HelloWorld />
+  <IndexPage/>
 </template>
