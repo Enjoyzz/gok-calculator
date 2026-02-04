@@ -8,6 +8,7 @@
 import 'vuetify/styles'
 import iMdiMenu from '~icons/mdi/menu'
 import iMdiClose from '~icons/mdi/close'
+import iMdiCloseCircle from '~icons/mdi/close-circle'
 
 // Composables
 import { createVuetify } from 'vuetify'
@@ -17,7 +18,9 @@ export default createVuetify({
   icons: {
     aliases: {
       menu: iMdiMenu,
-      close: iMdiClose
+      close: iMdiClose,
+      clear: iMdiCloseCircle,
+      cancel: iMdiCloseCircle,
     }
   },
   theme: {

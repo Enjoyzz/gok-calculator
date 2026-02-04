@@ -3,6 +3,8 @@ import {charmItems as items, defaultCharmSettings, defaultValues, multiplierCons
 import {useCharmStore} from '@/stores/charm.js';
 import CalculatorBottom from '@/components/CalculatorBottom.vue';
 import {debounce} from '@/utils/debounce.js';
+import {formatLargeNumber} from '@/utils/formatNumbers.js';
+import {useGenerateBadge} from '@/composable/badges.js';
 
 const store = useCharmStore();
 
@@ -41,6 +43,13 @@ const handleOnFocus = (e) => {
   e.target.name = 'tmp_' + Date.now();
 }
 
+const generateBadge = (item) => {
+  if (totals.value[item.id] > 0) {
+    return (item.approximately === true ? '~' : '') + formatLargeNumber(totals.value[item.id], {removeZero: true})
+  }
+  return null
+}
+
 </script>
 
 <template>
@@ -63,8 +72,8 @@ const handleOnFocus = (e) => {
 
           <v-col cols="12" md="6" v-for="item in items" :key="item.id">
             <v-row>
-              <v-col class="flex-grow-0">
-                <GokIcon :icon="item.icon" :size="72"/>
+              <v-col class="flex-grow-0 pt-0">
+                <GokIcon :icon="item.icon" :size="72" :badge="useGenerateBadge(totals[item.id], item.approximately)"/>
               </v-col>
               <v-col class="flex-grow-1">
                 <v-text-field

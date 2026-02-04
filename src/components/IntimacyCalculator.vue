@@ -8,6 +8,7 @@ import {
 import {useIntimacyStore} from '@/stores/intimacy.js';
 import CalculatorBottom from '@/components/CalculatorBottom.vue';
 import {debounce} from '@/utils/debounce.js';
+import {useGenerateBadge} from '@/composable/badges.js';
 
 const store = useIntimacyStore();
 
@@ -72,7 +73,7 @@ const handleOnFocus = (e) => {
           <v-col cols="12" md="6" v-for="item in items" :key="item.id">
             <v-row>
               <v-col class="flex-grow-0 pt-0">
-                <GokIcon :icon="item.icon" :size="72"/>
+                <GokIcon :icon="item.icon" :size="72"  :badge="useGenerateBadge(totals[item.id], item.approximately)"/>
               </v-col>
               <v-col class="flex-grow-1">
                 <v-text-field

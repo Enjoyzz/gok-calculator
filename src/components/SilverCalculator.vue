@@ -5,6 +5,7 @@ import CalculatorBottom from '@/components/CalculatorBottom.vue';
 import {formatLargeNumber} from '@/utils/formatNumbers.js';
 import silverGenIcon from '@/assets/img/icon/1-2.png';
 import {debounce} from '@/utils/debounce.js';
+import {useGenerateBadge} from '@/composable/badges.js';
 
 const store = useSilverStore();
 
@@ -88,7 +89,7 @@ const handleOnFocus = (e) => {
           <v-col cols="12" md="6" v-for="item in items" :key="item.id">
             <v-row>
               <v-col class="flex-grow-0 pt-0">
-                <GokIcon :icon="item.icon" :size="72"/>
+                <GokIcon :icon="item.icon" :size="72"  :badge="useGenerateBadge(totals[item.id], item.approximately)"/>
               </v-col>
               <v-col class="flex-grow-1">
                 <v-text-field
