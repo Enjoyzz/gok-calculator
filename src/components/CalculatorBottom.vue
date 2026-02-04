@@ -14,6 +14,10 @@ const props = defineProps({
     type: [Object, null],
     default: null,
   },
+  confirmCloseDialog: {
+    type: Boolean,
+    default: false
+  }
 });
 
 const isDarkTheme = ref(null);
@@ -28,7 +32,7 @@ const oldData = ref(null);
 const emit = defineEmits(['save-settings']);
 
 const data = ref(
-  Object.entries(props.settings.input).map(([id, value]) => {
+  Object.entries(props.settings?.input || {}).map(([id, value]) => {
     const item = props.settings.items.find(i => i.id === id);
     return {
       ...item,
@@ -46,10 +50,10 @@ const openDialog = function() {
 };
 
 const closeDialog = function(isConfirm = false) {
-  // if (isConfirm === true && !confirm('Все изменения не сохранятся') ) {
-  //   settingDialog.value = true;
-  //   return
-  // }
+  if (props.confirmCloseDialog && isConfirm === true && !confirm('Все изменения не сохранятся') ) {
+    settingDialog.value = true;
+    return
+  }
 
   data.value = oldData.value.map(item => {
     return {

@@ -117,10 +117,7 @@ watch(input, (newValue) => {
       </v-container>
     </v-card-text>
   </v-card>
-  <CalculatorBottom
-    :total="total"
-    :items="items"
-  />
+  <CalculatorBottom :total="total"/>
 </template>
 
 <style scoped lang="css">
