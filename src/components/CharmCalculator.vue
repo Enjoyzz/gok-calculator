@@ -36,6 +36,11 @@ const saveSettings = function(settings) {
   store.setCharmSettings(settings);
 };
 
+const handleOnFocus = (e) => {
+  e.target.select()
+  e.target.name = 'tmp_' + Date.now();
+}
+
 </script>
 
 <template>
@@ -50,10 +55,9 @@ const saveSettings = function(settings) {
               persistent-hint
               density="comfortable"
               v-model="input.concubines"
-              :name="`${Math.random().toString(36).substring(2)}`"
               type="number"
               min="0"
-              @focus="e => e.target.select()"
+              @focus="handleOnFocus"
             ></v-text-field>
           </v-col>
 
@@ -67,7 +71,6 @@ const saveSettings = function(settings) {
                   variant="outlined"
                   v-model="input[item.id]"
                   @click:clear="input[item.id] = defaultValues[item.id] || 0"
-                  :name="`${Math.random().toString(36).substring(2)}`"
                   :hint="item.description"
                   persistent-hint
                   active
@@ -76,7 +79,7 @@ const saveSettings = function(settings) {
                   min="0"
                   clearable
                   hide-spin-buttons
-                  @focus="e => e.target.select()"
+                  @focus="handleOnFocus"
                 >
                   <template #label>
                 <span v-if="item.approximately">
