@@ -1,8 +1,6 @@
 <script setup>
 import {useDisplay, useTheme} from 'vuetify';
 import {useAppStore} from '@/stores/app.js';
-import iMdiWeatherSunny from '~icons/mdi/weather-sunny'
-import iMdiWeatherNight from '~icons/mdi/weather-night'
 
 const appStore = useAppStore();
 
@@ -45,9 +43,9 @@ const toggleDrawer = () => drawer.value = !drawer.value;
         <v-app-bar-nav-icon @click="toggleDrawer"></v-app-bar-nav-icon>
       </template>
       <template v-slot:append>
-        <v-btn icon @click="toggleTheme">
-          <iMdiWeatherSunny v-if="currentTheme === 'dark'" />
-          <iMdiWeatherNight v-else />
+        <v-btn icon @click="toggleTheme" class="text-h6">
+          <i-mdi-weather-sunny v-if="currentTheme === 'dark'" />
+          <i-mdi-weather-night v-else />
         </v-btn>
       </template>
     </v-app-bar>

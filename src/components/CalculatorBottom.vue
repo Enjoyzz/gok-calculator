@@ -1,8 +1,6 @@
 <script setup>
 import {formatLargeNumber} from '@/utils/formatNumbers.js';
 import {useTheme} from 'vuetify';
-import iMdiCog from '~icons/mdi/cog'
-import iMdiCogs from '~icons/mdi/cogs'
 
 const theme = useTheme();
 
@@ -93,7 +91,7 @@ const resetValue = function(id) {
     </v-card>
 
     <v-btn v-if="settings" @click.prevent="openDialog">
-      <v-icon :icon="iMdiCog"/>
+      <i-mdi-cog class="text-subtitle-1"/>
     </v-btn>
 
   </v-bottom-navigation>
@@ -110,9 +108,11 @@ const resetValue = function(id) {
   >
     <v-card>
       <v-card-title :class="{'bg-grey-lighten-4': !isDarkTheme, 'bg-blue-grey-darken-4': isDarkTheme}">
-        <v-card-item title="Настройки"
-                     :prepend-icon="iMdiCogs"
-        ></v-card-item>
+        <v-card-item title="Настройки">
+          <template #prepend>
+            <i-mdi-cogs />
+          </template>
+        </v-card-item>
       </v-card-title>
 
       <v-divider></v-divider>
