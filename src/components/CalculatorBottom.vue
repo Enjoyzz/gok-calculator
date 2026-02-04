@@ -64,7 +64,31 @@ const closeDialog = function(isConfirm = false) {
   settingDialog.value = false;
 };
 
+const validateField = (e) => {
+  const input = e.target
+  let isValid = input.checkValidity();
+  if (!isValid) {
+    input.reportValidity();
+  }
+  return isValid;
+}
+
 const saveSettings = function() {
+
+  const inputs = document.querySelectorAll('input');
+  let hasErrors = false;
+
+  // Проверяем каждое поле
+  inputs.forEach(input => {
+    if (!input.checkValidity()) {
+      hasErrors = true;
+      input.reportValidity();
+      input.focus();
+    }
+  });
+
+  if (hasErrors) return;
+
   emit('save-settings', Object.fromEntries(
     data.value.map(item => [item.id, Number(item.value)]),
   ));
@@ -78,6 +102,13 @@ const resetValue = function(id) {
     data.value[index].value = props.settings.defaults[id];
   }
 };
+
+const handleOnFocus = (e) => {
+  e.target.select()
+  e.target.name = 'tmp_' + Date.now();
+}
+
+
 </script>
 
 <template>
@@ -133,11 +164,16 @@ const resetValue = function(id) {
               variant="outlined"
               density="compact"
               v-model="setting.value"
+              type="number"
+              hide-spin-buttons
+              step="0.01"
               :min="settings.constraints[setting.id]?.min || null"
               :max="settings.constraints[setting.id]?.max || null"
-              @focus="e => e.target.select()"
               clearable
               @click:clear="resetValue(setting.id)"
+              @input="validateField"
+              @blur="validateField"
+              @focus="handleOnFocus"
               :bg-color="setting.value !== settings.defaults[setting.id] ? 'amber-lighten-4' : ''"
             >
               <template #details v-if="setting.value !== settings.defaults[setting.id]">
