@@ -43,6 +43,16 @@ import silver30mIconSrc from '@/assets/img/icon/2-1023.png';
 import silver15mIconSrc from '@/assets/img/icon/2-1022.png';
 import silver5mIconSrc from '@/assets/img/icon/2-1021.png';
 
+import soldiers88K_8MIconSrc from '@/assets/img/icon/2-1103.png';
+import soldiers10MIconSrc from '@/assets/img/icon/2-1048.png';
+import soldiers1MIconSrc from '@/assets/img/icon/2-1047.png';
+import soldiers100KIconSrc from '@/assets/img/icon/2-1046.png';
+import soldiers2hIconSrc from '@/assets/img/icon/2-1045.png';
+import soldiers1hIconSrc from '@/assets/img/icon/2-1044.png';
+import soldiers30mIconSrc from '@/assets/img/icon/2-1043.png';
+import soldiers15mIconSrc from '@/assets/img/icon/2-1042.png';
+import soldiers5mIconSrc from '@/assets/img/icon/2-1041.png';
+
 export const forageIcon = {
   src: forageIconSrc,
   bg: violet,
@@ -213,6 +223,50 @@ export const silver5mIcon = {
   bg: green,
 };
 
+export const soldiers88K_8MIcon = {
+  src: soldiers88K_8MIconSrc,
+  bg: violet,
+};
+
+export const soldiers10MIcon = {
+  src: soldiers10MIconSrc,
+  bg: orange,
+};
+
+export const soldiers1MIcon = {
+  src: soldiers1MIconSrc,
+  bg: violet,
+};
+
+export const soldiers100KIcon = {
+  src: soldiers100KIconSrc,
+  bg: green,
+};
+
+export const soldiers2hIcon = {
+  src: soldiers2hIconSrc,
+  bg: orange,
+};
+
+export const soldiers1hIcon = {
+  src: soldiers1hIconSrc,
+  bg: violet,
+};
+
+export const soldiers30mIcon = {
+  src: soldiers30mIconSrc,
+  bg: blue,
+};
+
+export const soldiers15mIcon = {
+  src: soldiers15mIconSrc,
+  bg: blue,
+};
+
+export const soldiers5mIcon = {
+  src: soldiers5mIconSrc,
+  bg: green,
+};
 
 
 

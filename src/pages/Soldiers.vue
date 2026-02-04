@@ -15,7 +15,7 @@ definePage({
 </script>
 
 <template>
-  Солдаты
+  <SoldiersCalculator />
 </template>
 
 <style scoped lang="sass">
