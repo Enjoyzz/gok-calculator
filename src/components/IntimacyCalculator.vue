@@ -45,9 +45,9 @@ const saveSettings = function(settings) {
 };
 
 const handleOnFocus = (e) => {
-  e.target.select()
+  e.target.select();
   e.target.name = 'tmp_' + Date.now();
-}
+};
 
 
 </script>
@@ -73,7 +73,7 @@ const handleOnFocus = (e) => {
           <v-col cols="12" md="6" v-for="item in items" :key="item.id">
             <v-row>
               <v-col class="flex-grow-0 pt-0">
-                <GokIcon :icon="item.icon" :size="72"  :badge="useGenerateBadge(totals[item.id], item.approximately)"/>
+                <GokIcon :icon="item.icon" :size="72" :badge="useGenerateBadge(totals[item.id], item.approximately)"/>
               </v-col>
               <v-col class="flex-grow-1">
                 <v-text-field
@@ -91,10 +91,13 @@ const handleOnFocus = (e) => {
                   @focus="handleOnFocus"
                 >
                   <template #label>
-                <span v-if="item.approximately">
-                  {{ item.name }}
-                  <span class="font-weight-bold">&times; {{ store.intimacySettings[item.id] }}</span>
-                </span>
+                    <span v-if="item.approximately">
+                      <span class="font-weight-bold"><span
+                        :class="{'text-error': store.intimacySettings[item.id] !== defaultIntimacySettings[item.id]}">x{{
+                          store.intimacySettings[item.id]
+                        }}</span></span>
+                      {{ item.name }}
+                    </span>
                     <span v-else>{{ item.name }}</span>
                   </template>
                 </v-text-field>

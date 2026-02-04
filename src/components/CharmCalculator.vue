@@ -39,16 +39,16 @@ const saveSettings = function(settings) {
 };
 
 const handleOnFocus = (e) => {
-  e.target.select()
+  e.target.select();
   e.target.name = 'tmp_' + Date.now();
-}
+};
 
 const generateBadge = (item) => {
   if (totals.value[item.id] > 0) {
-    return (item.approximately === true ? '~' : '') + formatLargeNumber(totals.value[item.id], {removeZero: true})
+    return (item.approximately === true ? '~' : '') + formatLargeNumber(totals.value[item.id], {removeZero: true});
   }
-  return null
-}
+  return null;
+};
 
 </script>
 
@@ -91,10 +91,13 @@ const generateBadge = (item) => {
                   @focus="handleOnFocus"
                 >
                   <template #label>
-                <span v-if="item.approximately">
-                  {{ item.name }}
-                  <span class="font-weight-bold">&times; {{ store.charmSettings[item.id] }}</span>
-                </span>
+                    <span v-if="item.approximately">
+                      <span class="font-weight-bold"><span
+                        :class="{'text-error': store.charmSettings[item.id] !== defaultCharmSettings[item.id]}">x{{
+                          store.charmSettings[item.id]
+                        }}</span></span>
+                      {{ item.name }}
+                    </span>
                     <span v-else>{{ item.name }}</span>
                   </template>
                 </v-text-field>
