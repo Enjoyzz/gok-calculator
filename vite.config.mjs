@@ -7,6 +7,8 @@ import Vue from '@vitejs/plugin-vue'
 import VueRouter from 'unplugin-vue-router/vite'
 import { VueRouterAutoImports } from 'unplugin-vue-router'
 import Vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
+import Icons from 'unplugin-icons/vite'
+import IconsResolver from 'unplugin-icons/resolver'
 
 // Utilities
 import { defineConfig } from 'vite'
@@ -34,7 +36,12 @@ export default defineConfig({
         configFile: 'src/styles/settings.scss',
       },
     }),
-    Components(),
+    Components({
+      resolvers: [
+        IconsResolver()
+      ],
+    }),
+    Icons(),
     Fonts({
       google: {
         families: [{
