@@ -1,5 +1,6 @@
 <script setup>
 import silverGenIcon from '@/assets/img/icon/1-2.png'
+import SilverCalculator from '@/components/SilverCalculator.vue';
 
 definePage({
   path: '/silver',
@@ -15,7 +16,7 @@ definePage({
 </script>
 
 <template>
-  Серебро
+  <SilverCalculator />
 </template>
 
 <style scoped lang="sass">
