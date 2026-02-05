@@ -41,13 +41,14 @@ test.describe('BottomNavigation Component', () => {
         // Открываем диалог
         const buttons = page.locator('.v-bottom-navigation button');
         await buttons.first().click();
-
+        await page.waitForTimeout(500);
         const dialog = page.locator('.v-dialog')
         await expect(dialog).toBeVisible();
         await expect(dialog.getByText('Настройки')).toBeVisible();
 
         // Закрываем диалог
         await page.locator('.v-dialog .v-card-actions button:has-text("Закрыть")').click();
+        await page.waitForTimeout(500);
         await expect(page.locator('.v-dialog')).toBeHidden();
       });
 
@@ -57,6 +58,7 @@ test.describe('BottomNavigation Component', () => {
         // Открываем диалог
         const buttons = page.locator('.v-bottom-navigation button');
         await buttons.first().click();
+        await page.waitForTimeout(500);
 
         // Находим первый input и изменяем значение
         const dialog = page.locator('.v-dialog');
@@ -66,10 +68,12 @@ test.describe('BottomNavigation Component', () => {
 
         // Сохраняем
         await page.locator('.v-card-actions button:has-text("Сохранить")').click();
+        await page.waitForTimeout(500);
         await expect(dialog).toBeHidden();
 
         // Проверяем, что значение сохранилось (открываем снова)
         await buttons.first().click();
+        await page.waitForTimeout(500);
         await expect(dialog).toBeVisible();
 
         // Значение должно быть 2.5
@@ -82,6 +86,7 @@ test.describe('BottomNavigation Component', () => {
         // Открываем диалог
         const buttons = page.locator('.v-bottom-navigation button');
         await buttons.first().click();
+        await page.waitForTimeout(500);
 
         // Находим первый input
         const dialog = page.locator('.v-dialog');
@@ -95,6 +100,7 @@ test.describe('BottomNavigation Component', () => {
         // Нажимаем кнопку очистки (clearable)
         const clearButton = dialog.getByRole('button', { name: 'Clear' }).first();
         await clearButton.click();
+        await page.waitForTimeout(500);
 
         // Проверяем, что значение сбросилось на изначальное
         await expect(input).toHaveValue(initialValue);
@@ -106,6 +112,7 @@ test.describe('BottomNavigation Component', () => {
         // Открываем диалог
         const buttons = page.locator('.v-bottom-navigation button');
         await buttons.first().click();
+        await page.waitForTimeout(500);
 
         // Находим первый input
         const dialog = page.locator('.v-dialog');
@@ -125,6 +132,7 @@ test.describe('BottomNavigation Component', () => {
         // Открываем диалог
         const buttons = page.locator('.v-bottom-navigation button');
         await buttons.first().click();
+        await page.waitForTimeout(500);
 
         // Находим первый input
         const dialog = page.locator('.v-dialog');
@@ -137,11 +145,12 @@ test.describe('BottomNavigation Component', () => {
 
         // Закрываем диалог через кнопку "Закрыть"
         await dialog.locator('.v-card-actions button:has-text("Закрыть")').click();
-
+        await page.waitForTimeout(500);
         await expect(dialog).toBeHidden();
 
         // Проверяем, что значение сохранилось (открываем снова)
         await buttons.first().click();
+        await page.waitForTimeout(500);
         await expect(dialog).toBeVisible();
 
         // Значение должно быть 2.5
