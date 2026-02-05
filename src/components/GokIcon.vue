@@ -43,6 +43,7 @@ const iconSize = computed(() => {
   return props.size !== undefined ? props.size : 72;
 });
 
+const iconSizeStyle = computed(() => `${iconSize.value}px`);
 
 </script>
 
@@ -66,8 +67,8 @@ const iconSize = computed(() => {
   margin: 5px
 
   &, & img, div.icon
-    width: v-bind('iconSize + "px"')
-    height: v-bind('iconSize + "px"')
+    width: v-bind('iconSizeStyle')
+    height: v-bind('iconSizeStyle')
 
 
 .badge
