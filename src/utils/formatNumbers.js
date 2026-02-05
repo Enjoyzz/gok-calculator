@@ -59,7 +59,7 @@ export const formatLargeNumber = (num, options = {}) => {
   } else {
     // Меньше 1000 - форматируем с разделителями тысяч
     return formatSmallNumber(numericValue, locale, withCurrency, currency,
-        currencyPosition);
+      currencyPosition);
   }
 
   // Убираем лишние нули после запятой
@@ -72,8 +72,8 @@ export const formatLargeNumber = (num, options = {}) => {
   // Добавляем валюту если нужно
   if (withCurrency) {
     result = currencyPosition === 'before'
-        ? `${currency}${result}`
-        : `${result}${currency}`;
+      ? `${currency}${result}`
+      : `${result}${currency}`;
   }
 
   return result;
@@ -84,7 +84,7 @@ export const formatLargeNumber = (num, options = {}) => {
  * @private
  */
 const formatSmallNumber = (
-    num, locale, withCurrency, currency, currencyPosition) => {
+  num, locale, withCurrency, currency, currencyPosition) => {
   const formatter = new Intl.NumberFormat(locale, {
     minimumFractionDigits: 0,
     maximumFractionDigits: 2,
@@ -94,8 +94,8 @@ const formatSmallNumber = (
 
   if (withCurrency) {
     result = currencyPosition === 'before'
-        ? `${currency}${result}`
-        : `${result}${currency}`;
+      ? `${currency}${result}`
+      : `${result}${currency}`;
   }
 
   return result;
@@ -113,16 +113,15 @@ export const formatNumberShort = (num) => {
   const sign = num < 0 ? '-' : '';
 
   if (absNum >= 1e15) return `${sign}${(absNum / 1e15).toFixed(1).
-      replace(/\.0$/, '')}Q`;
+  replace(/\.0$/, '')}Q`;
   if (absNum >= 1e12) return `${sign}${(absNum / 1e12).toFixed(1).
-      replace(/\.0$/, '')}T`;
+  replace(/\.0$/, '')}T`;
   if (absNum >= 1e9) return `${sign}${(absNum / 1e9).toFixed(1).
-      replace(/\.0$/, '')}B`;
+  replace(/\.0$/, '')}B`;
   if (absNum >= 1e6) return `${sign}${(absNum / 1e6).toFixed(1).
-      replace(/\.0$/, '')}M`;
+  replace(/\.0$/, '')}M`;
   if (absNum >= 1e3) return `${sign}${(absNum / 1e3).toFixed(1).
-      replace(/\.0$/, '')}K`;
+  replace(/\.0$/, '')}K`;
 
   return Math.floor(absNum).toString();
 };
-

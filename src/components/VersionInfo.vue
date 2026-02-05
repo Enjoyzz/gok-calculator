@@ -56,7 +56,7 @@ const versionText = computed(() => {
 
   let buildTime = ''
 
-  if (props.showBuildTime) {
+  if (props.showBuildTime && !props.showGitShaShort) {
     try {
       const date = new Date(buildDate.value)
       console.log(date);
@@ -94,10 +94,6 @@ const versionText = computed(() => {
   display: inline-block;
   font-size: 12px;
   font-family: monospace;
-  color: #666;
-  background: #f5f5f5;
   padding: 2px 6px;
-  border-radius: 3px;
-  border: 1px solid #ddd;
 }
 </style>

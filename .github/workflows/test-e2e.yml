@@ -21,7 +21,21 @@ jobs:
           cache: 'npm'
       - name: Install dependencies
         run: npm ci
+      - name: Create .env file with release info
+        run: |
+          echo "VITE_PUBLIC_BASE_URL=/test" > .env.test
       - run: npm run build
       - run: npx playwright install --with-deps
       - name: E2E test
+        id: e2e-test
         run: npm run test:e2e
+      - name: Upload artifacts on failure
+        if: failure()
+        uses: actions/upload-artifact@v6
+        with:
+          name: playwright-failure-artifacts
+          path: |
+            playwright-report/
+            test-results/
+            debug-*.png
+          retention-days: 30
