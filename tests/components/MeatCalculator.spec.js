@@ -180,10 +180,10 @@ describe('MeatCalculator.vue', () => {
       expect(wrapper.vm.totals.meat100K).toBe(1_000_000)
     })
 
-    it('должен рассчитывать totals для meat2h с учетом выработки мяса', async () => {
+    it('должен рассчитывать totals для meat2h с учетом выработки серебра', async () => {
       wrapper = createWrapper()
 
-      wrapper.vm.input.meat = 1000 // выработка мяса в минуту
+      wrapper.vm.input.meat = 1000 // выработка серебра в минуту
       wrapper.vm.input.meat2h = 3
       await wrapper.vm.$nextTick()
 
@@ -191,7 +191,7 @@ describe('MeatCalculator.vue', () => {
       expect(wrapper.vm.totals.meat2h).toBe(360_000)
     })
 
-    it('должен рассчитывать totals для meat1h с учетом выработки мяса', async () => {
+    it('должен рассчитывать totals для meat1h с учетом выработки серебра', async () => {
       wrapper = createWrapper()
 
       wrapper.vm.input.meat = 1500
@@ -202,7 +202,40 @@ describe('MeatCalculator.vue', () => {
       expect(wrapper.vm.totals.meat1h).toBe(180_000)
     })
 
-    it('должен рассчитывать totals для medal с учетом выработки мяса', async () => {
+    it('должен рассчитывать totals для meat30m с учетом выработки серебра', async () => {
+      wrapper = createWrapper()
+
+      wrapper.vm.input.meat = 2000
+      wrapper.vm.input.meat30m = 4
+      await wrapper.vm.$nextTick()
+
+      // meat30m: 4 * 30 * 2000 = 240_000
+      expect(wrapper.vm.totals.meat30m).toBe(240_000)
+    })
+
+    it('должен рассчитывать totals для meat15m с учетом выработки серебра', async () => {
+      wrapper = createWrapper()
+
+      wrapper.vm.input.meat = 2500
+      wrapper.vm.input.meat15m = 3
+      await wrapper.vm.$nextTick()
+
+      // meat15m: 3 * 15 * 2500 = 112_500
+      expect(wrapper.vm.totals.meat15m).toBe(112_500)
+    })
+
+    it('должен рассчитывать totals для meat5m с учетом выработки серебра', async () => {
+      wrapper = createWrapper()
+
+      wrapper.vm.input.meat = 3000
+      wrapper.vm.input.meat5m = 6
+      await wrapper.vm.$nextTick()
+
+      // meat5m: 6 * 5 * 3000 = 90_000
+      expect(wrapper.vm.totals.meat5m).toBe(90_000)
+    })
+
+    it('должен рассчитывать totals для medal с учетом выработки серебра', async () => {
       wrapper = createWrapper()
 
       wrapper.vm.input.meat = 2000
@@ -213,6 +246,17 @@ describe('MeatCalculator.vue', () => {
       expect(wrapper.vm.totals.medal).toBe(240_000)
     })
 
+    it('должен рассчитывать totals для chest с учетом выработки серебра', async () => {
+      wrapper = createWrapper()
+
+      wrapper.vm.input.meat = 1800
+      wrapper.vm.input.chest = 5
+      await wrapper.vm.$nextTick()
+
+      // chest: 5 * 60 * 1800 = 540_000
+      expect(wrapper.vm.totals.chest).toBe(540_000)
+    })
+
     it('должен рассчитывать общий total', async () => {
       wrapper = createWrapper()
 
@@ -221,15 +265,20 @@ describe('MeatCalculator.vue', () => {
       wrapper.vm.input.meat88K_8M = 1    // 1 * 4_000_000 = 4_000_000
       wrapper.vm.input.meat10M = 2       // 2 * 10_000_000 = 20_000_000
       wrapper.vm.input.meat1M = 3        // 3 * 1_000_000 = 3_000_000
-      wrapper.vm.input.meat2h = 4        // 4 * 120 * 1000 = 480_000
-      wrapper.vm.input.meat1h = 5        // 5 * 60 * 1000 = 300_000
-      wrapper.vm.input.medal = 6         // 6 * 30 * 1000 = 180_000
-      wrapper.vm.input.chest = 7         // 7 * 60 * 1000 = 420_000
+      wrapper.vm.input.meat100K = 4      // 4 * 100_000 = 400_000
+      wrapper.vm.input.meat2h = 5        // 5 * 120 * 1000 = 600_000
+      wrapper.vm.input.meat1h = 6        // 6 * 60 * 1000 = 360_000
+      wrapper.vm.input.meat30m = 7       // 7 * 30 * 1000 = 210_000
+      wrapper.vm.input.meat15m = 8       // 8 * 15 * 1000 = 120_000
+      wrapper.vm.input.meat5m = 9        // 9 * 5 * 1000 = 45_000
+      wrapper.vm.input.medal = 10          // 10 * 30 * 1000 = 300_000
+      wrapper.vm.input.chest = 11          // 11 * 60 * 1000 = 660_000
 
       await wrapper.vm.$nextTick()
 
-      // Общий тотал: 4_000_000 + 20_000_000 + 3_000_000 + 480_000 + 300_000 + 180_000 + 420_000 = 28_380_000
-      expect(wrapper.vm.total).toBe(28_380_000)
+      // Общий тотал: 4_000_000 + 20_000_000 + 3_000_000 + 400_000 + 600_000 +
+      // 360_000 + 210_000 + 120_000 + 45_000 + 300_000 + 660_000 = 29_695_000
+      expect(wrapper.vm.total).toBe(29_695_000)
     })
   })
 
