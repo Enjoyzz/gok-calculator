@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test.describe.skip('BottomNavigation Component', () => {
+test.describe('BottomNavigation Component', () => {
 
   test.describe('Калькуляторы без настроек (мясо, серебро, солдаты)', () => {
     const calculatorsWithoutSettings = ['/dev/meat', '/dev/silver', '/dev/soldiers'];
@@ -31,8 +31,6 @@ test.describe.skip('BottomNavigation Component', () => {
         await page.waitForLoadState('domcontentloaded');
 
         const buttons = page.locator('.v-bottom-navigation button');
-        await buttons.first().waitFor({ state: 'visible', timeout: 15000 });
-
         await expect(buttons).toHaveCount(1); // Ожидаем одну кнопку
 
         // Проверяем, что кнопка видима
@@ -50,7 +48,6 @@ test.describe.skip('BottomNavigation Component', () => {
 
         // Открываем диалог
         const buttons = page.locator('.v-bottom-navigation button');
-        await buttons.first().waitFor({ state: 'visible', timeout: 15000 });
         await buttons.first().click();
         await page.waitForTimeout(500);
         const dialog = page.locator('.v-dialog')
@@ -70,7 +67,6 @@ test.describe.skip('BottomNavigation Component', () => {
 
         // Открываем диалог
         const buttons = page.locator('.v-bottom-navigation button');
-        await buttons.first().waitFor({ state: 'visible', timeout: 15000 });
         await buttons.first().click();
         await page.waitForTimeout(500);
 
@@ -101,7 +97,6 @@ test.describe.skip('BottomNavigation Component', () => {
 
         // Открываем диалог
         const buttons = page.locator('.v-bottom-navigation button');
-        await buttons.first().waitFor({ state: 'visible', timeout: 15000 });
         await buttons.first().click();
         await page.waitForTimeout(500);
 
@@ -130,7 +125,6 @@ test.describe.skip('BottomNavigation Component', () => {
 
         // Открываем диалог
         const buttons = page.locator('.v-bottom-navigation button');
-        await buttons.first().waitFor({ state: 'visible', timeout: 15000 });
         await buttons.first().click();
         await page.waitForTimeout(500);
 
@@ -153,7 +147,6 @@ test.describe.skip('BottomNavigation Component', () => {
 
         // Открываем диалог
         const buttons = page.locator('.v-bottom-navigation button');
-        await buttons.first().waitFor({ state: 'visible', timeout: 15000 });
         await buttons.first().click();
         await page.waitForTimeout(500);
 
