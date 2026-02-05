@@ -26,3 +26,4 @@ pnpm-debug.log*
 /.env.production
 /.env.development
 /src/pages/_*.vue
+/test-results/
