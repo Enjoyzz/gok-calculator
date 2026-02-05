@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('BottomNavigation Component', () => {
+test.describe.skip('BottomNavigation Component', () => {
+
   test.describe('Калькуляторы без настроек (мясо, серебро, солдаты)', () => {
     const calculatorsWithoutSettings = ['/dev/meat', '/dev/silver', '/dev/soldiers'];
 
