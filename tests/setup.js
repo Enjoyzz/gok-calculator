@@ -4,4 +4,3 @@ vi.mock('vuetify', () => ({
     install: vi.fn(),
   }),
 }));
-

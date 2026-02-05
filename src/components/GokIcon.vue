@@ -3,15 +3,35 @@ import {useTheme} from 'vuetify/framework';
 
 const theme = useTheme();
 
-const props = defineProps(['icon', 'src', 'bg', 'name', 'size', 'badge']);
+const props = defineProps({
+  icon: {
+    type: Object,
+  }, src: {
+    type: String,
+  }, bg: {
+    type: String,
+  }, name: {
+    type: String,
+  }, size: {
+    type: [Number],
+    default: 72,
+  }, badge: {
+    type: [String, Number]
+  },
+});
 
 const isDarkTheme = ref(null);
+const validProps = ref(true);
 
 watch(theme.current, () => {
   isDarkTheme.value = theme.current.value.dark === true;
 }, {immediate: true});
 
 const iconPath = computed(() => {
+  if (!props.icon?.src && !props.src) {
+    validProps.value = false
+    console.warn('GokIcon component -  need set :icon or :src props. The icon props must be object {src:String, bg:?String}');
+  }
   return props.icon ? props.icon.src : props.src;
 });
 
@@ -20,14 +40,14 @@ const bgValue = computed(() => {
 });
 
 const iconSize = computed(() => {
-  return props.size || 72;
+  return props.size !== undefined ? props.size : 72;
 });
 
 
 </script>
 
 <template>
-  <div class="icon">
+  <div class="icon" v-if="validProps">
     <div class="bg" :style="{backgroundImage:  `url(${bgValue})`}">
       <img :src="iconPath" :alt="name || ''">
       <div v-if="badge" :class="{'bg-blue-grey-lighten-5': isDarkTheme, 'bg-blue-grey-darken-3': !isDarkTheme}"
