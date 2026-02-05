@@ -75,7 +75,7 @@ jobs:
           echo "VITE_APP_BUILD_DATE=$RELEASE_DATE" >> .env.production
           echo "VITE_APP_GIT_REF=${{ github.ref }}" >> .env.production
           echo "VITE_APP_GIT_SHA_SHORT=${GITHUB_SHA:0:7}" >> .env.production
-          echo "VITE_PUBLIC_BASE_URL=/gok-calculator" > .env.production
+          echo "VITE_PUBLIC_BASE_URL=/gok-calculator" >> .env.production
 
           
           echo "=== ENV FILE CONTENT ==="
