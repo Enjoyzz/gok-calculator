@@ -12,13 +12,13 @@ const input = ref(store.charmValues);
 
 const totals = computed(() => ({
   blueHadak: Math.floor(
-    input.value.blueHadak * input.value.concubines * store.charmSettings.blueHadak),
-  whiteHadak: Number(input.value.whiteHadak * input.value.concubines),
-  goldHairpin: Number(input.value.goldHairpin * 5),
-  silverHairpin: Math.floor(input.value.silverHairpin * store.charmSettings.silverHairpin),
-  perfume: Number(input.value.perfume),
-  chests: Math.floor(input.value.chests * store.charmSettings.chests),
-  forage: Math.floor(input.value.forage * store.charmSettings.forage),
+    (input.value.blueHadak || defaultValues.blueHadak) * (input.value.concubines || defaultValues.concubines) * store.charmSettings.blueHadak),
+  whiteHadak: Number((input.value.whiteHadak || defaultValues.whiteHadak) * (input.value.concubines || defaultValues.concubines)),
+  goldHairpin: Number((input.value.goldHairpin || defaultValues.goldHairpin) * 5),
+  silverHairpin: Math.floor((input.value.silverHairpin || defaultValues.silverHairpin) * store.charmSettings.silverHairpin),
+  perfume: Number(input.value.perfume || defaultValues.perfume),
+  chests: Math.floor((input.value.chests || defaultValues.chests) * store.charmSettings.chests),
+  forage: Math.floor((input.value.forage || defaultValues.forage) * store.charmSettings.forage),
 }));
 
 const total = computed(() =>
@@ -34,7 +34,7 @@ watch(input, (newValue) => {
   }, {deep: true},
 );
 
-const saveSettings = function(settings) {
+const saveSettings = function (settings) {
   store.setCharmSettings(settings);
 };
 

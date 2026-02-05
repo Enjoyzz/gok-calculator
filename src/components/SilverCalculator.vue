@@ -12,20 +12,20 @@ const store = useSilverStore();
 const input = ref(store.silverValues);
 
 const totals = computed(() => ({
-  silver88K_8M: input.value.silver88K_8M * 4_000_000,
+  silver88K_8M: (input.value.silver88K_8M || defaultValues.silver88K_8M) * 4_000_000,
 
-  silver10M: input.value.silver10M * 10_000_000,
-  silver1M: input.value.silver1M * 1_000_000,
-  silver100K: input.value.silver100K * 100_000,
+  silver10M: (input.value.silver10M || defaultValues.silver10M) * 10_000_000,
+  silver1M: (input.value.silver1M || defaultValues.silver1M) * 1_000_000,
+  silver100K: (input.value.silver100K || defaultValues.silver100K) * 100_000,
 
-  silver2h: input.value.silver2h * 120 * input.value.silver,
-  silver1h: input.value.silver1h * 60 * input.value.silver,
-  silver30m: input.value.silver30m * 30 * input.value.silver,
-  silver15m: input.value.silver15m * 15 * input.value.silver,
-  silver5m: input.value.silver5m * 5 * input.value.silver,
+  silver2h: (input.value.silver2h || defaultValues.silver2h) * 120 * (input.value.silver || defaultValues.silver),
+  silver1h: (input.value.silver1h || defaultValues.silver1h) * 60 * (input.value.silver || defaultValues.silver),
+  silver30m: (input.value.silver30m || defaultValues.silver30m) * 30 * (input.value.silver || defaultValues.silver),
+  silver15m: (input.value.silver15m || defaultValues.silver15m) * 15 * (input.value.silver || defaultValues.silver),
+  silver5m: (input.value.silver5m || defaultValues.silver5m) * 5 * (input.value.silver || defaultValues.silver),
 
-  medal: input.value.medal * 30 * input.value.silver,
-  chest: input.value.chest * 60 * input.value.silver,
+  medal: (input.value.medal || defaultValues.medal) * 30 * (input.value.silver || defaultValues.silver),
+  chest: (input.value.chest || defaultValues.chest) * 60 * (input.value.silver || defaultValues.silver),
 }));
 
 const total = computed(() =>

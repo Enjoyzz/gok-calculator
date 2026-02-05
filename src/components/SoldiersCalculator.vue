@@ -12,20 +12,20 @@ const store = useSoldiersStore();
 const input = ref(store.soldiersValues);
 
 const totals = computed(() => ({
-  soldiers88K_8M: input.value.soldiers88K_8M * 4_000_000,
+  soldiers88K_8M: (input.value.soldiers88K_8M || defaultValues.soldiers88K_8M) * 4_000_000,
 
-  soldiers10M: input.value.soldiers10M * 10_000_000,
-  soldiers1M: input.value.soldiers1M * 1_000_000,
-  soldiers100K: input.value.soldiers100K * 100_000,
+  soldiers10M: (input.value.soldiers10M || defaultValues.soldiers10M) * 10_000_000,
+  soldiers1M: (input.value.soldiers1M || defaultValues.soldiers1M) * 1_000_000,
+  soldiers100K: (input.value.soldiers100K || defaultValues.soldiers100K) * 100_000,
 
-  soldiers2h: input.value.soldiers2h * 120 * input.value.soldiers,
-  soldiers1h: input.value.soldiers1h * 60 * input.value.soldiers,
-  soldiers30m: input.value.soldiers30m * 30 * input.value.soldiers,
-  soldiers15m: input.value.soldiers15m * 15 * input.value.soldiers,
-  soldiers5m: input.value.soldiers5m * 5 * input.value.soldiers,
+  soldiers2h: (input.value.soldiers2h || defaultValues.soldiers2h) * 120 * (input.value.soldiers || defaultValues.soldiers),
+  soldiers1h: (input.value.soldiers1h || defaultValues.soldiers1h) * 60 * (input.value.soldiers || defaultValues.soldiers),
+  soldiers30m: (input.value.soldiers30m || defaultValues.soldiers30m) * 30 * (input.value.soldiers || defaultValues.soldiers),
+  soldiers15m: (input.value.soldiers15m || defaultValues.soldiers15m) * 15 * (input.value.soldiers || defaultValues.soldiers),
+  soldiers5m: (input.value.soldiers5m || defaultValues.soldiers5m) * 5 * (input.value.soldiers || defaultValues.soldiers),
 
-  medal: input.value.medal * 30 * input.value.soldiers,
-  chest: input.value.chest * 60 * input.value.soldiers,
+  medal: (input.value.medal || defaultValues.medal) * 30 * (input.value.soldiers || defaultValues.soldiers),
+  chest: (input.value.chest || defaultValues.chest) * 60 * (input.value.soldiers || defaultValues.soldiers),
 }));
 
 const total = computed(() =>

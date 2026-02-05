@@ -157,7 +157,7 @@ const handleOnFocus = (e) => {
           v-for="setting in data"
           :key="setting.id"
         >
-          <GokIcon :icon="setting.icon" size="64"/>
+          <GokIcon :icon="setting.icon" :size="64"/>
           <div class="d-flex flex-column flex-grow-1">
             <v-list-item-title>{{setting.name}}</v-list-item-title>
             <v-text-field

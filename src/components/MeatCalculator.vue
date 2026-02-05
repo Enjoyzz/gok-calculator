@@ -12,20 +12,20 @@ const store = useMeatStore();
 const input = ref(store.meatValues);
 
 const totals = computed(() => ({
-  meat88K_8M: input.value.meat88K_8M * 4_000_000,
+  meat88K_8M: (input.value.meat88K_8M || defaultValues.meat88K_8M) * 4_000_000,
 
-  meat10M: input.value.meat10M * 10_000_000,
-  meat1M: input.value.meat1M * 1_000_000,
-  meat100K: input.value.meat100K * 100_000,
+  meat10M: (input.value.meat10M || defaultValues.meat10M) * 10_000_000,
+  meat1M: (input.value.meat1M || defaultValues.meat1M) * 1_000_000,
+  meat100K: (input.value.meat100K || defaultValues.meat100K) * 100_000,
 
-  meat2h: input.value.meat2h * 120 * input.value.meat,
-  meat1h: input.value.meat1h * 60 * input.value.meat,
-  meat30m: input.value.meat30m * 30 * input.value.meat,
-  meat15m: input.value.meat15m * 15 * input.value.meat,
-  meat5m: input.value.meat5m * 5 * input.value.meat,
+  meat2h: (input.value.meat2h || defaultValues.meat2h) * 120 * (input.value.meat || defaultValues.meat),
+  meat1h: (input.value.meat1h || defaultValues.meat1h) * 60 * (input.value.meat || defaultValues.meat),
+  meat30m: (input.value.meat30m || defaultValues.meat30m) * 30 * (input.value.meat || defaultValues.meat),
+  meat15m: (input.value.meat15m || defaultValues.meat15m) * 15 * (input.value.meat || defaultValues.meat),
+  meat5m: (input.value.meat5m || defaultValues.meat5m) * 5 * (input.value.meat || defaultValues.meat),
 
-  medal: input.value.medal * 30 * input.value.meat,
-  chest: input.value.chest * 60 * input.value.meat,
+  medal: (input.value.medal || defaultValues.medal) * 30 * (input.value.meat || defaultValues.meat),
+  chest: (input.value.chest || defaultValues.chest) * 60 * (input.value.meat || defaultValues.meat),
 }));
 
 const total = computed(() =>

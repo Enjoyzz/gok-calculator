@@ -16,15 +16,15 @@ const input = ref(store.intimacyValues);
 
 const totals = computed(() => ({
   ordos: Math.floor(
-    input.value.ordos * input.value.concubines * store.intimacySettings.ordos),
-  takya: Number(input.value.takya * input.value.concubines),
-  jadeBracelet: Number(input.value.jadeBracelet * 5),
+    (input.value.ordos || defaultValues.ordos) * (input.value.concubines || defaultValues.concubines) * store.intimacySettings.ordos),
+  takya: Number((input.value.takya || defaultValues.takya) * (input.value.concubines || defaultValues.concubines)),
+  jadeBracelet: Number((input.value.jadeBracelet || defaultValues.jadeBracelet) * 5),
   sandalwoodBracelet: Math.floor(
-    input.value.sandalwoodBracelet * store.intimacySettings.sandalwoodBracelet),
-  goldEarrings: Number(input.value.goldEarrings * 2),
-  gemRing: Number(input.value.gemRing),
-  loveLetter: Number(input.value.loveLetter),
-  forage: Math.floor(input.value.forage * store.intimacySettings.forage),
+    (input.value.sandalwoodBracelet || defaultValues.sandalwoodBracelet) * store.intimacySettings.sandalwoodBracelet),
+  goldEarrings: Number((input.value.goldEarrings || defaultValues.goldEarrings) * 2),
+  gemRing: Number(input.value.gemRing || defaultValues.gemRing),
+  loveLetter: Number(input.value.loveLetter || defaultValues.loveLetter),
+  forage: Math.floor((input.value.forage || defaultValues.forage) * store.intimacySettings.forage),
 }));
 
 const total = computed(() =>
@@ -40,7 +40,7 @@ watch(input, (newValue) => {
   }, {deep: true},
 );
 
-const saveSettings = function(settings) {
+const saveSettings = function (settings) {
   store.setIntimacySettings(settings);
 };
 
