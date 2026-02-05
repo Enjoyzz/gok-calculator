@@ -8,6 +8,9 @@ test.describe('BottomNavigation Component', () => {
       test(`не должен показывать кнопку настроек на ${url}`, async ({ page }) => {
         await page.goto(url);
 
+        await page.waitForLoadState('networkidle');
+        await page.waitForLoadState('domcontentloaded');
+
         // Проверяем, что нет кнопки с иконкой cog
         await expect(page.locator('.v-bottom-navigation button:has(i-mdi-cog)')).toBeHidden();
 
@@ -23,6 +26,8 @@ test.describe('BottomNavigation Component', () => {
     for (const url of calculatorsWithSettings) {
       test(`должен показывать кнопку настроек на ${url}`, async ({ page }) => {
         await page.goto(url);
+        await page.waitForLoadState('networkidle');
+        await page.waitForLoadState('domcontentloaded');
 
         const buttons = page.locator('.v-bottom-navigation button');
         await buttons.first().waitFor({ state: 'visible', timeout: 15000 });
@@ -39,6 +44,8 @@ test.describe('BottomNavigation Component', () => {
 
       test(`должен открывать/закрывать диалог настроек на ${url}`, async ({ page }) => {
         await page.goto(url);
+        await page.waitForLoadState('networkidle');
+        await page.waitForLoadState('domcontentloaded');
 
         // Открываем диалог
         const buttons = page.locator('.v-bottom-navigation button');
@@ -57,6 +64,8 @@ test.describe('BottomNavigation Component', () => {
 
       test(`должен сохранять настройки на ${url}`, async ({ page }) => {
         await page.goto(url);
+        await page.waitForLoadState('networkidle');
+        await page.waitForLoadState('domcontentloaded');
 
         // Открываем диалог
         const buttons = page.locator('.v-bottom-navigation button');
@@ -86,6 +95,8 @@ test.describe('BottomNavigation Component', () => {
 
       test(`должен сбрасывать значение на дефолтное на ${url}`, async ({ page }) => {
         await page.goto(url);
+        await page.waitForLoadState('networkidle');
+        await page.waitForLoadState('domcontentloaded');
 
         // Открываем диалог
         const buttons = page.locator('.v-bottom-navigation button');
@@ -113,6 +124,8 @@ test.describe('BottomNavigation Component', () => {
 
       test(`должен показывать предупреждение при изменённом значении на ${url}`, async ({ page }) => {
         await page.goto(url);
+        await page.waitForLoadState('networkidle');
+        await page.waitForLoadState('domcontentloaded');
 
         // Открываем диалог
         const buttons = page.locator('.v-bottom-navigation button');
@@ -134,6 +147,8 @@ test.describe('BottomNavigation Component', () => {
 
       test(`должен сбрасывать значение на дефолтное при отмене или закрытии окна с изменениями на ${url}`, async ({ page }) => {
         await page.goto(url);
+        await page.waitForLoadState('networkidle');
+        await page.waitForLoadState('domcontentloaded');
 
         // Открываем диалог
         const buttons = page.locator('.v-bottom-navigation button');
