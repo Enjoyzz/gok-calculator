@@ -17,7 +17,25 @@ export default defineConfig({
   test: {
     environment: 'happy-dom',
     globals: true,
-    setupFiles: ['./tests/setup.js'],
+    include: ['tests/unit/**'],
+    exclude: ['./tests/unit/setup.js'],
+    outputFile: './test-results/vitest-results.json',
+    setupFiles: ['./tests/unit/setup.js'],
+    coverage: {
+      enabled: true,
+      provider: 'v8',
+      reporter: ['text', 'html', 'json'],
+      reportsDirectory: './test-results/vitest/coverage',
+      exclude: [
+        'tests/**',
+        'tests/setup.js',
+        '**/*.config.js',
+        '**/*.d.ts',
+        'node_modules/**',
+        'dist/**',
+        'test-results/**'
+      ]
+    },
     deps: {
       inline: ['vuetify']
     },
