@@ -25,6 +25,8 @@ test.describe('BottomNavigation Component', () => {
         await page.goto(url);
 
         const buttons = page.locator('.v-bottom-navigation button');
+        await buttons.first().waitFor({ state: 'visible', timeout: 15000 });
+
         await expect(buttons).toHaveCount(1); // Ожидаем одну кнопку
 
         // Проверяем, что кнопка видима
@@ -40,6 +42,7 @@ test.describe('BottomNavigation Component', () => {
 
         // Открываем диалог
         const buttons = page.locator('.v-bottom-navigation button');
+        await buttons.first().waitFor({ state: 'visible', timeout: 15000 });
         await buttons.first().click();
         await page.waitForTimeout(500);
         const dialog = page.locator('.v-dialog')
@@ -57,6 +60,7 @@ test.describe('BottomNavigation Component', () => {
 
         // Открываем диалог
         const buttons = page.locator('.v-bottom-navigation button');
+        await buttons.first().waitFor({ state: 'visible', timeout: 15000 });
         await buttons.first().click();
         await page.waitForTimeout(500);
 
@@ -85,6 +89,7 @@ test.describe('BottomNavigation Component', () => {
 
         // Открываем диалог
         const buttons = page.locator('.v-bottom-navigation button');
+        await buttons.first().waitFor({ state: 'visible', timeout: 15000 });
         await buttons.first().click();
         await page.waitForTimeout(500);
 
@@ -111,6 +116,7 @@ test.describe('BottomNavigation Component', () => {
 
         // Открываем диалог
         const buttons = page.locator('.v-bottom-navigation button');
+        await buttons.first().waitFor({ state: 'visible', timeout: 15000 });
         await buttons.first().click();
         await page.waitForTimeout(500);
 
@@ -131,6 +137,7 @@ test.describe('BottomNavigation Component', () => {
 
         // Открываем диалог
         const buttons = page.locator('.v-bottom-navigation button');
+        await buttons.first().waitFor({ state: 'visible', timeout: 15000 });
         await buttons.first().click();
         await page.waitForTimeout(500);
 
