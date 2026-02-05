@@ -25,3 +25,4 @@ pnpm-debug.log*
 /auto-imports.d.ts
 /.env.production
 /.env.development
+/src/pages/_*.vue
