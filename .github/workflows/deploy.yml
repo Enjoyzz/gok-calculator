@@ -82,7 +82,7 @@ jobs:
           REPO_NAME="${{ github.event.repository.name }}"
           echo "Repository name: $REPO_NAME"
 
-          echo "VITE_PUBLIC_BASE_URL=/gok-calculator/" >> .env.production
+          echo "VITE_PUBLIC_BASE_URL=/$REPO_NAME/" >> .env.production
           
           
           echo "=== ENV FILE CONTENT ==="
