@@ -81,12 +81,7 @@ jobs:
           
           REPO_NAME="${{ github.event.repository.name }}"
           echo "Repository name: $REPO_NAME"
-          
-          if [[ "$REPO_NAME" == *".github.io" ]]; then
-          else
-            echo "Detected base url: $REPO_NAME"
-          fi
-          
+
           echo "VITE_PUBLIC_BASE_URL=/gok-calculator/" >> .env.production
           
           
