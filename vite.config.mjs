@@ -1,95 +1,101 @@
 // Plugins
-import AutoImport from 'unplugin-auto-import/vite'
-import Components from 'unplugin-vue-components/vite'
-import Fonts from 'unplugin-fonts/vite'
-import Layouts from 'vite-plugin-vue-layouts-next'
-import Vue from '@vitejs/plugin-vue'
-import VueRouter from 'unplugin-vue-router/vite'
-import { VueRouterAutoImports } from 'unplugin-vue-router'
-import Vuetify, { transformAssetUrls } from 'vite-plugin-vuetify'
-import Icons from 'unplugin-icons/vite'
-import IconsResolver from 'unplugin-icons/resolver'
+import AutoImport from 'unplugin-auto-import/vite';
+import Components from 'unplugin-vue-components/vite';
+import Fonts from 'unplugin-fonts/vite';
+import Layouts from 'vite-plugin-vue-layouts-next';
+import Vue from '@vitejs/plugin-vue';
+import VueRouter from 'unplugin-vue-router/vite';
+import {VueRouterAutoImports} from 'unplugin-vue-router';
+import Vuetify, {transformAssetUrls} from 'vite-plugin-vuetify';
+import Icons from 'unplugin-icons/vite';
+import IconsResolver from 'unplugin-icons/resolver';
 
 // Utilities
-import { defineConfig } from 'vite'
-import { fileURLToPath, URL } from 'node:url'
+import {defineConfig, loadEnv} from 'vite';
+import {fileURLToPath, URL} from 'node:url';
 import removeConsole from 'vite-plugin-remove-console';
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [
-    VueRouter({
+export default defineConfig(({mode}) => {
+
+  const env = loadEnv(mode, process.cwd(), '')
+
+  return {
+    plugins: [
+      VueRouter({
         routesFolder: [
-            {
-                src: 'src/pages',
-            },
+          {
+            src: 'src/pages',
+          },
         ],
-    }),
-    Layouts(),
-    Vue({
-      template: { transformAssetUrls },
-    }),
-    // https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin#readme
-    Vuetify({
-      autoImport: true,
-      styles: {
-        configFile: 'src/styles/settings.scss',
-      },
-    }),
-    Components({
-      resolvers: [
-        IconsResolver()
-      ],
-    }),
-    Icons(),
-    Fonts({
-      google: {
-        families: [{
-          name: 'Roboto',
-          styles: 'wght@100;300;400;500;700;900',
-        }],
-      },
-    }),
-    AutoImport({
-      imports: [
-        'vue',
-        VueRouterAutoImports,
-        {
-          pinia: ['defineStore', 'storeToRefs'],
+      }),
+      Layouts(),
+      Vue({
+        template: {transformAssetUrls},
+      }),
+      // https://github.com/vuetifyjs/vuetify-loader/tree/master/packages/vite-plugin#readme
+      Vuetify({
+        autoImport: true,
+        styles: {
+          configFile: 'src/styles/settings.scss',
         },
+      }),
+      Components({
+        resolvers: [
+          IconsResolver(),
+        ],
+      }),
+      Icons(),
+      Fonts({
+        google: {
+          families: [
+            {
+              name: 'Roboto',
+              styles: 'wght@100;300;400;500;700;900',
+            }],
+        },
+      }),
+      AutoImport({
+        imports: [
+          'vue',
+          VueRouterAutoImports,
+          {
+            pinia: ['defineStore', 'storeToRefs'],
+          },
+        ],
+        eslintrc: {
+          enabled: true,
+        },
+        vueTemplate: true,
+      }),
+      removeConsole({
+        includes: ['log', 'warn', 'debug', 'info'],
+      }),
+    ],
+    optimizeDeps: {
+      exclude: [
+        'vuetify',
+        'vue-router',
+        'unplugin-vue-router/runtime',
+        'unplugin-vue-router/data-loaders',
+        'unplugin-vue-router/data-loaders/basic',
       ],
-      eslintrc: {
-        enabled: true,
-      },
-      vueTemplate: true,
-    }),
-    removeConsole({
-      includes: ['log', 'warn', 'debug', 'info']
-    })
-  ],
-  optimizeDeps: {
-    exclude: [
-      'vuetify',
-      'vue-router',
-      'unplugin-vue-router/runtime',
-      'unplugin-vue-router/data-loaders',
-      'unplugin-vue-router/data-loaders/basic',
-    ],
-  },
-  define: { 'process.env': {} },
-  base: process.env.VITE_PUBLIC_BASE_URL || process.env.BASE_URL,
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('src', import.meta.url)),
     },
-    extensions: [
-      '.js',
-      '.json',
-      '.jsx',
-      '.mjs',
-      '.ts',
-      '.tsx',
-      '.vue',
-    ],
-  }
-})
+    define: {'process.env': {}},
+    base: env.VITE_PUBLIC_BASE_URL || env.BASE_URL,
+    resolve: {
+      alias: {
+        '@': fileURLToPath(new URL('src', import.meta.url)),
+      },
+      extensions: [
+        '.js',
+        '.json',
+        '.jsx',
+        '.mjs',
+        '.ts',
+        '.tsx',
+        '.vue',
+      ],
+    },
+  };
+});

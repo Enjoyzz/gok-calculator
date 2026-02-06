@@ -4,9 +4,9 @@ name: Deploy
 on:
   release:
     types: [ released ]
-#  # Runs on pushes targeting the default branch
-#  push:
-#    branches: ['master']
+  #  # Runs on pushes targeting the default branch
+  #  push:
+  #    branches: ['master']
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -23,16 +23,16 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-#  unit-tests:
-#    uses: ./.github/workflows/test-unit.yml
-#
-#  e2e-tests:
-#    uses: ./.github/workflows/test-e2e.yml
+  #  unit-tests:
+  #    uses: ./.github/workflows/test-unit.yml
+  #
+  #  e2e-tests:
+  #    uses: ./.github/workflows/test-e2e.yml
 
   deploy:
-#    needs:
-#      - unit-tests
-#      - e2e-tests
+    #    needs:
+    #      - unit-tests
+    #      - e2e-tests
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -78,8 +78,17 @@ jobs:
           echo "VITE_APP_BUILD_DATE=$RELEASE_DATE" >> .env.production
           echo "VITE_APP_GIT_REF=${{ github.ref }}" >> .env.production
           echo "VITE_APP_GIT_SHA_SHORT=${GITHUB_SHA:0:7}" >> .env.production
-          echo "VITE_PUBLIC_BASE_URL=/gok-calculator" >> .env.production
-
+          
+          REPO_NAME="${{ github.event.repository.name }}"
+          echo "Repository name: $REPO_NAME"
+          
+          if [[ "$REPO_NAME" == *".github.io" ]]; then
+          else
+            echo "Detected base url: $REPO_NAME"
+          fi
+          
+          echo "VITE_PUBLIC_BASE_URL=/gok-calculator/" >> .env.production
+          
           
           echo "=== ENV FILE CONTENT ==="
           cat .env.production
