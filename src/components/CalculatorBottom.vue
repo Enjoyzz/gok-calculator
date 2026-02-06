@@ -174,9 +174,9 @@ const handleOnFocus = (e) => {
               @input="validateField"
               @blur="validateField"
               @focus="handleOnFocus"
-              :bg-color="setting.value !== settings.defaults[setting.id] ? 'amber-lighten-4' : ''"
+              :bg-color="String(setting.value) !== String(settings.defaults[setting.id]) ? 'amber-lighten-4' : ''"
             >
-              <template #details v-if="setting.value !== settings.defaults[setting.id]">
+              <template #details v-if="String(setting.value) !== String(settings.defaults[setting.id])">
                 <div class="text-error text-body-2">
                   Внимание! Был изменён множитель! Значение по-умолчанию равно&nbsp;<span
                   class="font-weight-bold">{{ settings.defaults[setting.id] }}</span>
