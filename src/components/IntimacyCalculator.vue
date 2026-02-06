@@ -93,7 +93,7 @@ const handleOnFocus = (e) => {
                   <template #label>
                     <span v-if="item.approximately">
                       <span class="font-weight-bold"><span
-                        :class="{'text-error': store.intimacySettings[item.id] !== defaultIntimacySettings[item.id]}">x{{
+                        :class="{'text-error': String(store.intimacySettings[item.id]) !== String(defaultIntimacySettings[item.id])}">x{{
                           store.intimacySettings[item.id]
                         }}</span></span>
                       {{ item.name }}

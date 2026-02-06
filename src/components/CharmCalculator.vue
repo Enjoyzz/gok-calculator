@@ -93,7 +93,7 @@ const generateBadge = (item) => {
                   <template #label>
                     <span v-if="item.approximately">
                       <span class="font-weight-bold"><span
-                        :class="{'text-error': store.charmSettings[item.id] !== defaultCharmSettings[item.id]}">x{{
+                        :class="{'text-error': String(store.charmSettings[item.id]) !== String(defaultCharmSettings[item.id])}">x{{
                           store.charmSettings[item.id]
                         }}</span></span>
                       {{ item.name }}
