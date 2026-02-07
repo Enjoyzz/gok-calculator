@@ -1,16 +1,16 @@
 import {
-  chestIcon,
-  medalIcon,
-  soldiers100KIcon,
-  soldiers10MIcon,
-  soldiers15mIcon,
-  soldiers1hIcon,
-  soldiers1MIcon,
-  soldiers2hIcon,
-  soldiers30mIcon,
-  soldiers5mIcon,
-  soldiers88K_8MIcon,
-} from '@/config/gok-item-icon-set.js';
+  chest,
+  medal,
+  soldiers100K,
+  soldiers10M,
+  soldiers15m,
+  soldiers1h,
+  soldiers1M,
+  soldiers2h,
+  soldiers30m,
+  soldiers5m,
+  soldiers88K_8M
+} from "@/config/items.js";
 
 export const defaultValues = {
   soldiers: 0,
@@ -28,82 +28,16 @@ export const defaultValues = {
 };
 
 export const soldiersItems = [
-  {
-    id: 'soldiers88K_8M',
-    name: 'Набор удачи - Солдаты',
-    description: 'При открытии можно случ. получить Солдаты (88К-8M)<br><span style="font-weight: bold; color: #9b0505">Внимание! Расчет зависит от рандома. В расчете берется среднее число</span>',
-    icon: soldiers88K_8MIcon,
-    approximately: true,
-  },
-  {
-    id: 'soldiers10M',
-    name: 'Печать генерала III',
-    description: 'Содержит 10 млн. солдат',
-    icon: soldiers10MIcon,
-    approximately: false,
-  },
-  {
-    id: 'soldiers1M',
-    name: 'Печать генерала II',
-    description: 'Содержит 1 млн. солдат',
-    icon: soldiers1MIcon,
-    approximately: false,
-  },
-  {
-    id: 'soldiers100K',
-    name: 'Печать генерала I',
-    description: 'Содержит 100К солдат',
-    icon: soldiers100KIcon,
-    approximately: false,
-  },
-  {
-    id: 'soldiers2h',
-    name: 'Колчан стрел V',
-    description: 'Моментальное получение дохода солдат за 2 ч.',
-    icon: soldiers2hIcon,
-    approximately: false,
-  },
-  {
-    id: 'soldiers1h',
-    name: 'Колчан стрел IV',
-    description: 'Моментальное получение дохода солдат за 1 ч.',
-    icon: soldiers1hIcon,
-    approximately: false,
-  },
-  {
-    id: 'soldiers30m',
-    name: 'Колчан стрел III',
-    description: 'Моментальное получение дохода солдат за 30 мин.',
-    icon: soldiers30mIcon,
-    approximately: false,
-  },
-  {
-    id: 'soldiers15m',
-    name: 'Колчан стрел II',
-    description: 'Моментальное получение дохода солдат за 15 мин.',
-    icon: soldiers15mIcon,
-    approximately: false,
-  },
-  {
-    id: 'soldiers5m',
-    name: 'Колчан стрел I',
-    description: 'Моментальное получение дохода солдат за 5 мин.',
-    icon: soldiers5mIcon,
-    approximately: false,
-  },
-  {
-    id: 'medal',
-    name: 'Медаль сбора',
-    description: 'Моментальное получение дохода с поселений за 30 мин.',
-    icon: medalIcon,
-    approximately: false,
-  },
-  {
-    id: 'chest',
-    name: 'Сундук ресурсов',
-    description: 'Есть шанс получить серебро, мясо, солдат (1ч., 2ч., 6ч.) или медаль таланта<br><span style="font-weight: bold; color: #9b0505">Внимание! Расчет зависит от рандома, т.о. чем больше количество, тем точнее будет расчет. Рекомендуется считать от 10шт</span>',
-    icon: chestIcon,
-    approximately: true,
-  },
+  soldiers88K_8M,
+  soldiers10M,
+  soldiers1M,
+  soldiers100K,
+  soldiers2h,
+  soldiers1h,
+  soldiers30m,
+  soldiers15m,
+  soldiers5m,
+  medal,
+  chest,
 ];
 

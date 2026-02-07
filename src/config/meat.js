@@ -1,16 +1,16 @@
 import {
-  chestIcon,
-  meat100KIcon,
-  meat10MIcon,
-  meat15mIcon,
-  meat1hIcon,
-  meat1MIcon,
-  meat2hIcon,
-  meat30mIcon,
-  meat5mIcon,
-  meat88K_8MIcon,
-  medalIcon,
-} from '@/config/gok-item-icon-set.js';
+  chest,
+  meat100K,
+  meat10M,
+  meat15m,
+  meat1h,
+  meat1M,
+  meat2h,
+  meat30m,
+  meat5m,
+  meat88K_8M,
+  medal
+} from "@/config/items.js";
 
 export const defaultValues = {
   meat: 0,
@@ -28,82 +28,16 @@ export const defaultValues = {
 };
 
 export const meatItems = [
-  {
-    id: 'meat88K_8M',
-    name: 'Набор удачи - Мясо',
-    description: 'При открытии можно случ. получить Мясо (88К-8M)<br><span class="text-error font-weight-bold">Внимание! Расчет зависит от рандома. В расчете берется среднее число</span>',
-    icon: meat88K_8MIcon,
-    approximately: true,
-  },
-  {
-    id: 'meat10M',
-    name: 'Купон мяса III',
-    description: 'Содержит 10 млн. мяса',
-    icon: meat10MIcon,
-    approximately: false,
-  },
-  {
-    id: 'meat1M',
-    name: 'Купон мяса II',
-    description: 'Содержит 1 млн. мяса',
-    icon: meat1MIcon,
-    approximately: false,
-  },
-  {
-    id: 'meat100K',
-    name: 'Купон мяса I',
-    description: 'Содержит 100К мяса',
-    icon: meat100KIcon,
-    approximately: false,
-  },
-  {
-    id: 'meat2h',
-    name: 'Бочка мяса',
-    description: 'Моментальное получение дохода мяса за 2 ч.',
-    icon: meat2hIcon,
-    approximately: false,
-  },
-  {
-    id: 'meat1h',
-    name: 'Кадка мяса',
-    description: 'Моментальное получение дохода мяса за 1 ч.',
-    icon: meat1hIcon,
-    approximately: false,
-  },
-  {
-    id: 'meat30m',
-    name: 'Мешок мяса',
-    description: 'Моментальное получение дохода мяса за 30 мин.',
-    icon: meat30mIcon,
-    approximately: false,
-  },
-  {
-    id: 'meat15m',
-    name: 'Кулёк мяса',
-    description: 'Моментальное получение дохода мяса за 15 мин.',
-    icon: meat15mIcon,
-    approximately: false,
-  },
-  {
-    id: 'meat5m',
-    name: 'Порция мяса',
-    description: 'Моментальное получение дохода мяса за 5 мин.',
-    icon: meat5mIcon,
-    approximately: false,
-  },
-  {
-    id: 'medal',
-    name: 'Медаль сбора',
-    description: 'Моментальное получение дохода с поселений за 30 мин.',
-    icon: medalIcon,
-    approximately: false,
-  },
-  {
-    id: 'chest',
-    name: 'Сундук ресурсов',
-    description: 'Есть шанс получить серебро, мясо, солдат (1ч., 2ч., 6ч.) или медаль таланта<br><span class="text-error font-weight-bold">Внимание! Расчет зависит от рандома, т.о. чем больше количество, тем точнее будет расчет. Рекомендуется считать от 10шт</span>',
-    icon: chestIcon,
-    approximately: true,
-  },
+  meat88K_8M,
+  meat10M,
+  meat1M,
+  meat100K,
+  meat2h,
+  meat1h,
+  meat30m,
+  meat15m,
+  meat5m,
+  medal,
+  chest,
 ];
 

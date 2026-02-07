@@ -1,16 +1,16 @@
 import {
-  chestIcon,
-  medalIcon,
-  silver100KIcon,
-  silver10MIcon,
-  silver15mIcon,
-  silver1hIcon,
-  silver1MIcon,
-  silver2hIcon,
-  silver30mIcon,
-  silver5mIcon,
-  silver88K_8MIcon,
-} from '@/config/gok-item-icon-set.js';
+  chest,
+  medal,
+  silver100K,
+  silver10M,
+  silver15m,
+  silver1h,
+  silver1M,
+  silver2h,
+  silver30m,
+  silver5m,
+  silver88K_8M
+} from "@/config/items.js";
 
 export const defaultValues = {
   silver: 0,
@@ -28,82 +28,16 @@ export const defaultValues = {
 };
 
 export const silverItems = [
-  {
-    id: 'silver88K_8M',
-    name: 'Набор удачи - Серебро',
-    description: 'При открытии можно случ. получить Серебро (88К-8M)<br><span style="font-weight: bold; color: #9b0505">Внимание! Расчет зависит от рандома. В расчете берется среднее число</span>',
-    icon: silver88K_8MIcon,
-    approximately: true,
-  },
-  {
-    id: 'silver10M',
-    name: 'Эпичный купон серебра',
-    description: 'Содержит 10 млн. серебра',
-    icon: silver10MIcon,
-    approximately: false,
-  },
-  {
-    id: 'silver1M',
-    name: 'Редкий купон серебра',
-    description: 'Содержит 1 млн. серебра',
-    icon: silver1MIcon,
-    approximately: false,
-  },
-  {
-    id: 'silver100K',
-    name: 'Купон серебра',
-    description: 'Содержит 100К серебра',
-    icon: silver100KIcon,
-    approximately: false,
-  },
-  {
-    id: 'silver2h',
-    name: 'Сундук серебра',
-    description: 'Моментальное получение дохода серебра за 2 ч.',
-    icon: silver2hIcon,
-    approximately: false,
-  },
-  {
-    id: 'silver1h',
-    name: 'Ящик серебра',
-    description: 'Моментальное получение дохода серебра за 1 ч.',
-    icon: silver1hIcon,
-    approximately: false,
-  },
-  {
-    id: 'silver30m',
-    name: 'Сумка серебра',
-    description: 'Моментальное получение дохода серебра за 30 мин.',
-    icon: silver30mIcon,
-    approximately: false,
-  },
-  {
-    id: 'silver15m',
-    name: 'Мешочек серебра',
-    description: 'Моментальное получение дохода серебра за 15 мин.',
-    icon: silver15mIcon,
-    approximately: false,
-  },
-  {
-    id: 'silver5m',
-    name: 'Горсть серебра',
-    description: 'Моментальное получение дохода серебра за 5 мин.',
-    icon: silver5mIcon,
-    approximately: false,
-  },
-  {
-    id: 'medal',
-    name: 'Медаль сбора',
-    description: 'Моментальное получение дохода с поселений за 30 мин.',
-    icon: medalIcon,
-    approximately: false,
-  },
-  {
-    id: 'chest',
-    name: 'Сундук ресурсов',
-    description: 'Есть шанс получить серебро, мясо, солдат (1ч., 2ч., 6ч.) или медаль таланта<br><span style="font-weight: bold; color: #9b0505">Внимание! Расчет зависит от рандома, т.о. чем больше количество, тем точнее будет расчет. Рекомендуется считать от 10шт</span>',
-    icon: chestIcon,
-    approximately: true,
-  },
+  silver88K_8M,
+  silver10M,
+  silver1M,
+  silver100K,
+  silver2h,
+  silver1h,
+  silver30m,
+  silver15m,
+  silver5m,
+  medal,
+  chest,
 ];
 
