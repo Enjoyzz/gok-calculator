@@ -1,4 +1,13 @@
-import {forage, gemRing, goldEarrings, jadeBracelet, Ordos, sandalwoodBracelet, Takya} from "@/config/items.js";
+import {
+  forage,
+  gemRing,
+  goldEarrings,
+  jadeBracelet,
+  loveLetter,
+  Ordos,
+  sandalwoodBracelet,
+  Takya
+} from "@/config/items.js";
 
 export const defaultValues = {
   concubines: 0,
@@ -40,5 +49,6 @@ export const intimacyItems = [
   sandalwoodBracelet,
   goldEarrings,
   gemRing,
+  loveLetter,
   forage,
 ];

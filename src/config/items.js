@@ -6,7 +6,7 @@ import {
   gemRingIcon,
   goldEarringsIcon,
   goldHairpinIcon,
-  jadeBraceletIcon,
+  jadeBraceletIcon, loveLetterIcon,
   meat100KIcon,
   meat10MIcon,
   meat15mIcon,
@@ -374,6 +374,14 @@ export const soldiers5m = {
   name: 'Колчан стрел I',
   description: 'Моментальное получение дохода солдат за 5 мин.',
   icon: soldiers5mIcon,
+  approximately: false,
+}
+
+export const loveLetter = {
+  id: 'loveLetter',
+  name: 'Любовное письмо',
+  description: 'Посещение выбранной наложницы, близость +1 ед.',
+  icon: loveLetterIcon,
   approximately: false,
 }
 
