@@ -2,7 +2,8 @@
 import soldiersGenIcon from '@/assets/img/icon/1-4.png'
 
 definePage({
-  path: '/soldiers',
+  path: '/warriors',
+  alias: '/soldiers',
   name: 'Soldiers',
   meta: {
     title: 'Солдаты',

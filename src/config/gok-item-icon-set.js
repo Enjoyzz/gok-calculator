@@ -5,12 +5,12 @@ import blue from '@/assets/img/bg/bg-blue.png';
 import green from '@/assets/img/bg/bg-green.png';
 
 import medalIconSrc from '@/assets/img/icon/2-0000.png';
-import chestIconSrc from '@/assets/img/icon/2-1001.png';
+import resourceChestIconSrc from '@/assets/img/icon/2-1001.png';
 import forageIconSrc from '@/assets/img/icon/2-3026.png';
-import chestsIconSrc from '@/assets/img/icon/2-6001.png';
+import travelChestIconSrc from '@/assets/img/icon/2-6001.png';
 
-import blueHadakIconSrc from '@/assets/img/icon/2-4214.png';
-import whiteHadakIconSrc from '@/assets/img/icon/2-4213.png';
+import blueKhadagIconSrc from '@/assets/img/icon/2-4214.png';
+import whiteKhadagIconSrc from '@/assets/img/icon/2-4213.png';
 import goldHairpinIconSrc from '@/assets/img/icon/2-4216.png';
 import silverHairpinIconSrc from '@/assets/img/icon/2-4215.png';
 import perfumeIconSrc from '@/assets/img/icon/2-4211.png';
@@ -58,18 +58,18 @@ export const forageIcon = {
   bg: violet,
 };
 
-export const chestsIcon = {
-  src: chestsIconSrc,
+export const travelChestIcon = {
+  src: travelChestIconSrc,
   bg: violet,
 };
 
-export const blueHadakIcon = {
-  src: blueHadakIconSrc,
+export const blueKhadagIcon = {
+  src: blueKhadagIconSrc,
   bg: red,
 };
 
-export const whiteHadakIcon = {
-  src: whiteHadakIconSrc,
+export const whiteKhadagIcon = {
+  src: whiteKhadagIconSrc,
   bg: orange,
 };
 
@@ -173,8 +173,8 @@ export const medalIcon = {
   bg: violet,
 };
 
-export const chestIcon = {
-  src: chestIconSrc,
+export const resourceChestIcon = {
+  src: resourceChestIconSrc,
   bg: orange,
 };
 

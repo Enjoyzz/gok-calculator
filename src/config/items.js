@@ -1,7 +1,7 @@
 import {
-  blueHadakIcon,
-  chestIcon,
-  chestsIcon,
+  blueKhadagIcon,
+  resourceChestIcon,
+  travelChestIcon,
   forageIcon,
   gemRingIcon,
   goldEarringsIcon,
@@ -40,7 +40,7 @@ import {
   soldiers5mIcon,
   soldiers88K_8MIcon,
   takyaIcon,
-  whiteHadakIcon
+  whiteKhadagIcon
 } from "@/config/gok-item-icon-set.js";
 
 export const Ordos = {
@@ -103,7 +103,7 @@ export const blueHadak = {
   id: 'blueHadak',
   name: 'Синий хадак',
   description: 'Добавляет всем вашим наложницам по 1-3 ед. обаяния',
-  icon: blueHadakIcon,
+  icon: blueKhadagIcon,
   approximately: true,
 }
 
@@ -111,7 +111,7 @@ export const whiteHadak = {
   id: 'whiteHadak',
   name: 'Белый хадак',
   description: 'Добавляет всем наложницам 1 ед. обаяния',
-  icon: whiteHadakIcon,
+  icon: whiteKhadagIcon,
   approximately: false,
 }
 
@@ -143,7 +143,7 @@ export const chests = {
   id: 'chests',
   name: 'Сундук странствий',
   description: 'Внимание! Расчет по этому предмету может быть не корректен, зависит не только от количества и рандома',
-  icon: chestsIcon,
+  icon: travelChestIcon,
   approximately: true,
 }
 
@@ -229,7 +229,7 @@ export const chest = {
   id: 'chest',
   name: 'Сундук ресурсов',
   description: 'Есть шанс получить серебро, мясо, солдат (1ч., 2ч., 6ч.) или медаль таланта<br><span class="text-error font-weight-bold">Внимание! Расчет зависит от рандома, т.о. чем больше количество, тем точнее будет расчет. Рекомендуется считать от 10шт</span>',
-  icon: chestIcon,
+  icon: resourceChestIcon,
   approximately: true,
 }
 
