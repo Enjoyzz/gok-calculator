@@ -42,7 +42,7 @@
     "unplugin-auto-import": "^21.0.0",
     "unplugin-fonts": "^1.4.0",
     "unplugin-icons": "^23.0.1",
-    "unplugin-vue-components": "^29.0.0",
+    "unplugin-vue-components": "^31.0.0",
     "unplugin-vue-router": "^0.19.2",
     "vite": "^7.1.5",
     "vite-plugin-remove-console": "^2.2.0",
