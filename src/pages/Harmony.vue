@@ -5,7 +5,7 @@ definePage({
   name: 'Harmony',
   meta: {
     title: 'Гармония',
-    sidebar: true,
+    sidebar: false,
     groups: ['cheatsheet'],
     extendedTitle: '"Гармошка" советников',
   },
