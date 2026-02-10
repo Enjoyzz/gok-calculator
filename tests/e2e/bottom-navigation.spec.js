@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test.describe('BottomNavigation Component', () => {
 
   test.describe('Калькуляторы без настроек (мясо, серебро, солдаты)', () => {
-    const calculatorsWithoutSettings = ['/meat', '/silver', '/soldiers'];
+    const calculatorsWithoutSettings = ['/#/meat', '/#/silver', '/#/soldiers'];
 
     for (const url of calculatorsWithoutSettings) {
       test(`не должен показывать кнопку настроек на ${url}`, async ({ page }) => {
@@ -22,7 +22,7 @@ test.describe('BottomNavigation Component', () => {
   });
 
   test.describe('Калькуляторы с настройками (обаяние, близость)', () => {
-    const calculatorsWithSettings = ['/charm', '/intimacy'];
+    const calculatorsWithSettings = ['/#/charm', '/#/intimacy'];
 
     for (const url of calculatorsWithSettings) {
       test(`должен показывать кнопку настроек на ${url}`, async ({ page }) => {

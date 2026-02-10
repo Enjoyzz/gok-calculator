@@ -35,8 +35,15 @@ const iconPath = computed(() => {
   return props.icon ? props.icon.src : props.src;
 });
 
-const bgValue = computed(() => {
-  return props.icon ? props.icon.bg : props.bg;
+const backgroundStyle = computed(() => {
+  const bg =  props.icon ? props.icon.bg : props.bg;
+  if (!bg) {
+    return {}
+  }
+  return {
+    backgroundImage: `url(${bg})`,
+
+  }
 });
 
 const iconSize = computed(() => {
@@ -49,7 +56,7 @@ const iconSizeStyle = computed(() => `${iconSize.value}px`);
 
 <template>
   <div class="icon" v-if="validProps">
-    <div class="bg" :style="{backgroundImage:  `url(${bgValue})`}">
+    <div class="bg" :style="backgroundStyle">
       <img :src="iconPath" :alt="name || ''">
       <div v-if="badge" :class="{'bg-blue-grey-lighten-5': isDarkTheme, 'bg-blue-grey-darken-3': !isDarkTheme}"
            class="badge text-caption  border-thin rounded ">
@@ -60,6 +67,8 @@ const iconSizeStyle = computed(() => `${iconSize.value}px`);
 </template>
 
 <style scoped lang="sass">
+.icon
+  display: inline-block
 .bg
   position: relative
   background-repeat: no-repeat

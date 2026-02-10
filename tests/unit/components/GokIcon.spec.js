@@ -80,18 +80,18 @@ describe('GokIcon.vue - бизнес-логика', () => {
       expect(wrapper.vm.iconPath).toBe('/direct.png')
     })
 
-    it('bgValue должен возвращать icon.bg', async () => {
+    it('backgroundStyle должен возвращать объект', async () => {
       wrapper = createWrapper({ icon: { src: '/i.png', bg: '/bg.png' } })
       await wrapper.vm.$nextTick()
 
-      expect(wrapper.vm.bgValue).toBe('/bg.png')
+      expect(wrapper.vm.backgroundStyle).toEqual({backgroundImage: 'url(/bg.png)'})
     })
 
-    it('bgValue должен возвращать bg', async () => {
+    it('backgroundStyle должен возвращать объект', async () => {
       wrapper = createWrapper({ src: '/i.png', bg: '/bg.png' })
       await wrapper.vm.$nextTick()
 
-      expect(wrapper.vm.bgValue).toBe('/bg.png')
+      expect(wrapper.vm.backgroundStyle).toEqual({backgroundImage: 'url(/bg.png)'})
     })
 
     it('iconSize должен возвращать переданный size', async () => {

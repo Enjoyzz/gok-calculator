@@ -53,6 +53,12 @@ import soldiers30mIconSrc from '@/assets/img/icon/2-1043.png';
 import soldiers15mIconSrc from '@/assets/img/icon/2-1042.png';
 import soldiers5mIconSrc from '@/assets/img/icon/2-1041.png';
 
+import scrollGreenSrc from '@/assets/img/icon/2-2701.png';
+import scrollBlueSrc from '@/assets/img/icon/2-2702.png';
+import scrollVioletSrc from '@/assets/img/icon/2-2703.png';
+import scrollOrangeSrc from '@/assets/img/icon/2-2704.png';
+import scrollRedSrc from '@/assets/img/icon/2-2705.png';
+
 export const forageIcon = {
   src: forageIconSrc,
   bg: violet,
@@ -267,6 +273,33 @@ export const soldiers5mIcon = {
   src: soldiers5mIconSrc,
   bg: green,
 };
+
+export const scrollGreenIcon = {
+  src: scrollGreenSrc,
+  bg: green,
+};
+
+export const scrollBlueIcon = {
+  src: scrollBlueSrc,
+  bg: blue,
+};
+
+export const scrollVioletIcon = {
+  src: scrollVioletSrc,
+  bg: violet,
+};
+
+export const scrollOrangeIcon = {
+  src: scrollOrangeSrc,
+  bg: orange,
+};
+
+export const scrollRedIcon = {
+  src: scrollRedSrc,
+  bg: red,
+};
+
+
 
 
 
