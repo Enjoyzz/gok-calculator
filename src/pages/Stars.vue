@@ -1,5 +1,6 @@
 <script setup>
 import str105 from '@/assets/stars/105.png';
+
 definePage({
   path: '/stars',
   name: 'Звезды',
@@ -13,7 +14,8 @@ definePage({
 </script>
 
 <template>
-<ScrollsForStarTable />
+  <ScrollsForStarTable/>
+  <CalcUniScrolls />
 </template>
 
 <style scoped lang="sass">

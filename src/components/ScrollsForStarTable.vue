@@ -40,7 +40,7 @@ const allSummary = computed(() => {
       hover
     >
       <template #top>
-        <v-card-title>Количество свитков на звезды</v-card-title>
+        <v-card-title class="text-wrap">Количество свитков на звезды</v-card-title>
         <v-card-subtitle class="text-wrap">Чтобы прокачать советника "с нуля" до 5 звезд, необходимо всего в общей сумме (персональные и универсальны) 1200 свитков. Универсальные свитки такого же качества (цвета), что и советник</v-card-subtitle>
         <v-spacer class="my-5" />
       </template>
