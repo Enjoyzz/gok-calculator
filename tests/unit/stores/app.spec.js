@@ -93,35 +93,14 @@ describe('App Store', () => {
   })
 
   describe('Actions', () => {
-    describe('toggleTheme', () => {
-      it('должен переключать с light на dark', () => {
-        store.theme = 'light'
-
-        store.toggleTheme()
-
-        expect(store.theme).toBe('dark')
-        expect(localStorageMock.setItem).toHaveBeenCalledWith('theme', 'dark')
-      })
-
-      it('должен переключать с dark на light', () => {
-        store.theme = 'dark'
-
-        store.toggleTheme()
-
-        expect(store.theme).toBe('light')
-        expect(localStorageMock.setItem).toHaveBeenCalledWith('theme', 'light')
-      })
+    describe('setTheme', () => {
 
       it('должен сохранять тему в localStorage', () => {
-        store.theme = 'light'
-
-        store.toggleTheme()
-
+        store.setTheme('dark')
         expect(localStorageMock.setItem).toHaveBeenCalledTimes(1)
         expect(localStorageMock.setItem).toHaveBeenCalledWith('theme', 'dark')
 
-        store.toggleTheme()
-
+        store.setTheme('light')
         expect(localStorageMock.setItem).toHaveBeenCalledTimes(2)
         expect(localStorageMock.setItem).toHaveBeenCalledWith('theme', 'light')
       })
@@ -160,34 +139,18 @@ describe('App Store', () => {
   })
 
   describe('Интеграция', () => {
-    it('должен корректно работать последовательность toggleTheme', () => {
-      store.theme = 'light'
-
-      store.toggleTheme()
-      expect(store.theme).toBe('dark')
-      expect(store.isDark).toBe(true)
-
-      store.toggleTheme()
-      expect(store.theme).toBe('light')
-      expect(store.isDark).toBe(false)
-
-      store.toggleTheme()
-      expect(store.theme).toBe('dark')
-      expect(store.isDark).toBe(true)
-    })
-
-    it('должен корректно комбинировать setTheme и toggleTheme', () => {
+     it('должен корректно комбинировать setTheme', () => {
       store.setTheme('dark')
       expect(store.theme).toBe('dark')
 
-      store.toggleTheme()
+      store.setTheme('light')
       expect(store.theme).toBe('light')
+
+      store.setTheme('system')
+      expect(store.theme).toBe('system')
 
       store.setTheme('custom')
       expect(store.theme).toBe('custom')
-
-      store.toggleTheme() // toggle с custom переключит на dark (custom -> dark)
-      expect(store.theme).toBe('dark')
     })
   })
 
@@ -205,34 +168,6 @@ describe('App Store', () => {
 
       store.setTheme(null)
       expect(store.theme).toBeNull()
-    })
-
-    it('toggleTheme должен работать с нестандартными значениями', () => {
-      store.theme = 'custom'
-      store.toggleTheme()
-      // custom не равно 'dark', поэтому переключится на dark
-      expect(store.theme).toBe('dark')
-
-      store.theme = ''
-      store.toggleTheme()
-      // пустая строка не равна 'dark', поэтому переключится на dark
-      expect(store.theme).toBe('dark')
-    })
-  })
-
-  describe('Производительность', () => {
-    it('должен быстро выполнять множественные переключения темы', () => {
-      const startTime = performance.now()
-
-      for (let i = 0; i < 1000; i++) {
-        store.toggleTheme()
-      }
-
-      const endTime = performance.now()
-      const executionTime = endTime - startTime
-
-      // Тест на скорость (условно - меньше 50мс для 1000 переключений)
-      expect(executionTime).toBeLessThan(50)
     })
   })
 })

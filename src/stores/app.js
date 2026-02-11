@@ -11,11 +11,6 @@ export const useAppStore = defineStore('app', {
   },
 
   actions: {
-    toggleTheme() {
-      this.theme = this.theme === 'dark' ? 'light' : 'dark';
-      localStorage.setItem('theme', this.theme);
-    },
-
     setTheme(theme) {
       this.theme = theme;
       localStorage.setItem('theme', theme);

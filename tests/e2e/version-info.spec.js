@@ -7,9 +7,15 @@ test.describe('VersionInfo', () => {
   test('должен отображать версию в сайдбаре', async ({page}) => {
     await page.goto('/');
 
+    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('domcontentloaded');
+
+    const appNavBarIcon =  page.locator('.v-app-bar-nav-icon')
+
     // Открываем сайдбар если на мобилке
-    if (await page.locator('.v-app-bar-nav-icon').isVisible()) {
-      await page.locator('.v-app-bar-nav-icon').click();
+    if (await appNavBarIcon.isVisible()){
+      await appNavBarIcon.click();
+      await page.waitForTimeout(500);
     }
 
     const drawer = page.locator('.v-navigation-drawer');
@@ -40,6 +46,9 @@ test.describe('VersionInfo', () => {
       // Запускаем в мобильном режиме
       await page.setViewportSize({width: 375, height: 667});
       await page.goto('/');
+
+      await page.waitForLoadState('networkidle');
+      await page.waitForLoadState('domcontentloaded');
 
       const drawer = page.locator('.v-navigation-drawer');
       const badge = page.locator('.v-navigation-drawer .version-badge');

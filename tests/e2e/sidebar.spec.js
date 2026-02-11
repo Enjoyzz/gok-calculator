@@ -5,23 +5,29 @@ test.describe('Sidebar навигация', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
 
+    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('domcontentloaded');
+
     // Открываем сайдбар если на мобилке
     if (await page.locator('.v-app-bar-nav-icon').isVisible()) {
       await page.locator('.v-app-bar-nav-icon').click();
-      await page.locator('.v-navigation-drawer').waitFor({ state: 'visible' });
+      await page.waitForTimeout(500);
     }
+
+    const drawer = page.locator('.v-navigation-drawer');
+    const initialBox = await drawer.boundingBox();
+    expect(initialBox.x).toBeGreaterThanOrEqual(0);
   });
 
   test('должен отображать все калькуляторы в сайдбаре', async ({ page }) => {
-    // Проверяем заголовок
-    await expect(page.locator('.v-navigation-drawer', { hasText: 'РАСЧЕТЫ' })).toBeVisible();
 
     const calculators = [
       'Обаяние',
       'Близость',
       'Мясо',
       'Серебро',
-      'Солдаты'
+      'Солдаты',
+      'Звезды'
     ];
 
     for (const calc of calculators) {

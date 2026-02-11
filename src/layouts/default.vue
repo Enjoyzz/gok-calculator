@@ -1,6 +1,9 @@
 <script setup>
 import {useDisplay, useTheme} from 'vuetify';
 import {useAppStore} from '@/stores/app.js';
+import IconThemeLightDark from '~icons/mdi/theme-light-dark'
+import IconWeatherSunny from '~icons/mdi/weather-sunny'
+import IconWeatherNight from '~icons/mdi/weather-night'
 
 const appStore = useAppStore();
 
@@ -8,10 +11,8 @@ const drawer = shallowRef(null);
 const {mobile} = useDisplay();
 const theme = useTheme();
 
-const {theme: currentTheme} = storeToRefs(appStore);
-
-const toggleTheme = () => {
-  appStore.toggleTheme();
+const changeTheme = (themeValue) => {
+  appStore.setTheme(themeValue);
 };
 
 const isDarkTheme = ref(null);
@@ -43,9 +44,17 @@ const toggleDrawer = () => drawer.value = !drawer.value;
         <v-app-bar-nav-icon @click="toggleDrawer"></v-app-bar-nav-icon>
       </template>
       <template v-slot:append>
-        <v-btn icon @click="toggleTheme" class="text-h6">
-          <i-mdi-weather-sunny v-if="currentTheme === 'dark'" />
-          <i-mdi-weather-night v-else />
+        <v-btn icon class="text-h6">
+          <i-mdi-theme-light-dark />
+
+          <v-menu activator="parent">
+            <v-list density="compact" prepend-gap="10">
+              <v-list-item :prepend-icon="IconThemeLightDark" title="Системная" subtitle="Auto"  @click="changeTheme('system')"/>
+              <v-list-item :prepend-icon="IconWeatherSunny" title="Светлая"  subtitle="Light" @click="changeTheme('light')" />
+              <v-list-item :prepend-icon="IconWeatherNight" title="Темная" subtitle="Dark"  @click="changeTheme('dark')" />
+            </v-list>
+          </v-menu>
+
         </v-btn>
       </template>
     </v-app-bar>
