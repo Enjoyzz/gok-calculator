@@ -1,5 +1,6 @@
 <script setup>
 import {ref} from 'vue'
+import MarkoPoloImg from "@/assets/hero/100_342.png";
 
 defineEmits([
   'close-dialog'
@@ -27,6 +28,8 @@ const dialog = ref(true)
       </v-btn>
       <v-toolbar-title>Варвары (гармония)</v-toolbar-title>
     </v-toolbar>
+
+    <v-img :src="MarkoPoloImg" />
 
     <v-list lines="two">
       <v-list-subheader>User Controls</v-list-subheader>
