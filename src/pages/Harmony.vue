@@ -1,5 +1,7 @@
 <script setup>
 
+import steppeQueensInsigniaSrc from "@/assets/harmony/2-4301.png";
+
 definePage({
   path: '/harmony',
   name: 'Harmony',
@@ -8,6 +10,7 @@ definePage({
     sidebar: true,
     groups: ['cheatsheet'],
     extendedTitle: '"Гармошка" советников',
+    icon: steppeQueensInsigniaSrc
   },
 });
 </script>
