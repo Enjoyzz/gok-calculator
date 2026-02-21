@@ -5,6 +5,7 @@ import {
   scrollOrangeIcon,
   scrollRedIcon,
   scrollVioletIcon,
+  summonSealIcon
 } from '@/config/gok-item-icon-set.js';
 import {useDisplay} from 'vuetify/framework';
 import {formatLargeNumber} from '@/utils/formatNumbers.js';
@@ -15,7 +16,7 @@ const currentId = ref(null);
 const {smAndUp} = useDisplay();
 
 const sizeScroll = computed(() => {
-  return smAndUp.value ? 80 : 48;
+  return 80; //smAndUp.value ? 80 : 48;
 });
 
 const openDialog = (id) => {
@@ -24,6 +25,11 @@ const openDialog = (id) => {
 };
 
 const scrollIcons = ref({
+  SummonSeal: {
+    icon: summonSealIcon,
+    title: "Приказ отбора",
+    badge: 25,
+  },
   scrollGreen: {
     icon: scrollGreenIcon,
     title: "Универ. свиток (Обычный)",
@@ -57,7 +63,7 @@ const scrollItemsWithFormattedBadges = computed(() => {
   Object.entries(scrollIcons.value).forEach(([key, item]) => {
     result[key] = {
       ...item,
-      badgeFormatted: formatLargeNumber(item.badge, {removeZero: true}),
+      badgeFormatted: (key === 'SummonSeal' ? '~' : '')  + formatLargeNumber(item.badge, {removeZero: true}),
     };
   });
 
@@ -65,14 +71,23 @@ const scrollItemsWithFormattedBadges = computed(() => {
 });
 
 function updateFromSource(color) {
+  console.log(color)
   const value = scrollIcons.value[color].badge;
 
   switch (color) {
+    case 'SummonSeal':
+      scrollIcons.value.scrollGreen.badge = value * 14;
+      scrollIcons.value.scrollBlue.badge = Math.floor(scrollIcons.value.scrollGreen.badge / 3);
+      scrollIcons.value.scrollViolet.badge = Math.floor(scrollIcons.value.scrollBlue.badge / 4);
+      scrollIcons.value.scrollOrange.badge = Math.floor(scrollIcons.value.scrollViolet.badge / 5);
+      scrollIcons.value.scrollRed.badge = Math.floor(scrollIcons.value.scrollOrange.badge / 6);
+      break;
     case 'scrollRed':
       scrollIcons.value.scrollOrange.badge = value * 6;
       scrollIcons.value.scrollViolet.badge = value * 6 * 5;
       scrollIcons.value.scrollBlue.badge = value * 6 * 5 * 4;
       scrollIcons.value.scrollGreen.badge = value * 6 * 5 * 4 * 3;
+      scrollIcons.value.SummonSeal.badge = Math.floor(scrollIcons.value.scrollGreen.badge / 14);
       break;
 
     case 'scrollOrange':
@@ -80,6 +95,7 @@ function updateFromSource(color) {
       scrollIcons.value.scrollViolet.badge = value * 5;
       scrollIcons.value.scrollBlue.badge = value * 5 * 4;
       scrollIcons.value.scrollGreen.badge = value * 5 * 4 * 3;
+      scrollIcons.value.SummonSeal.badge = Math.floor(scrollIcons.value.scrollGreen.badge / 14);
       break;
 
     case 'scrollViolet':
@@ -87,6 +103,7 @@ function updateFromSource(color) {
       scrollIcons.value.scrollOrange.badge = Math.floor(value / 5);
       scrollIcons.value.scrollBlue.badge = value * 4;
       scrollIcons.value.scrollGreen.badge = value * 4 * 3;
+      scrollIcons.value.SummonSeal.badge = Math.floor(scrollIcons.value.scrollGreen.badge / 14);
       break;
 
     case 'scrollBlue':
@@ -94,6 +111,7 @@ function updateFromSource(color) {
       scrollIcons.value.scrollOrange.badge = Math.floor(value / (5 * 4));
       scrollIcons.value.scrollViolet.badge = Math.floor(value / 4);
       scrollIcons.value.scrollGreen.badge = value * 3;
+      scrollIcons.value.SummonSeal.badge = Math.floor(scrollIcons.value.scrollGreen.badge / 14);
       break;
 
     case 'scrollGreen':
@@ -101,6 +119,7 @@ function updateFromSource(color) {
       scrollIcons.value.scrollOrange.badge = Math.floor(value / (5 * 4 * 3));
       scrollIcons.value.scrollViolet.badge = Math.floor(value / (4 * 3));
       scrollIcons.value.scrollBlue.badge = Math.floor(value / 3);
+      scrollIcons.value.SummonSeal.badge = Math.floor(value / 14);
       break;
   }
 }
@@ -130,8 +149,8 @@ const handleOnFocus = (e) => {
                @click.prevent="openDialog(id)"/>
     </div>
     <v-spacer class="my-5"/>
-    <v-card-subtitle class="text-wrap">По-умолчанию показан расчет на 1 красный свиток
-    </v-card-subtitle>
+    <v-card-subtitle class="text-wrap">По-умолчанию показан расчет на 1 красный свиток</v-card-subtitle>
+    <v-card-subtitle class="text-wrap">Количество <strong>приказов отбора</strong> примерное &mdash; &plusmn; 20% (при условии что все "зелёные" и "синие" советники прокачаны на 5 звёзд)</v-card-subtitle>
 
 
     <v-dialog

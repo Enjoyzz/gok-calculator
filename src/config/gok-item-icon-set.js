@@ -59,6 +59,8 @@ import scrollVioletSrc from '@/assets/img/icon/2-2703.png';
 import scrollOrangeSrc from '@/assets/img/icon/2-2704.png';
 import scrollRedSrc from '@/assets/img/icon/2-2705.png';
 
+import summonSealSrc from '@/assets/img/icon/2-4251.png';
+
 export const forageIcon = {
   src: forageIconSrc,
   bg: violet,
@@ -297,6 +299,11 @@ export const scrollOrangeIcon = {
 export const scrollRedIcon = {
   src: scrollRedSrc,
   bg: red,
+};
+
+export const summonSealIcon = {
+  src: summonSealSrc,
+  bg: violet,
 };
 
 

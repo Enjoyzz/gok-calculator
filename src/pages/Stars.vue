@@ -14,8 +14,9 @@ definePage({
 </script>
 
 <template>
-  <ScrollsForStarTable/>
   <CalcUniScrolls />
+  <v-divider class="pb-3 mt-5"/>
+  <ScrollsForStarTable/>
 </template>
 
 <style scoped lang="sass">
