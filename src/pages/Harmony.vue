@@ -9,6 +9,9 @@ import JayantiImg from "@/assets/hero/100_421.png";
 import SnowImg from "@/assets/hero/100_422.png";
 import AtillaImg from "@/assets/hero/100_321.png";
 import AmalImg from "@/assets/hero/100_412.png";
+import SubImg from "@/assets/hero/100_314.png";
+import TomirisImg from "@/assets/hero/100_304.png";
+import AnarImg from "@/assets/hero/100_401.png";
 
 definePage({
   path: '/harmony',
@@ -24,14 +27,16 @@ definePage({
 
 const wolvesOfWarsHarmony = ref(false)
 const warmaidenHarmony = ref(false)
+const steppeQueensHarmony = ref(false)
+
 </script>
 
 <template>
 
   <v-list>
-    <v-list-item :prepend-avatar="TomoeImg" link @click="wolvesOfWarsHarmony = true"> Варвары (Суб, Джэл, Хуб, Нок)</v-list-item>
-    <v-list-item :prepend-avatar="TomoeImg" link @click="warmaidenHarmony = true">Воительницы (Томирис, Хутулун, ...)</v-list-item>
-    <v-list-item :prepend-avatar="TomoeImg">Дочери вечности (Анар, ...)</v-list-item>
+    <v-list-item :prepend-avatar="SubImg" link @click="wolvesOfWarsHarmony = true"> Варвары (Суб, Джэл, Хуб, Нок)</v-list-item>
+    <v-list-item :prepend-avatar="TomirisImg" link @click="steppeQueensHarmony = true">Воительницы (Томирис, Хутулун, Алтана, Минбалла, Нара)</v-list-item>
+    <v-list-item :prepend-avatar="AnarImg" link @click="warmaidenHarmony = true">Дочери вечности (Анар, Земея, Айрис, Иветт)</v-list-item>
     <v-list-item :prepend-avatar="MarkoPoloImg">Марко Поло</v-list-item>
     <v-list-item :prepend-avatar="KenImg">Кен</v-list-item>
     <v-list-item :prepend-avatar="TomoeImg">Томоэ Годзэн</v-list-item>
@@ -42,8 +47,19 @@ const warmaidenHarmony = ref(false)
     <v-list-item :prepend-avatar="AtillaImg">Атилла</v-list-item>
   </v-list>
 
-  <WolvesOfWarsHarmony v-if="wolvesOfWarsHarmony" @close-dialog="wolvesOfWarsHarmony = false"/>
-  <WarmaidenHarmony v-if="warmaidenHarmony" @close-dialog="warmaidenHarmony = false"/>
+  <WolvesOfWarsHarmony
+    v-if="wolvesOfWarsHarmony"
+    @close-dialog="wolvesOfWarsHarmony = false"
+  />
+  <SteppeQueensHarmony
+    v-if="steppeQueensHarmony"
+    @close-dialog="steppeQueensHarmony = false"
+  />
+
+  <WarmaidenHarmony
+    v-if="warmaidenHarmony"
+    @close-dialog="warmaidenHarmony = false"
+  />
 
 </template>
 

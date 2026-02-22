@@ -1,10 +1,11 @@
 <script setup>
 import {ref, watch} from 'vue'
 import {useDisplay} from 'vuetify'
-import AnarImg from "@/assets/hero/100_401.png";
-import ZemyaImg from "@/assets/hero/100_402.png";
-import YvetteImg from "@/assets/hero/100_403.png";
-import IrisImg from "@/assets/hero/100_404.png";
+import AltanaImg from "@/assets/hero/100_305.png";
+import NaraImg from "@/assets/hero/100_303.png";
+import MinbalaImg from "@/assets/hero/100_302.png";
+import TomirisImg from "@/assets/hero/100_304.png";
+import HutulunImg from "@/assets/hero/100_301.png";
 import {useTheme} from "vuetify/framework";
 
 const theme = useTheme();
@@ -44,7 +45,7 @@ const summary = computed(() => {
   return {
     lvl: selectedLevel.value,
     total: total,
-    bonus: (selectedLevel.value * 6) + groupBonus.value
+    bonus: (selectedLevel.value * 5) + groupBonus.value
   }
 })
 
@@ -56,7 +57,7 @@ const allLevels = computed(() => {
     levels.push({
       lvl: i,
       tokens: ((i) * 2) + 4,
-      bonus: i * 6,
+      bonus: i * 5,
     });
   }
 
@@ -65,7 +66,7 @@ const allLevels = computed(() => {
     levels.push({
       lvl: i,
       tokens: 20,
-      bonus: i * 6,
+      bonus: i * 5,
     });
   }
 
@@ -74,7 +75,7 @@ const allLevels = computed(() => {
     levels.push({
       lvl: i,
       tokens: ((i - 20) * 5) + 20,
-      bonus: i * 6,
+      bonus: i * 5,
     });
   }
 
@@ -82,15 +83,16 @@ const allLevels = computed(() => {
 })
 
 const items = ref([
-  {src: AnarImg},
-  {src: ZemyaImg},
-  {src: YvetteImg},
-  {src: IrisImg},
+  {src: TomirisImg},
+  {src: HutulunImg},
+  {src: MinbalaImg},
+  {src: AltanaImg},
+  {src: NaraImg},
 ])
-const selection = ref([0, 1, 2, 3])
+const selection = ref([0, 1, 2, 3, 4])
 
 const groupBonus = computed(() => {
-  return selection.value.length * 10;
+  return selection.value.length * 8;
 })
 
 </script>
@@ -107,7 +109,7 @@ const groupBonus = computed(() => {
       <v-toolbar>
         <v-toolbar-title>
           <v-card-title class="my-0 py-0">
-            Дочери вечности
+            Воительницы
           </v-card-title>
           <v-card-subtitle class="my-0 py-0">
             гармония
@@ -137,7 +139,7 @@ const groupBonus = computed(() => {
               :src="item.src"
               cover
               inline
-              width="64"
+              width="54"
               @click="toggle"
             >
               <i-mdi-check-circle v-if="isSelected"/>
