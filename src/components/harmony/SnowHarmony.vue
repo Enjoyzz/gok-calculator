@@ -2,6 +2,7 @@
 import {ref} from 'vue'
 import {useDisplay} from 'vuetify'
 import SnowImg from "@/assets/hero/100_422.png";
+import MarkoPoloImg from "@/assets/hero/100_342.png";
 
 const {smAndDown} = useDisplay()
 
@@ -66,13 +67,22 @@ const allLevels = computed(() => {
         </template>
       </v-toolbar>
       <v-card-text>
-        <v-img
-          :src="SnowImg"
-          cover
-          inline
-          width="84"
-        >
-        </v-img>
+        <v-item-group class="d-flex align-center">
+          <v-item>
+            <v-img
+              :src="SnowImg"
+              cover
+              inline
+              width="84"
+            >
+            </v-img>
+          </v-item>
+          <v-item>
+            <small>
+              <span class="font-weight-bold">Страж тундры</span>. В событии "Битва Орд" сила Сноу увеличивается на 20%, а численность воинов на 10%.
+            </small>
+          </v-item>
+        </v-item-group>
         <HarmonyTable :levels="allLevels" :bonusPerLevel="12"/>
       </v-card-text>
 

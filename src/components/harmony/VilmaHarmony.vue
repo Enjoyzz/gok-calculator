@@ -2,6 +2,7 @@
 import {ref} from 'vue'
 import {useDisplay} from 'vuetify'
 import VilmaImg from "@/assets/hero/100_411.png";
+import TomoeImg from "@/assets/hero/100_343.png";
 
 const {smAndDown} = useDisplay()
 
@@ -66,13 +67,22 @@ const allLevels = computed(() => {
         </template>
       </v-toolbar>
       <v-card-text>
-        <v-img
-          :src="VilmaImg"
-          cover
-          inline
-          width="84"
-        >
-        </v-img>
+        <v-item-group class="d-flex align-center">
+          <v-item>
+            <v-img
+              :src="VilmaImg"
+              cover
+              inline
+              width="84"
+            >
+            </v-img>
+          </v-item>
+          <v-item>
+            <small>
+              <span class="font-weight-bold">Охотничий вердикт</span>. Повышает собственную боевую силу на 5%.
+            </small>
+          </v-item>
+        </v-item-group>
         <HarmonyTable :levels="allLevels" :bonusPerLevel="12"/>
       </v-card-text>
 

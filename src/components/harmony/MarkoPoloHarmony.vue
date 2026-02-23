@@ -2,6 +2,7 @@
 import {ref} from 'vue'
 import {useDisplay} from 'vuetify'
 import MarkoPoloImg from "@/assets/hero/100_342.png";
+import AtillaImg from "@/assets/hero/100_321.png";
 
 const {smAndDown} = useDisplay()
 
@@ -66,13 +67,23 @@ const allLevels = computed(() => {
         </template>
       </v-toolbar>
       <v-card-text>
-        <v-img
-          :src="MarkoPoloImg"
-          cover
-          inline
-          width="84"
-        >
-        </v-img>
+        <v-item-group class="d-flex align-center">
+          <v-item>
+            <v-img
+              :src="MarkoPoloImg"
+              cover
+              inline
+              width="84"
+            >
+            </v-img>
+          </v-item>
+          <v-item>
+            <small>
+              <span class="font-weight-bold">Призыв горна</span>. В битве орд сила Марко Поло увеличивается на 20% и лимит элитных для него +10%.
+            </small>
+          </v-item>
+        </v-item-group>
+
         <HarmonyTable :levels="allLevels" :bonusPerLevel="12"/>
       </v-card-text>
 
