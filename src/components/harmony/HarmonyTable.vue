@@ -20,6 +20,9 @@ const props = defineProps({
   bonusPerLevel: {
     type: Number,
     default: 3
+  },
+  extendLevelInfo: {
+    type: Object
   }
 })
 
@@ -67,7 +70,13 @@ const summary = computed(() => {
       @click="onSelectLevel(level.lvl)"
       :class="{'bg-red': selectedLevel === level.lvl}"
     >
-      <td>{{ level.lvl }}</td>
+      <td class="d-flex align-center">
+        <div>{{ level.lvl }}</div>
+        <i-mdi-info class="align-center ms-3" v-if="extendLevelInfo[level.lvl] !== undefined">
+
+        </i-mdi-info>
+
+      </td>
       <td>{{ level.tokens }}</td>
       <td>{{ level.lvl * bonusPerLevel }}%</td>
     </tr>
@@ -115,7 +124,7 @@ const summary = computed(() => {
 
     <v-card v-else class="pa-3 font-weight-bold">
       <v-icon color="error" class="p-3"><i-mdi-warning /></v-icon>
-      Выберите нужный вам уровень гармонии, а также выберите советников какие уже призваны
+      Выберите нужный вам уровень гармонии, а также выберите советников какие уже призваны (для Варваров, Воительниц и дочерей Вечности)
     </v-card>
   </v-bottom-navigation>
 </template>

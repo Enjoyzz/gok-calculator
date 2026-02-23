@@ -35,6 +35,12 @@ const allLevels = computed(() => {
   return levels;
 })
 
+const extendLevelInfo = {
+  1: '',
+  4: '',
+  8: '',
+}
+
 </script>
 
 <template>
@@ -84,7 +90,7 @@ const allLevels = computed(() => {
           </v-item>
         </v-item-group>
 
-        <HarmonyTable :levels="allLevels" :bonusPerLevel="12"/>
+        <HarmonyTable :levels="allLevels" :bonusPerLevel="12" :extendLevelInfo="extendLevelInfo"/>
       </v-card-text>
 
     </v-card>
