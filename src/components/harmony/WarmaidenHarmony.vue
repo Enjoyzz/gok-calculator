@@ -1,52 +1,20 @@
 <script setup>
-import {ref, watch} from 'vue'
+import {ref} from 'vue'
 import {useDisplay} from 'vuetify'
 import AnarImg from "@/assets/hero/100_401.png";
 import ZemyaImg from "@/assets/hero/100_402.png";
 import YvetteImg from "@/assets/hero/100_403.png";
 import IrisImg from "@/assets/hero/100_404.png";
-import {useTheme} from "vuetify/framework";
-
-const theme = useTheme();
 
 const {smAndDown} = useDisplay()
 
-const isDarkTheme = ref(null);
-
-watch(theme.current, () => {
-  isDarkTheme.value = theme.current.value.dark === true;
-}, {immediate: true});
 
 const emit = defineEmits([
   'close-dialog',
 ])
 
 const dialog = ref(true)
-const selectedLevel = ref(null)
 
-const onSelectLevel = function (lvl) {
-  if (selectedLevel.value === lvl) {
-    selectedLevel.value = null
-    return;
-  }
-  selectedLevel.value = lvl
-}
-
-const summary = computed(() => {
-  if (!selectedLevel.value) {
-    return;
-  }
-
-  const total = allLevels.value
-    .filter(item => item.lvl <= selectedLevel.value)
-    .reduce((sum, level) => sum + level.tokens, 0);
-
-  return {
-    lvl: selectedLevel.value,
-    total: total,
-    bonus: (selectedLevel.value * 6) + groupBonus.value
-  }
-})
 
 const allLevels = computed(() => {
   const levels = [];
@@ -56,7 +24,6 @@ const allLevels = computed(() => {
     levels.push({
       lvl: i,
       tokens: ((i) * 2) + 4,
-      bonus: i * 6,
     });
   }
 
@@ -65,7 +32,6 @@ const allLevels = computed(() => {
     levels.push({
       lvl: i,
       tokens: 20,
-      bonus: i * 6,
     });
   }
 
@@ -74,7 +40,6 @@ const allLevels = computed(() => {
     levels.push({
       lvl: i,
       tokens: ((i - 20) * 5) + 20,
-      bonus: i * 6,
     });
   }
 
@@ -150,79 +115,10 @@ const groupBonus = computed(() => {
 
         </v-item-group>
 
-
-        <div class="text-start">
-
-        </div>
-        <v-table hover style="margin-bottom: 50px">
-          <thead>
-          <tr>
-            <th style="width: 33%">Уровень гармонии</th>
-            <th style="width: 33%">Кол-во жетонов</th>
-            <th style="width: 33%">Бонус атрибутов,&nbsp;%</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr
-            v-for="level in allLevels"
-            :key="level.lvl"
-            @click="onSelectLevel(level.lvl)"
-            :class="{'bg-red': selectedLevel === level.lvl}"
-          >
-            <td>{{ level.lvl }}</td>
-            <td>{{ level.tokens }}</td>
-            <td>{{ level.bonus }}%</td>
-          </tr>
-          </tbody>
-          <tfoot>
-
-          </tfoot>
-        </v-table>
+        <HarmonyTable :levels="allLevels" :groupBonus="groupBonus" :bonusPerLevel="6"/>
       </v-card-text>
 
     </v-card>
-    <v-bottom-navigation
-      elevation="16"
-      absolute
-      style="left: 0!important; width: 100%!important;"
-      :class="{'bg-grey-lighten-3': !isDarkTheme, 'bg-blue-grey-darken-4': isDarkTheme}">
-      <div v-if="summary" class="d-flex">
-
-        <v-card elevation="0" class="px-0 text-center flex-grow-1" density="compact" color="transparent">
-          <template #title>
-            #{{ summary.lvl }}
-          </template>
-          <template #subtitle>
-            Уровень
-          </template>
-        </v-card>
-
-        <v-card elevation="0" class="px-0 text-center flex-grow-1" density="compact" color="transparent">
-          <template #title>
-            {{ summary.total }}
-          </template>
-          <template #subtitle>
-            Всего жетонов
-          </template>
-        </v-card>
-
-        <v-card elevation="0" class="px-0 text-center flex-grow-1" density="compact" color="transparent">
-          <template #title>
-            +{{ summary.bonus }}%
-          </template>
-          <template #subtitle>
-            Общий бонус
-          </template>
-        </v-card>
-
-
-      </div>
-
-      <v-card v-else class="pa-3 font-weight-bold">
-        <v-icon color="error" class="p-3"><i-mdi-warning /></v-icon>
-        Выберите нужный вам уровень гармонии, а также выберите советников какие уже призваны
-      </v-card>
-    </v-bottom-navigation>
   </v-dialog>
 
 
