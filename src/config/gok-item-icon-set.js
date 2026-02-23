@@ -61,6 +61,84 @@ import scrollRedSrc from '@/assets/img/icon/2-2705.png';
 
 import summonSealSrc from '@/assets/img/icon/2-4251.png';
 
+import steppeQueensInsigniaSrc from '@/assets/harmony/2-4301.png';
+import wolvesOfWarInsigniaSrc from '@/assets/harmony/2-4311.png';
+import tomoeInsigniaSrc from '@/assets/harmony/2-4360.png';
+import kenInsigniaSrc from '@/assets/harmony/2-4340.png';
+import marcoPoloInsigniaSrc from '@/assets/harmony/2-4350.png';
+import warmaidenInsigniaSrc from '@/assets/harmony/2-4371.png';
+import vilmaInsigniaSrc from '@/assets/harmony/2-4380.png';
+import draculaInsigniaSrc from '@/assets/harmony/2-4390.png';
+import jayantiInsigniaSrc from '@/assets/harmony/2-4330.png';
+import snowInsigniaSrc from '@/assets/harmony/2-4790.png';
+import atillaInsigniaSrc from '@/assets/harmony/2-4321.png';
+import amalInsigniaSrc from '@/assets/harmony/2-4770.png';
+
+export const atillaInsigniaIcon = {
+  src: atillaInsigniaSrc,
+  bg: orange,
+};
+
+
+export const snowInsigniaIcon = {
+  src: snowInsigniaSrc,
+  bg: red,
+};
+
+export const jayantiInsigniaIcon = {
+  src: jayantiInsigniaSrc,
+  bg: red,
+};
+
+export const draculaInsigniaIcon = {
+  src: draculaInsigniaSrc,
+  bg: red,
+};
+
+
+export const vilmaInsigniaIcon = {
+  src: vilmaInsigniaSrc,
+  bg: red,
+};
+
+
+export const warmaidenInsigniaIcon = {
+  src: warmaidenInsigniaSrc,
+  bg: orange,
+};
+
+export const marcoPoloInsigniaIcon = {
+  src: marcoPoloInsigniaSrc,
+  bg: red,
+};
+
+export const kenInsigniaIcon = {
+  src: kenInsigniaSrc,
+  bg: red,
+};
+
+export const amalInsigniaIcon = {
+  src: amalInsigniaSrc,
+  bg: red,
+};
+
+
+export const tomoeInsigniaIcon = {
+  src: tomoeInsigniaSrc,
+  bg: red,
+};
+
+export const wolvesOfWarInsigniaIcon = {
+  src: wolvesOfWarInsigniaSrc,
+  bg: orange,
+};
+
+export const steppeQueensInsigniaIcon = {
+  src: steppeQueensInsigniaSrc,
+  bg: orange,
+};
+
+
 export const forageIcon = {
   src: forageIconSrc,
   bg: violet,
