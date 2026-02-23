@@ -135,7 +135,7 @@ const summary = computed(() => {
 
     </div>
 
-    <v-card v-else class="pa-3 font-weight-bold">
+    <v-card v-else class="px-3 font-weight-bold">
       <v-icon color="error" class="p-3"><i-mdi-warning /></v-icon>
       Выберите нужный вам уровень гармонии, а также выберите советников какие уже призваны (для Варваров, Воительниц и дочерей Вечности)
     </v-card>
