@@ -35,6 +35,12 @@ const allLevels = computed(() => {
   return levels;
 })
 
+const extendLevelInfo = {
+  1: 'Открывает образ хана "Томоэ Годзен"',
+  4: 'Награда при каждой атаке Царя зверей',
+  8: 'Повышение урона Царю зверей на 60%'
+}
+
 </script>
 
 <template>
@@ -83,7 +89,7 @@ const allLevels = computed(() => {
             </small>
           </v-item>
         </v-item-group>
-        <HarmonyTable :levels="allLevels" :bonusPerLevel="10"/>
+        <HarmonyTable :levels="allLevels" :bonusPerLevel="10" :extendLevelInfo="extendLevelInfo"/>
       </v-card-text>
 
     </v-card>

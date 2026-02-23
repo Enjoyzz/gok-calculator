@@ -2,7 +2,6 @@
 import {ref} from 'vue'
 import {useDisplay} from 'vuetify'
 import KenImg from "@/assets/hero/100_341.png";
-import TomoeImg from "@/assets/hero/100_343.png";
 
 const {smAndDown} = useDisplay()
 
@@ -34,6 +33,12 @@ const allLevels = computed(() => {
 
   return levels;
 })
+
+const extendLevelInfo = {
+  1: 'Открывает образ хана "Кен Арок"',
+  4: 'Только для Арены. После использования умения "Чистка рядов" потери очков противника х1',
+  8: 'Только для Арены. После использования умения "Чистка рядов" доп. х1 очков нашей стороне'
+}
 
 </script>
 
@@ -79,11 +84,12 @@ const allLevels = computed(() => {
           </v-item>
           <v-item>
             <small>
-              <span class="font-weight-bold">Чистка рядов</span>. Используется на Арене. Каждый раунд наносит вражеским советникам урон 120% от собств. силы.
+              <span class="font-weight-bold">Чистка рядов</span>. Используется на Арене. Каждый раунд наносит вражеским
+              советникам урон 120% от собств. силы.
             </small>
           </v-item>
         </v-item-group>
-        <HarmonyTable :levels="allLevels" :bonusPerLevel="12"/>
+        <HarmonyTable :levels="allLevels" :bonusPerLevel="12" :extendLevelInfo="extendLevelInfo"/>
       </v-card-text>
 
     </v-card>

@@ -22,7 +22,8 @@ const props = defineProps({
     default: 3
   },
   extendLevelInfo: {
-    type: Object
+    type: Object,
+    default: {}
   }
 })
 
@@ -72,10 +73,12 @@ const summary = computed(() => {
     >
       <td class="d-flex align-center">
         <div>{{ level.lvl }}</div>
-        <i-mdi-info class="align-center ms-3" v-if="extendLevelInfo[level.lvl] !== undefined">
-
-        </i-mdi-info>
-
+          <v-tooltip :open-on-hover="false" open-on-click>
+            <template v-slot:activator="{ props }">
+              <i-mdi-info  v-bind="props" class="align-center ms-3" v-if="extendLevelInfo[level.lvl] !== undefined" />
+            </template>
+            <span>{{extendLevelInfo[level.lvl]}}</span>
+          </v-tooltip>
       </td>
       <td>{{ level.tokens }}</td>
       <td>{{ level.lvl * bonusPerLevel }}%</td>

@@ -2,7 +2,6 @@
 import {ref} from 'vue'
 import {useDisplay} from 'vuetify'
 import SnowImg from "@/assets/hero/100_422.png";
-import MarkoPoloImg from "@/assets/hero/100_342.png";
 
 const {smAndDown} = useDisplay()
 
@@ -34,6 +33,12 @@ const allLevels = computed(() => {
 
   return levels;
 })
+
+const extendLevelInfo = {
+  1: 'Открывает образ хана "Сноу"',
+  4: 'В битве орд лимит элитных воинов советника Сноу повышен на 25%',
+  8: 'В битве орд сила Сноу повышается на 50%'
+}
 
 </script>
 
@@ -79,11 +84,12 @@ const allLevels = computed(() => {
           </v-item>
           <v-item>
             <small>
-              <span class="font-weight-bold">Страж тундры</span>. В событии "Битва Орд" сила Сноу увеличивается на 20%, а численность воинов на 10%.
+              <span class="font-weight-bold">Страж тундры</span>. В событии "Битва Орд" сила Сноу увеличивается на 20%,
+              а численность воинов на 10%.
             </small>
           </v-item>
         </v-item-group>
-        <HarmonyTable :levels="allLevels" :bonusPerLevel="12"/>
+        <HarmonyTable :levels="allLevels" :bonusPerLevel="12" :extendLevelInfo="extendLevelInfo"/>
       </v-card-text>
 
     </v-card>

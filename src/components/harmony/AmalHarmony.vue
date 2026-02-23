@@ -2,7 +2,7 @@
 import {ref} from 'vue'
 import {useDisplay} from 'vuetify'
 import AmalImg from "@/assets/hero/100_412.png";
-import VilmaImg from "@/assets/hero/100_411.png";
+
 const {smAndDown} = useDisplay()
 
 
@@ -34,6 +34,11 @@ const allLevels = computed(() => {
   return levels;
 })
 
+const extendLevelInfo = {
+  1: 'Открывает образ хана "Амар"',
+  4: 'Повышает собственную боевую силу на 10%',
+  8: 'Повышает собственную боевую силу на 20%'
+}
 </script>
 
 <template>
@@ -82,7 +87,7 @@ const allLevels = computed(() => {
             </small>
           </v-item>
         </v-item-group>
-        <HarmonyTable :levels="allLevels" :bonusPerLevel="12"/>
+        <HarmonyTable :levels="allLevels" :bonusPerLevel="12" :extendLevelInfo="extendLevelInfo"/>
       </v-card-text>
 
     </v-card>

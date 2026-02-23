@@ -57,7 +57,7 @@ const snow = ref(false)
     <v-list-item :prepend-avatar="TomirisImg" link @click="steppeQueens = true">Воительницы (Томирис, Хутулун, Алтана, Минбалла, Нара)</v-list-item>
     <v-list-item :prepend-avatar="AnarImg" link @click="warmaiden = true">Дочери вечности (Анар, Земея, Айрис, Иветт)</v-list-item>
     <v-list-item :prepend-avatar="MarkoPoloImg" link @click="marco = true">Марко Поло</v-list-item>
-    <v-list-item :prepend-avatar="KenImg" link @click="ken = true">Кен</v-list-item>
+    <v-list-item :prepend-avatar="KenImg" link @click="ken = true">Кен Арок</v-list-item>
     <v-list-item :prepend-avatar="TomoeImg" link @click="tomoe = true">Томоэ Годзэн</v-list-item>
     <v-list-item :prepend-avatar="AmalImg" link @click="amal = true" class="text-muted">Амар</v-list-item>
     <v-list-item :prepend-avatar="VilmaImg" link @click="vilma = true">Вилма</v-list-item>
