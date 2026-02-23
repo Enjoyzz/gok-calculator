@@ -31,6 +31,7 @@ const steppeQueensHarmony = ref(false)
 const marcoHarmony = ref(false)
 const kenHarmony = ref(false)
 const tomoeHarmony = ref(false)
+const atilaHarmony = ref(false)
 
 </script>
 
@@ -47,7 +48,7 @@ const tomoeHarmony = ref(false)
     <v-list-item :prepend-avatar="VilmaImg">Вилма</v-list-item>
     <v-list-item :prepend-avatar="JayantiImg">Джаянти</v-list-item>
     <v-list-item :prepend-avatar="SnowImg">Сноу</v-list-item>
-    <v-list-item :prepend-avatar="AtillaImg">Атилла</v-list-item>
+    <v-list-item :prepend-avatar="AtillaImg" link @click="atilaHarmony = true">Атилла</v-list-item>
   </v-list>
 
   <WolvesOfWarsHarmony
@@ -77,6 +78,11 @@ const tomoeHarmony = ref(false)
   <TomoeHarmony
     v-if="tomoeHarmony"
     @close-dialog="tomoeHarmony = false"
+  />
+
+  <AtillaHarmony
+    v-if="atilaHarmony"
+    @close-dialog="atilaHarmony = false"
   />
 
 </template>
