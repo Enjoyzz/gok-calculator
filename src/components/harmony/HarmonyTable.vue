@@ -79,7 +79,7 @@ const summary = computed(() => {
       v-for="level in levels"
       :key="level.lvl"
       @click="onSelectLevel(level.lvl)"
-      :class="{'bg-red': selectedLevel === level.lvl}"
+      :class="{'bg-blue-grey-darken-1': selectedLevel === level.lvl}"
     >
       <td class="d-flex align-center">
         <div>{{ level.lvl }}</div>
