@@ -28,6 +28,9 @@ definePage({
 const wolvesOfWarsHarmony = ref(false)
 const warmaidenHarmony = ref(false)
 const steppeQueensHarmony = ref(false)
+const marcoHarmony = ref(false)
+const kenHarmony = ref(false)
+const tomoeHarmony = ref(false)
 
 </script>
 
@@ -37,9 +40,9 @@ const steppeQueensHarmony = ref(false)
     <v-list-item :prepend-avatar="SubImg" link @click="wolvesOfWarsHarmony = true"> Варвары (Суб, Джэл, Хуб, Нок)</v-list-item>
     <v-list-item :prepend-avatar="TomirisImg" link @click="steppeQueensHarmony = true">Воительницы (Томирис, Хутулун, Алтана, Минбалла, Нара)</v-list-item>
     <v-list-item :prepend-avatar="AnarImg" link @click="warmaidenHarmony = true">Дочери вечности (Анар, Земея, Айрис, Иветт)</v-list-item>
-    <v-list-item :prepend-avatar="MarkoPoloImg">Марко Поло</v-list-item>
-    <v-list-item :prepend-avatar="KenImg">Кен</v-list-item>
-    <v-list-item :prepend-avatar="TomoeImg">Томоэ Годзэн</v-list-item>
+    <v-list-item :prepend-avatar="MarkoPoloImg" link @click="marcoHarmony = true">Марко Поло</v-list-item>
+    <v-list-item :prepend-avatar="KenImg" link @click="kenHarmony = true">Кен</v-list-item>
+    <v-list-item :prepend-avatar="TomoeImg" link @click="tomoeHarmony = true">Томоэ Годзэн</v-list-item>
     <v-list-item :prepend-avatar="AmalImg">Амар</v-list-item>
     <v-list-item :prepend-avatar="VilmaImg">Вилма</v-list-item>
     <v-list-item :prepend-avatar="JayantiImg">Джаянти</v-list-item>
@@ -59,6 +62,21 @@ const steppeQueensHarmony = ref(false)
   <WarmaidenHarmony
     v-if="warmaidenHarmony"
     @close-dialog="warmaidenHarmony = false"
+  />
+
+  <MarkoPoloHarmony
+    v-if="marcoHarmony"
+    @close-dialog="marcoHarmony = false"
+  />
+
+  <KenHarmony
+    v-if="kenHarmony"
+    @close-dialog="kenHarmony = false"
+  />
+
+  <TomoeHarmony
+    v-if="tomoeHarmony"
+    @close-dialog="tomoeHarmony = false"
   />
 
 </template>
