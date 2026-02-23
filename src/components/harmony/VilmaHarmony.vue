@@ -2,6 +2,7 @@
 import {ref} from 'vue'
 import {useDisplay} from 'vuetify'
 import VilmaImg from "@/assets/hero/100_411.png";
+import {vilmaInsigniaIcon} from "@/config/gok-item-icon-set.js";
 
 const {smAndDown} = useDisplay()
 
@@ -87,7 +88,12 @@ const extendLevelInfo = {
             </small>
           </v-item>
         </v-item-group>
-        <HarmonyTable :levels="allLevels" :bonusPerLevel="12" :extendLevelInfo="extendLevelInfo"/>
+        <HarmonyTable
+          :levels="allLevels"
+          :bonusPerLevel="12"
+          :extendLevelInfo="extendLevelInfo"
+          :tokenIcon="vilmaInsigniaIcon"
+        />
       </v-card-text>
 
     </v-card>

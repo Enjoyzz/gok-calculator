@@ -1,6 +1,7 @@
 <script setup>
 import {ref} from "vue";
 import {useTheme} from "vuetify/framework";
+import {steppeQueensInsigniaIcon} from "@/config/gok-item-icon-set.js";
 
 const theme = useTheme();
 const isDarkTheme = ref(null);
@@ -24,6 +25,9 @@ const props = defineProps({
   extendLevelInfo: {
     type: Object,
     default: {}
+  },
+  tokenIcon: {
+    type: Object,
   }
 })
 
@@ -56,11 +60,17 @@ const summary = computed(() => {
 </script>
 
 <template>
+  <v-divider class="my-3"/>
   <v-table hover style="margin-bottom: 50px">
     <thead>
     <tr>
       <th style="width: 33%">Уровень гармонии</th>
-      <th style="width: 33%">Кол-во жетонов</th>
+      <th style="width: 33%">
+        <div class="d-flex align-center">
+          <div>Кол-во жетонов</div>
+          <GokIcon v-if="tokenIcon" :icon="tokenIcon" size="48" />
+        </div>
+      </th>
       <th style="width: 33%">Бонус атрибутов,&nbsp;%</th>
     </tr>
     </thead>

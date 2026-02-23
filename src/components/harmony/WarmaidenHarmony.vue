@@ -5,6 +5,7 @@ import AnarImg from "@/assets/hero/100_401.png";
 import ZemyaImg from "@/assets/hero/100_402.png";
 import YvetteImg from "@/assets/hero/100_403.png";
 import IrisImg from "@/assets/hero/100_404.png";
+import {warmaidenInsigniaIcon} from "@/config/gok-item-icon-set.js";
 
 const {smAndDown} = useDisplay()
 
@@ -115,7 +116,12 @@ const groupBonus = computed(() => {
 
         </v-item-group>
 
-        <HarmonyTable :levels="allLevels" :groupBonus="groupBonus" :bonusPerLevel="6"/>
+        <HarmonyTable
+          :levels="allLevels"
+          :groupBonus="groupBonus"
+          :bonusPerLevel="6"
+          :tokenIcon="warmaidenInsigniaIcon"
+        />
       </v-card-text>
 
     </v-card>

@@ -2,6 +2,7 @@
 import {ref} from 'vue'
 import {useDisplay} from 'vuetify'
 import AtillaImg from "@/assets/hero/100_321.png";
+import {atillaInsigniaIcon} from "@/config/gok-item-icon-set.js";
 
 const {smAndDown} = useDisplay()
 
@@ -89,7 +90,12 @@ const groupBonus = ref(30)
             <span v-if="groupBonus > 0" class="ps-3 text-h6">+{{ groupBonus }}%</span>
           </v-item>
         </v-item-group>
-        <HarmonyTable :levels="allLevels" :bonusPerLevel="4" :groupBonus="groupBonus"/>
+        <HarmonyTable
+          :levels="allLevels"
+          :bonusPerLevel="4"
+          :groupBonus="groupBonus"
+          :tokenIcon="atillaInsigniaIcon"
+        />
       </v-card-text>
 
     </v-card>

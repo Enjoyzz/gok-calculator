@@ -5,6 +5,7 @@ import SubImg from "@/assets/hero/100_314.png";
 import JelImg from "@/assets/hero/100_311.png";
 import HubImg from "@/assets/hero/100_312.png";
 import NokImg from "@/assets/hero/100_313.png";
+import {wolvesOfWarInsigniaIcon} from "@/config/gok-item-icon-set.js";
 
 
 const {smAndDown} = useDisplay()
@@ -114,7 +115,12 @@ const groupBonus = computed(() => {
           </v-item>
 
         </v-item-group>
-        <HarmonyTable :levels="allLevels" :groupBonus="groupBonus" :bonusPerLevel="3"/>
+        <HarmonyTable
+          :levels="allLevels"
+          :groupBonus="groupBonus"
+          :bonusPerLevel="3"
+          :tokenIcon="wolvesOfWarInsigniaIcon"
+        />
       </v-card-text>
 
     </v-card>

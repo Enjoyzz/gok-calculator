@@ -3,6 +3,7 @@ import {ref} from 'vue'
 import {useDisplay} from 'vuetify'
 import MarkoPoloImg from "@/assets/hero/100_342.png";
 import AtillaImg from "@/assets/hero/100_321.png";
+import {marcoPoloInsigniaIcon} from "@/config/gok-item-icon-set.js";
 
 const {smAndDown} = useDisplay()
 
@@ -90,7 +91,12 @@ const extendLevelInfo = {
           </v-item>
         </v-item-group>
 
-        <HarmonyTable :levels="allLevels" :bonusPerLevel="12" :extendLevelInfo="extendLevelInfo"/>
+        <HarmonyTable
+          :levels="allLevels"
+          :bonusPerLevel="12"
+          :extendLevelInfo="extendLevelInfo"
+          :tokenIcon="marcoPoloInsigniaIcon"
+        />
       </v-card-text>
 
     </v-card>

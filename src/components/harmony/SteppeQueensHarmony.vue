@@ -6,6 +6,7 @@ import NaraImg from "@/assets/hero/100_303.png";
 import MinbalaImg from "@/assets/hero/100_302.png";
 import TomirisImg from "@/assets/hero/100_304.png";
 import HutulunImg from "@/assets/hero/100_301.png";
+import {steppeQueensInsigniaIcon} from "@/config/gok-item-icon-set.js";
 
 
 const {smAndDown} = useDisplay()
@@ -117,7 +118,12 @@ const groupBonus = computed(() => {
 
         </v-item-group>
 
-        <HarmonyTable :levels="allLevels" :groupBonus="groupBonus" :bonusPerLevel="5"/>
+        <HarmonyTable
+          :levels="allLevels"
+          :groupBonus="groupBonus"
+          :bonusPerLevel="5"
+          :tokenIcon="steppeQueensInsigniaIcon"
+        />
       </v-card-text>
 
     </v-card>

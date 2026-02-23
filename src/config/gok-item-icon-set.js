@@ -72,6 +72,7 @@ import draculaInsigniaSrc from '@/assets/harmony/2-4390.png';
 import jayantiInsigniaSrc from '@/assets/harmony/2-4330.png';
 import snowInsigniaSrc from '@/assets/harmony/2-4790.png';
 import atillaInsigniaSrc from '@/assets/harmony/2-4321.png';
+import amalInsigniaSrc from '@/assets/harmony/2-4770.png';
 
 export const atillaInsigniaIcon = {
   src: atillaInsigniaSrc,
@@ -113,6 +114,11 @@ export const marcoPoloInsigniaIcon = {
 
 export const kenInsigniaIcon = {
   src: kenInsigniaSrc,
+  bg: red,
+};
+
+export const amalInsigniaIcon = {
+  src: amalInsigniaSrc,
   bg: red,
 };
 

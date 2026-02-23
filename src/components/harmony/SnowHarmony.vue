@@ -2,6 +2,7 @@
 import {ref} from 'vue'
 import {useDisplay} from 'vuetify'
 import SnowImg from "@/assets/hero/100_422.png";
+import {snowInsigniaIcon} from "@/config/gok-item-icon-set.js";
 
 const {smAndDown} = useDisplay()
 
@@ -89,7 +90,12 @@ const extendLevelInfo = {
             </small>
           </v-item>
         </v-item-group>
-        <HarmonyTable :levels="allLevels" :bonusPerLevel="12" :extendLevelInfo="extendLevelInfo"/>
+        <HarmonyTable
+          :levels="allLevels"
+          :bonusPerLevel="12"
+          :extendLevelInfo="extendLevelInfo"
+          :tokenIcon="snowInsigniaIcon"
+        />
       </v-card-text>
 
     </v-card>
