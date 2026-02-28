@@ -22,7 +22,7 @@
     "@fontsource/roboto": "5.2.7",
     "pinia": "^3.0.3",
     "vue": "^3.5.28",
-    "vue-router": "^4.5.1",
+    "vue-router": "^5.0.3",
     "vuetify": "^3.10.1"
   },
   "devDependencies": {
