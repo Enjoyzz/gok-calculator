@@ -49,9 +49,9 @@ const toggleDrawer = () => drawer.value = !drawer.value;
 
           <v-menu activator="parent">
             <v-list density="compact" prepend-gap="10">
-              <v-list-item :prepend-icon="IconThemeLightDark" title="Системная" subtitle="Auto"  @click="changeTheme('system')"/>
-              <v-list-item :prepend-icon="IconWeatherSunny" title="Светлая"  subtitle="Light" @click="changeTheme('light')" />
-              <v-list-item :prepend-icon="IconWeatherNight" title="Темная" subtitle="Dark"  @click="changeTheme('dark')" />
+              <v-list-item :prepend-icon="IconThemeLightDark" :class="{'text-grey-darken-1': appStore.theme !== 'system'}" title="Системная" subtitle="Auto"  @click="changeTheme('system')"/>
+              <v-list-item :prepend-icon="IconWeatherSunny" :class="{'text-grey-darken-1': appStore.theme !== 'light'}" title="Светлая"  subtitle="Light" @click="changeTheme('light')" />
+              <v-list-item :prepend-icon="IconWeatherNight" :class="{'text-grey-darken-1': appStore.theme !== 'dark'}" title="Темная" subtitle="Dark"  @click="changeTheme('dark')" />
             </v-list>
           </v-menu>
 
