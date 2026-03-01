@@ -9,17 +9,15 @@ definePage({
 });
 
 
-nextTick(() => {
-  useHead({
-    title: '404 Page Not Found',
-    meta: [
-      {name: 'description', content: false},
-      {property: 'og:description', content: false},
-      {property: 'og:title', content: false},
-      {property: 'og:image', content: false},
-      {property: 'og:image:type', content: false},
-    ]
-  })
+useHead({
+  title: '404 Page Not Found',
+  meta: [
+    {name: 'description', content: false},
+    {property: 'og:description', content: false},
+    {property: 'og:title', content: false},
+    {property: 'og:image', content: false},
+    {property: 'og:image:type', content: false},
+  ]
 })
 </script>
 
