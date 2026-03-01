@@ -290,7 +290,8 @@ describe('SoldiersCalculator.vue', () => {
       const mockEvent = {
         target: {
           select: vi.fn(),
-          name: ''
+          name: '',
+          scrollIntoView: vi.fn()
         }
       }
 

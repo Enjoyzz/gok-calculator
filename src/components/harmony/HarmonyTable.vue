@@ -68,7 +68,7 @@ const summary = computed(() => {
       <th style="width: 33%">
         <div class="d-flex align-center">
           <div>Кол-во жетонов</div>
-          <GokIcon v-if="tokenIcon" :icon="tokenIcon" size="48" />
+          <GokIcon v-if="tokenIcon" :icon="tokenIcon" :size="48" />
         </div>
       </th>
       <th style="width: 33%">Бонус атрибутов,&nbsp;%</th>
