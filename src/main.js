@@ -34,5 +34,8 @@ if (checkMigrationNeeded()) {
   localStorage.setItem(MIGRATION_VERSION_KEY, CURRENT_VERSION);
 }
 
+import { createHead } from '@unhead/vue/client'
+const head = createHead()
+app.use(head)
 
 app.mount('#app')

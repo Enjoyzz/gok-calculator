@@ -23,6 +23,8 @@ import AmalHarmony from "@/components/harmony/AmalHarmony.vue";
 import SnowHarmony from "@/components/harmony/SnowHarmony.vue";
 import JayantiHarmony from "@/components/harmony/JayantiHarmony.vue";
 import VilmaHarmony from "@/components/harmony/VilmaHarmony.vue";
+import {useHead} from "@unhead/vue";
+import perfumeIcon from "@/assets/img/icon/2-4211.png";
 
 definePage({
   path: '/harmony',
@@ -35,6 +37,20 @@ definePage({
     icon: steppeQueensInsigniaSrc
   },
 });
+
+
+const title = '"Гармошка" советников в игре Game of Khans'
+const description = '"Гармошка" советников: Варвары (Суб, Джэл, Хуб, Нок), Воительницы (Томирис, Хутулун, Алтана, Минбалла, Нара), Дочери вечности (Анар, Земея, Айрис, Иветт), Марко Поло, Кен Арок, Томоэ Годзэн, Амар, Вилма, Джаянти, Сноу, Атилла  в игре Game of Khans'
+
+useHead({
+  title: title,
+  meta: [
+    {name: 'description', content: description},
+    {property: 'og:description', content: description},
+    {property: 'og:title', content: title},
+    {property: 'og:image', content: perfumeIcon},
+  ]
+})
 
 const wolvesOfWars = ref(false)
 const warmaiden = ref(false)
@@ -54,8 +70,11 @@ const snow = ref(false)
 
   <v-list lines="two">
     <v-list-item :prepend-avatar="SubImg" link @click="wolvesOfWars = true"> Варвары (Суб, Джэл, Хуб, Нок)</v-list-item>
-    <v-list-item :prepend-avatar="TomirisImg" link @click="steppeQueens = true">Воительницы (Томирис, Хутулун, Алтана, Минбалла, Нара)</v-list-item>
-    <v-list-item :prepend-avatar="AnarImg" link @click="warmaiden = true">Дочери вечности (Анар, Земея, Айрис, Иветт)</v-list-item>
+    <v-list-item :prepend-avatar="TomirisImg" link @click="steppeQueens = true">Воительницы (Томирис, Хутулун, Алтана,
+      Минбалла, Нара)
+    </v-list-item>
+    <v-list-item :prepend-avatar="AnarImg" link @click="warmaiden = true">Дочери вечности (Анар, Земея, Айрис, Иветт)
+    </v-list-item>
     <v-list-item :prepend-avatar="MarkoPoloImg" link @click="marco = true">Марко Поло</v-list-item>
     <v-list-item :prepend-avatar="KenImg" link @click="ken = true">Кен Арок</v-list-item>
     <v-list-item :prepend-avatar="TomoeImg" link @click="tomoe = true">Томоэ Годзэн</v-list-item>
