@@ -42,6 +42,7 @@ watch(input, (newValue) => {
 );
 
 const handleOnFocus = (e) => {
+  e.target.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" })
   e.target.select()
   e.target.name = 'tmp_' + Date.now();
 }
