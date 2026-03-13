@@ -74,6 +74,99 @@ import snowInsigniaSrc from '@/assets/harmony/2-4790.png';
 import atillaInsigniaSrc from '@/assets/harmony/2-4321.png';
 import amalInsigniaSrc from '@/assets/harmony/2-4770.png';
 
+import newSealSrc from '@/assets/title/2-4011.png';
+import newTallySrc from '@/assets/title/2-4012.png';
+import newMedalSrc from '@/assets/title/2-4013.png';
+import trustedSealSrc from '@/assets/title/2-4021.png';
+import trustedTallySrc from '@/assets/title/2-4022.png';
+import trustedMedalSrc from '@/assets/title/2-4023.png';
+import loyalSealSrc from '@/assets/title/2-4031.png';
+import loyalTallySrc from '@/assets/title/2-4032.png';
+import loyalMedalSrc from '@/assets/title/2-4033.png';
+import closeSealSrc from '@/assets/title/2-4041.png';
+import closeTallySrc from '@/assets/title/2-4042.png';
+import closeMedalSrc from '@/assets/title/2-4043.png';
+import highSealSrc from '@/assets/title/2-4051.png';
+import highTallySrc from '@/assets/title/2-4052.png';
+import highMedalSrc from '@/assets/title/2-4053.png';
+import greatSealSrc from '@/assets/title/2-4061.png';
+import greatTallySrc from '@/assets/title/2-4062.png';
+import greatMedalSrc from '@/assets/title/2-4063.png';
+
+export const newSealIcon = {
+  src: newSealSrc,
+  bg: blue,
+};
+export const newTallyIcon = {
+  src: newTallySrc,
+  bg: blue,
+};
+export const newMedalIcon = {
+  src: newMedalSrc,
+  bg: blue,
+};
+export const trustedSealIcon = {
+  src: trustedSealSrc,
+  bg: violet,
+};
+export const trustedTallyIcon = {
+  src: trustedTallySrc,
+  bg: violet,
+};
+export const trustedMedalIcon = {
+  src: trustedMedalSrc,
+  bg: violet,
+};
+export const loyalSealIcon = {
+  src: loyalSealSrc,
+  bg: orange,
+};
+export const loyalTallyIcon = {
+  src: loyalTallySrc,
+  bg: orange,
+};
+export const loyalMedalIcon = {
+  src: loyalMedalSrc,
+  bg: orange,
+};
+export const closeSealIcon = {
+  src: closeSealSrc,
+  bg: red,
+};
+export const closeTallyIcon = {
+  src: closeTallySrc,
+  bg: red,
+};
+export const closeMedalIcon = {
+  src: closeMedalSrc,
+  bg: red,
+};
+export const highSealIcon = {
+  src: highSealSrc,
+  bg: red,
+};
+export const highTallyIcon = {
+  src: highTallySrc,
+  bg: red,
+};
+export const highMedalIcon = {
+  src: highMedalSrc,
+  bg: red,
+};
+export const greatSealIcon = {
+  src: greatSealSrc,
+  bg: red,
+};
+export const greatTallyIcon = {
+  src: greatTallySrc,
+  bg: red,
+};
+export const greatMedalIcon = {
+  src: greatMedalSrc,
+  bg: red,
+}
+
+
 export const atillaInsigniaIcon = {
   src: atillaInsigniaSrc,
   bg: orange,
