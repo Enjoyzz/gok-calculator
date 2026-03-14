@@ -57,7 +57,7 @@ const iconSizeStyle = computed(() => `${iconSize.value}px`);
 <template>
   <div class="icon" v-if="validProps">
     <div class="bg" :style="backgroundStyle">
-      <img :src="iconPath" :alt="name || ''">
+      <img :src="iconPath" :alt="name || ''" :title="name || ''">
       <div v-if="badge" :class="{'bg-blue-grey-lighten-5': isDarkTheme, 'bg-blue-grey-darken-3': !isDarkTheme}"
            class="badge text-caption  border-thin rounded ">
         {{ badge }}
