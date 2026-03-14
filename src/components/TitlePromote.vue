@@ -27,6 +27,19 @@ import lvl300 from '@/assets/title/spt_102_105.png';
 import lvl350 from '@/assets/title/spt_102_106.png';
 import lvl400 from '@/assets/title/spt_102_107.png';
 
+import red from '@/assets/img/bg/bg-red.png';
+import orange from '@/assets/img/bg/bg-orange.png';
+import violet from '@/assets/img/bg/bg-violet.png';
+import blue from '@/assets/img/bg/bg-blue.png';
+
+import newBox from '@/assets/title/2-4014.png';
+import newBoxRandom from '@/assets/title/2-4015.png';
+import trustedBox from '@/assets/title/2-4024.png';
+import loyalBox from '@/assets/title/2-4034.png';
+import closeBox from '@/assets/title/2-4044.png';
+import highBox from '@/assets/title/2-4054.png';
+import greatBox from '@/assets/title/2-4064.png';
+
 const {smAndDown} = useDisplay()
 
 const lvl = ref({
@@ -251,6 +264,51 @@ function updateFromSource(id, type) {
   console.log('Update complete');
 }
 
+const addItems = [
+  {
+    icon: newBox,
+    bg: blue,
+    title: 'Набор шакала',
+    description: 'Все предметы для титула "Батыр".'
+  },
+  {
+    icon: newBoxRandom,
+    bg: blue,
+    title: 'Случайный набор шакала',
+    description: 'Случайное получение 1 из: печать пса, знак шакала, орден шакала.'
+  },
+  {
+    icon: trustedBox,
+    bg: violet,
+    title: 'Набор кабана',
+    description: 'Все предметы для титула "Младший батыр".'
+  },
+  {
+    icon: loyalBox,
+    bg: orange,
+    title: 'Набор волка',
+    description: 'Все предметы для титула "Старший батыр".'
+  },
+  {
+    icon: closeBox,
+    bg: red,
+    title: 'Набор медведя',
+    description: 'Все предметы для титула "Великий батыр".'
+  },
+  {
+    icon: highBox,
+    bg: red,
+    title: 'Набор тигра',
+    description: 'Все предметы для титула "Мастер батыр".'
+  },
+  {
+    icon: greatBox,
+    bg: red,
+    title: 'Набор орла',
+    description: 'Все предметы для титула "Ханский батыр".'
+  },
+]
+
 </script>
 
 <template>
@@ -266,6 +324,36 @@ function updateFromSource(id, type) {
         <GokIcon :icon="item.tally.icon" :badge="item.tally.badge" :size="60" @click.prevent="openDialog(id, 'tally')"/>
         <GokIcon :icon="item.medal.icon" :badge="item.medal.badge" :size="60" @click.prevent="openDialog(id, 'medal')"/>
       </div>
+    </v-card-text>
+  </v-card>
+
+  <v-card class="mt-5" title="Вспомогательные предметы">
+    <v-card-subtitle class="text-wrap">
+      Кликнув на каждый элемент - появится информация о нём
+    </v-card-subtitle>
+    <v-card-text>
+
+      <v-tooltip
+        v-for="(item, i) in addItems"
+        :key="i"
+        :open-on-hover="false"
+        open-on-click
+        :close-on-content-click="true"
+        location="center"
+      >
+        <template v-slot:activator="{ props }">
+          <GokIcon
+            v-bind="props"
+            :src="item.icon"
+            :size="80"
+            :bg="item.bg">
+          </GokIcon>
+        </template>
+        <div class="font-weight-bold">{{ item.title }}</div>
+        <div>{{ item.description }}</div>
+      </v-tooltip>
+
+
     </v-card-text>
   </v-card>
 
