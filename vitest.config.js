@@ -4,6 +4,7 @@ import AutoImport from 'unplugin-auto-import/vite'
 import { fileURLToPath, URL } from 'node:url'
 import {resolve} from 'node:path';
 import {tmpdir} from 'node:os';
+import Icons from 'unplugin-icons/vite'
 
 export default defineConfig({
   plugins: [
@@ -13,6 +14,7 @@ export default defineConfig({
       dts: true,
       vueTemplate: true,
     }),
+    Icons({ compiler: 'vue3' })
   ],
   test: {
     environment: 'happy-dom',

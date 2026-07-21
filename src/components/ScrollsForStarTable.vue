@@ -139,7 +139,7 @@
           </td>
         </tr>
         <tr class="text-h6">
-          <td class="text-right font-weight-bold text-body-large"" colspan="6">Всего</td>
+          <td class="text-right font-weight-bold text-body-large" colspan="6">Всего</td>
           <td class="text-center border-s border-e border-b">
 
               <v-img
@@ -173,9 +173,5 @@
 
 .cursor-pointer:hover {
   background-color: rgba(33, 150, 243, 0.05);
-}
-
-.bg-primary-lighten-4 {
-  background-color: rgba(33, 150, 243, 0.12) !important;
 }
 </style>
