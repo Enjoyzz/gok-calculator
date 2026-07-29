@@ -12,6 +12,7 @@ import AmalImg from "@/assets/hero/100_412.png";
 import SubImg from "@/assets/hero/100_314.png";
 import TomirisImg from "@/assets/hero/100_304.png";
 import AnarImg from "@/assets/hero/100_401.png";
+import ChangQingImg from "@/assets/hero/996_423.png";
 import WolvesOfWarsHarmony from "@/components/harmony/WolvesOfWarsHarmony.vue";
 import SteppeQueensHarmony from "@/components/harmony/SteppeQueensHarmony.vue";
 import WarmaidenHarmony from "@/components/harmony/WarmaidenHarmony.vue";
@@ -25,6 +26,7 @@ import JayantiHarmony from "@/components/harmony/JayantiHarmony.vue";
 import VilmaHarmony from "@/components/harmony/VilmaHarmony.vue";
 import {useHead} from "@unhead/vue";
 import perfumeIcon from "@/assets/img/icon/2-4211.png";
+import ChangQingHarmony from '@/components/harmony/ChangQingHarmony.vue'
 
 definePage({
   path: '/harmony',
@@ -40,7 +42,7 @@ definePage({
 
 
 const title = '"Гармошка" советников в игре Game of Khans'
-const description = '"Гармошка" советников: Варвары (Суб, Джэл, Хуб, Нок), Воительницы (Томирис, Хутулун, Алтана, Минбалла, Нара), Дочери вечности (Анар, Земея, Айрис, Иветт), Марко Поло, Кен Арок, Томоэ Годзэн, Амар, Вилма, Джаянти, Сноу, Атилла  в игре Game of Khans'
+const description = '"Гармошка" советников: Варвары (Суб, Джэл, Хуб, Нок), Воительницы (Томирис, Хутулун, Алтана, Минбалла, Нара), Дочери вечности (Анар, Земея, Айрис, Иветт), Марко Поло, Кен Арок, Томоэ Годзэн, Амар, Вилма, Джаянти, Сноу, Чанцин, Атилла  в игре Game of Khans'
 
 useHead({
   title: title,
@@ -63,6 +65,7 @@ const amal = ref(false)
 const vilma = ref(false)
 const jayanti = ref(false)
 const snow = ref(false)
+const changqing = ref(false)
 
 </script>
 
@@ -82,6 +85,7 @@ const snow = ref(false)
     <v-list-item :prepend-avatar="VilmaImg" link @click="vilma = true">Вилма</v-list-item>
     <v-list-item :prepend-avatar="JayantiImg" link @click="jayanti = true">Джаянти</v-list-item>
     <v-list-item :prepend-avatar="SnowImg" link @click="snow = true">Сноу</v-list-item>
+    <v-list-item :prepend-avatar="ChangQingImg" link @click="changqing = true">Чанцин</v-list-item>
     <v-list-item :prepend-avatar="AtillaImg" link @click="atilla = true">Атилла</v-list-item>
   </v-list>
 
@@ -137,6 +141,11 @@ const snow = ref(false)
   <VilmaHarmony
     v-if="vilma"
     @close-dialog="vilma = false"
+  />
+
+  <ChangQingHarmony
+    v-if="changqing"
+    @close-dialog="changqing = false"
   />
 
 </template>

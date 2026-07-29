@@ -72,6 +72,7 @@ import draculaInsigniaSrc from '@/assets/harmony/2-4390.png';
 import jayantiInsigniaSrc from '@/assets/harmony/2-4330.png';
 import snowInsigniaSrc from '@/assets/harmony/2-4790.png';
 import atillaInsigniaSrc from '@/assets/harmony/2-4321.png';
+import changQingInsigniaSrc from '@/assets/harmony/2-4800.png';
 import amalInsigniaSrc from '@/assets/harmony/2-4770.png';
 
 import newSealSrc from '@/assets/title/2-4011.png';
@@ -187,6 +188,12 @@ export const draculaInsigniaIcon = {
   src: draculaInsigniaSrc,
   bg: red,
 };
+
+export const changQingInsigniaIcon = {
+  src: changQingInsigniaSrc,
+  bg: red,
+};
+
 
 
 export const vilmaInsigniaIcon = {
