@@ -9,6 +9,8 @@ import 'vuetify/styles'
 import iMdiMenu from '~icons/mdi/menu'
 import iMdiClose from '~icons/mdi/close'
 import iMdiCloseCircle from '~icons/mdi/close-circle'
+import iMdiRadioBoxBlank from '~icons/mdi/radiobox-blank'
+import iMdiRadioBoxMarked from '~icons/mdi/radiobox-marked'
 
 // Composables
 import { createVuetify } from 'vuetify'
@@ -29,6 +31,8 @@ export default createVuetify({
       close: iMdiClose,
       clear: iMdiCloseCircle,
       cancel: iMdiCloseCircle,
+      radioOn: iMdiRadioBoxMarked,
+      radioOff: iMdiRadioBoxBlank,
     }
   },
   theme: {
