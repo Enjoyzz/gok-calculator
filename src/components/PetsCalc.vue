@@ -50,7 +50,9 @@ const previewTotal = computed(() =>
 )
 
 const canConfirm = computed(() =>
-  previewTotal.value && !previewTotal.value.incomplete
+  previewTotal.value &&
+  !previewTotal.value.incomplete &&   // hasMissing блокирует
+  previewTotal.value.parts + previewTotal.value.berries + previewTotal.value.points > 0
 )
 
 const isEditing = computed(() => editingId.value !== null)
@@ -111,6 +113,15 @@ function doClearAll() {
     closeDialog()
   }
 }
+
+function isApprox(total, field) {
+  return total?.approxFields?.includes(field) ?? false
+}
+
+const fieldLabels = { parts: 'осколки', berries: 'ягодки', points: 'очки' }
+const unknownLabels = (total) =>
+  (total?.unknownFields ?? []).map(f => fieldLabels[f]).filter(Boolean).join(', ')
+
 
 watch(selectedType, () => {
   if (initializing.value) return
@@ -176,11 +187,25 @@ watch(selectedAction, (action) => {
           </td>
         </template>
         <template v-else>
-          <td>{{ pet.total.parts }}</td>
           <td>
-            {{ pet.total.berries }}
+            <template v-if="pet.total.unknownFields.includes('parts')">?</template>
+            <template v-else>
+              <template v-if="isApprox(pet.total, 'parts')">~</template>{{ pet.total.parts }}
+            </template>
           </td>
-          <td>{{ formatLargeNumber( pet.total.points, {removeZero: true}) }}</td>
+          <td>
+            <template v-if="pet.total.unknownFields.includes('berries')">?</template>
+            <template v-else>
+              <template v-if="isApprox(pet.total, 'berries')">~</template>{{ pet.total.berries }}
+            </template>
+          </td>
+          <td>
+            <template v-if="pet.total.unknownFields.includes('points')">?</template>
+            <template v-else>
+              <template v-if="isApprox(pet.total, 'points')">~</template>
+              {{ formatLargeNumber(pet.total.points, { removeZero: true }) }}
+            </template>
+          </td>
         </template>
 
         <!-- Действия -->
@@ -221,14 +246,24 @@ watch(selectedAction, (action) => {
 
     <template v-if="petsWithCost.length">
       <v-divider />
-      <v-card-text class="d-flex ga-4 mt-5 align-center font-weight-bold">
+      <v-card-text
+        v-if="totals.unknownFields.length"
+        class="text-caption text-warning mt-3"
+      >
+        Внимание: часть значений неизвестны «{{ unknownLabels(totals) }}» — эти значения не учтены в итоговой сумме.
+      </v-card-text>
+
+      <v-card-text class="d-flex ga-4 align-center font-weight-bold">
         <span class="text-body-large">Итого очков:</span>
-        <span class="text-headline-small">{{ formatLargeNumber(totals.points, { removeZero: true }) }}</span>
+        <span class="text-headline-small">
+          <template v-if="isApprox(totals, 'points') || totals.unknownFields.includes('points')">~</template>
+          {{ formatLargeNumber(totals.points, { removeZero: true }) }}
+        </span>
       </v-card-text>
 
       <v-card-text v-if="totals.berries > 0" class="d-flex ga-4 mt-5 align-center font-weight-bold">
         <span class="text-body-large">Также необходимо:</span>
-        <GokIcon :icon="berriesIcon" :size="72" :badge="useGenerateBadge(totals.berries)" />
+        <GokIcon :icon="berriesIcon" :size="72" :badge="useGenerateBadge(totals.berries, isApprox(totals, 'berries') ||  totals.unknownFields.includes('berries'))" />
       </v-card-text>
     </template>
   </v-card>
@@ -279,8 +314,14 @@ watch(selectedAction, (action) => {
           />
         </template>
 
+        <div v-if="previewTotal?.hasUnknown" class="mt-2 text-warning">
+          Некоторые значения неизвестны — они не будут учтены в сумме:
+          <template v-if="previewTotal.unknownFields.includes('parts')">осколки</template>
+          <template v-if="previewTotal.unknownFields.includes('berries')">, ягоды</template>
+          <template v-if="previewTotal.unknownFields.includes('points')">, очки</template>
+        </div>
         <div v-if="previewTotal?.incomplete" class="mt-2 text-error">
-          Нет данных для уровня {{ previewTotal.rows.find(r => r.missing)?.level }}
+          Нет данных для уровня {{ previewTotal.rows.find(r => r.missing)?.level }} — добавление невозможно
         </div>
       </v-card-text>
 
