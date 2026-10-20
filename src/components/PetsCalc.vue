@@ -155,7 +155,7 @@ function isApprox(total, field) {
 function cell(total, field) {
   const unknown = total.unknownFields.includes(field)
   if (unknown && !total[field]) return '?'
-  const mark = unknown ? '≥' : isApprox(total, field) ? '~' : ''
+  const mark = unknown ? '≥ ' : isApprox(total, field) ? '~ ' : ''
   return mark + fmt(total[field])
 }
 
@@ -184,47 +184,42 @@ const berriesBadge = computed(() =>
       />
     </v-card-text>
 
-    <v-table v-if="petsWithCost.length" density="compact" class="mt-4">
-      <thead>
-      <tr>
-        <th>Качество питомца</th>
-        <th>Действие</th>
-        <th>Осколки</th>
-        <th>Ягодки</th>
-        <th>Очки</th>
-        <th></th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr v-for="pet in petsWithCost" :key="pet.id">
-        <td><img v-if="pet.icon" :src="pet.icon" :alt="pet.quality" width="72" /></td>
-        <td>
-          {{ pet.action === 'summon' ? 'призыв' : `ур. ${pet.currentLevel} → ${pet.desiredLevel}` }}
-        </td>
-
-        <td v-if="pet.total.incomplete" colspan="3" class="text-error">
-          нет данных для ур. {{ pet.total.rows.find(r => r.missing)?.level }}
-        </td>
-        <template v-else>
-          <td>{{ cell(pet.total, 'parts') }}</td>
-          <td>{{ cell(pet.total, 'berries') }}</td>
-          <td>{{ cell(pet.total, 'points') }}</td>
+    <v-list v-if="petsWithCost.length" class="mt-4 bg-transparent pa-0">
+      <v-list-item
+        v-for="pet in petsWithCost"
+        :key="pet.id"
+        class="px-0 border-b"
+      >
+        <template #prepend>
+          <img v-if="pet.icon" :src="pet.icon" :alt="pet.quality" width="56" class="mr-3" />
         </template>
 
-        <td class="text-right">
-          <v-menu location="end">
+        <div class="font-weight-medium mb-1">
+          {{ pet.action === 'summon' ? 'Призыв' : `Ур. ${pet.currentLevel} → ${pet.desiredLevel}` }}
+        </div>
+
+        <div v-if="pet.total.incomplete" class="text-error text-body-small">
+          нет данных для ур. {{ pet.total.rows.find(r => r.missing)?.level }}
+        </div>
+        <div v-else class="d-flex flex-wrap column-gap-4 ga-1 text-body-medium text-medium-emphasis">
+          <span>Осколки: <b>{{ cell(pet.total, 'parts') }}</b></span>
+          <span>Ягодки: <b>{{ cell(pet.total, 'berries') }}</b></span>
+          <span>Очки: <b>{{ cell(pet.total, 'points') }}</b></span>
+        </div>
+
+        <template #append>
+          <v-menu location="bottom end">
             <template #activator="{ props }">
-              <v-btn v-bind="props" :icon="iMdiDotsV" size="small" variant="text" />
+              <v-btn v-bind="props" :icon="iMdiDotsV" size="small" variant="text" aria-label="Действия" />
             </template>
             <v-list prepend-gap="5">
               <v-list-item :prepend-icon="iMdiPencil" @click="openEdit(pet)">Редактировать</v-list-item>
               <v-list-item :prepend-icon="iMdiClose" @click="removePet(pet.id)">Удалить</v-list-item>
             </v-list>
           </v-menu>
-        </td>
-      </tr>
-      </tbody>
-    </v-table>
+        </template>
+      </v-list-item>
+    </v-list>
 
     <v-sheet
       v-else
@@ -245,22 +240,45 @@ const berriesBadge = computed(() =>
       </v-btn>
     </v-sheet>
 
-    <template v-if="petsWithCost.length">
-      <v-divider />
-      <v-card-text v-if="totals.unknownFields.length" class="text-caption text-warning mt-3">
-        Внимание: часть значений неизвестна ({{ unknownLabels(totals) }}) — в итоге показана нижняя граница.
-      </v-card-text>
+    <v-alert
+      v-if="totals.unknownFields.length"
+      type="warning"
+      variant="tonal"
+      density="compact"
+      class="mt-4 text-body-small"
+    >
+      Часть значений неизвестна ({{ unknownLabels(totals) }}), показана нижняя граница.
+    </v-alert>
 
-      <v-card-text class="d-flex ga-4 align-center font-weight-bold">
-        <span class="text-body-large">Итого очков:</span>
-        <span class="text-headline-small">{{ cell(totals, 'points') }}</span>
-      </v-card-text>
+    <v-card
+      v-if="petsWithCost.length"
+      variant="text"
+      class="mt-6 pa-4"
+    >
+      <div class="text-label-large text-medium-emphasis">Итого очки:
+        <span class="text-body-large font-weight-bold">{{ cell(totals, 'points') }}</span>
+      </div>
 
-      <v-card-text v-if="totals.berries > 0" class="d-flex ga-4 mt-5 align-center font-weight-bold">
-        <span class="text-body-large">Также необходимо:</span>
-        <GokIcon :icon="berriesIcon" :size="72" :badge="berriesBadge" />
-      </v-card-text>
-    </template>
+      <div class="d-flex align-baseline ga-2 mt-1">
+
+      </div>
+
+      <v-divider class="my-4" />
+
+      <div class="d-flex flex-wrap ga-6">
+        <div>
+          <div class="text-label-medium text-medium-emphasis mb-1">Осколки</div>
+          <div class="text-headline-small font-weight-medium">{{ cell(totals, 'parts') }}</div>
+        </div>
+
+        <div v-if="totals.berries > 0">
+          <div class="text-label-medium text-medium-emphasis mb-1">Ягодки</div>
+          <GokIcon :icon="berriesIcon" :size="72" :badge="berriesBadge" />
+        </div>
+      </div>
+
+
+    </v-card>
   </v-card>
 
   <!-- Добавление / редактирование -->
