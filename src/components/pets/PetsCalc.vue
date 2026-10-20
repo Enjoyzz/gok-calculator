@@ -24,6 +24,9 @@ const selectedAction = ref(null)
 const currentLevel = ref(null)
 const desiredLevel = ref(null)
 
+// При смене типа — сбрасываем зависимые поля (но не при открытии на редактирование)
+const initializing = ref(false)
+
 const {
   addPet, updatePet, removePet,
   totals, petsWithCost, breakdown, petTotal,
@@ -64,16 +67,19 @@ function openCreate() {
   addPetDialog.value = true
 }
 
-function openEdit(pet) {
+async function openEdit(pet) {
+  initializing.value = true
+
   editingId.value = pet.id
   selectedType.value = pet.type
   selectedAction.value = pet.action
   currentLevel.value = pet.currentLevel
   desiredLevel.value = pet.desiredLevel
   addPetDialog.value = true
-}
 
-// --- подтверждение ---
+  await nextTick()
+  initializing.value = false
+}
 
 function confirm() {
   const payload = {
@@ -99,31 +105,20 @@ function closeDialog() {
   desiredLevel.value = null
 }
 
-
-// При смене типа — сбрасываем зависимые поля (но не при открытии на редактирование)
-let initializing = false
 watch(selectedType, () => {
-  if (initializing) return
+  if (initializing.value) return
   selectedAction.value = null
   currentLevel.value = null
   desiredLevel.value = null
 })
 
 watch(selectedAction, (action) => {
-  if (initializing) return
+  if (initializing.value) return
   if (action === 'summon') {
     currentLevel.value = null
     desiredLevel.value = null
   }
 })
-
-// В openEdit порядок: сначала выставляем всё, потом снимаем флаг
-// (если выставление вызывает watch, они не должны затереть поля)
-function openEditSafely(pet) {
-  initializing = true
-  openEdit(pet)
-  initializing = false
-}
 </script>
 
 <template>
@@ -173,7 +168,7 @@ function openEditSafely(pet) {
               <v-btn v-bind="props" :icon="iMdiDotsV" size="small" variant="text" />
             </template>
             <v-list prepend-gap="5">
-              <v-list-item :prepend-icon="iMdiPencil" size="small" variant="text" @click="openEditSafely(pet)">Редактировать</v-list-item>
+              <v-list-item :prepend-icon="iMdiPencil" size="small" variant="text" @click="openEdit(pet)">Редактировать</v-list-item>
               <v-list-item :prepend-icon="iMdiClose" size="small" variant="text" @click="removePet(pet.id)">Удалить</v-list-item>
             </v-list>
           </v-menu>
@@ -223,16 +218,22 @@ function openEditSafely(pet) {
       </v-card-title>
 
       <v-card-text>
-        <v-radio-group inline v-model="selectedType" label="Выберите качество боевого питомца">
-          <v-radio
+        <h2 class="text-title-large my-3">Выберите качество боевого питомца</h2>
+        <v-chip-group column inline v-model="selectedType" label="Выберите качество боевого питомца">
+          <v-chip
             v-for="id in petTypeKeys"
             :key="id"
-            :label="petTypes[id].quality"
+            variant="text"
+            filter
             :value="id"
-          />
-        </v-radio-group>
+          >
+            <img :src="petTypes[id].icon" :alt="petTypes[id].quality" width="64" />
+          </v-chip>
+        </v-chip-group>
 
-        <v-radio-group inline v-model="selectedAction" label="Что будете делать с питомцем?">
+        <h2 v-if="selectedType" class="text-title-large my-3">Что будете делать с питомцем?</h2>
+
+        <v-radio-group inline v-if="selectedType" v-model="selectedAction">
           <v-radio label="Призыв" value="summon" />
           <v-radio label="Поднятие уровня" value="level-up" />
         </v-radio-group>
@@ -256,12 +257,7 @@ function openEditSafely(pet) {
           />
         </template>
 
-        <div v-if="previewTotal && !previewTotal.incomplete" class="mt-2">
-          Будет списано: части {{ previewTotal.parts }},
-          ягоды {{ previewTotal.berries }},
-          очки {{ previewTotal.points }}
-        </div>
-        <div v-else-if="previewTotal?.incomplete" class="mt-2 text-error">
+        <div v-if="previewTotal?.incomplete" class="mt-2 text-error">
           Нет данных для уровня {{ previewTotal.rows.find(r => r.missing)?.level }}
         </div>
       </v-card-text>
@@ -269,7 +265,7 @@ function openEditSafely(pet) {
       <v-card-actions>
         <v-spacer />
         <v-btn @click="closeDialog">Отмена</v-btn>
-        <v-btn :disabled="!canConfirm" color="primary" @click="confirm">
+        <v-btn :disabled="!canConfirm" color="primary" variant="tonal" @click="confirm">
           {{ isEditing ? 'Сохранить' : 'Добавить' }}
         </v-btn>
       </v-card-actions>
