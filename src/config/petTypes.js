@@ -9,14 +9,12 @@ export const petTypes = {
   //   quality: 'A',
   //   icon: null,
   //   'min-level': 1,
-  //   'summon-points': 0,
   //   levels: {},
   // },
   // s: {
   //   quality: 'S',
   //   icon: null,
   //   'min-level': 1,
-  //   'summon-points': 0,
   //   levels: {},
   // },
   ss: {
@@ -24,8 +22,8 @@ export const petTypes = {
     icon: iconSS,
     'min-level': 1,
     'max-level': 50,
-    'summon-points': 225,
     levels: {
+      1: { parts: 10, berries: 0, points: 225 },
       2: { parts: 3, berries: 17, points: 65 },
       3: { parts: 4, berries: 22, points: 65 },
       4: { parts: 4, berries: 22, points: 70 },
@@ -34,7 +32,7 @@ export const petTypes = {
       7: { parts: 6, berries: 33, points: 85 },
       8: { parts: 6, berries: 33, points: 85 },
       9: { parts: 7, berries: 39, points: 90 },
-      10: { parts: 10, berries: 55, points: 295 },
+      10: { parts: 10, berries: 55, points: 295, approxFields: ['points'] },
       11: { parts: 5, berries: 42, points: 100 },
       12: { parts: 5, berries: 42, points: 105 },
       13: { parts: 7, berries: 59, points: 110 },
@@ -82,8 +80,8 @@ export const petTypes = {
     icon: iconSSPlus,
     'min-level': 10,
     'max-level': 50,
-    'summon-points': 1130,
     levels: {
+      10: { parts: 50, berries: 0, points: 1130 },
       11: { parts: 2, berries: 16, points: 100 },
       12: { parts: 2, berries: 16, points: 105 },
       13: { parts: 3, berries: 23, points: 110 },
@@ -131,8 +129,8 @@ export const petTypes = {
     icon: iconSSS,
     'min-level': 20,
     'max-level': 100,
-    'summon-points': 3075,
     levels: {
+      20: { parts: 100, berries: 0, points: 3075 },
       21: { parts: 2, berries: 16, points: 160 },
       22: { parts: 2, berries: 16, points: 170 },
       23: { parts: 3, berries: 23, points: 180 },

@@ -27,13 +27,17 @@ export function usePets(petTypes) {
     if (!type) return []
 
     if (pet.action === 'summon') {
+      const lvl = type['min-level']
+      const cost = type.levels?.[lvl]
+      if (!cost) return [{ level: lvl, missing: true }]
+      const unknown = ['parts', 'berries', 'points'].filter(f => cost[f] == null)
       return [{
-        level: 'призыв',
-        parts: 0,
-        berries: 0,
-        points: type['summon-points'] ?? 0,
-        approxFields: [],
-        unknownFields: [],
+        level: lvl,
+        parts: cost.parts,
+        berries: cost.berries,
+        points: cost.points,
+        approxFields: cost.approxFields ?? [],
+        unknownFields: unknown,
       }]
     }
 
@@ -41,14 +45,11 @@ export function usePets(petTypes) {
     for (let lvl = pet.currentLevel + 1; lvl <= pet.desiredLevel; lvl++) {
       const cost = type.levels?.[lvl]
       if (!cost) {
-        // Уровня нет в справочнике — это фатально
         rows.push({ level: lvl, missing: true })
         continue
       }
-
       const approx = cost.approxFields ?? []
       const unknown = ['parts', 'berries', 'points'].filter(f => cost[f] == null)
-
       rows.push({
         level: lvl,
         parts: cost.parts,
