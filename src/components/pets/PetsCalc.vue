@@ -5,12 +5,9 @@ import { petTypes, petTypeKeys } from '@/config/petTypes'
 import iMdiClose from '~icons/mdi/close'
 import iMdiPencil from '~icons/mdi/pencil'
 import iMdiPlus from '~icons/mdi/plus'
-import iMdiInformationOutline from '~icons/mdi/information-outline'
+import iMdiDeleteOutline from '~icons/mdi/delete-outline'
 import iMdiDotsV from '~icons/mdi/dots-vertical'
 import petSplash from '@/assets/pet/petking/spt_5503_503.png'
-
-
-import appleIconSrc from '@/assets/pet/spt_506_6606.png';
 
 import {useGenerateBadge} from '@/composable/badges.js';
 import {berriesIcon} from "@/config/gok-item-icon-set.js";
@@ -28,9 +25,11 @@ const desiredLevel = ref(null)
 const initializing = ref(false)
 
 const {
-  addPet, updatePet, removePet,
-  totals, petsWithCost, breakdown, petTotal,
+  addPet, updatePet, removePet, clearPets,
+  totals, petsWithCost, petTotal,
 } = usePets(petTypes)
+
+const confirmClearDialog = ref(false)
 
 const currentPetType = computed(() => petTypes[selectedType.value] ?? null)
 const minLevel = computed(() => currentPetType.value?.['min-level'] ?? 1)
@@ -105,6 +104,14 @@ function closeDialog() {
   desiredLevel.value = null
 }
 
+function doClearAll() {
+  clearPets()
+  confirmClearDialog.value = false
+  if (addPetDialog.value) {
+    closeDialog()
+  }
+}
+
 watch(selectedType, () => {
   if (initializing.value) return
   selectedAction.value = null
@@ -122,9 +129,24 @@ watch(selectedAction, (action) => {
 </script>
 
 <template>
+
+
   <v-card variant="text">
-    <v-card-text v-if="petsWithCost.length">
-      <v-btn color="primary" variant="tonal" @click="openCreate" :prepend-icon="iMdiPlus">Добавить боевого питомца</v-btn>
+    <v-card-text  v-if="petsWithCost.length" class="d-flex align-center justify-space-between">
+      <v-btn color="primary" variant="tonal" :prepend-icon="iMdiPlus" @click="openCreate">
+        Добавить боевого питомца
+      </v-btn>
+
+      <v-btn
+
+        color="error"
+        title="Очистить всё"
+        variant="text"
+        :prepend-icon="iMdiDeleteOutline"
+        @click="confirmClearDialog = true"
+      >
+
+      </v-btn>
     </v-card-text>
 
     <v-table v-if="petsWithCost.length" density="compact" class="mt-4">
@@ -186,8 +208,8 @@ watch(selectedAction, (action) => {
     >
       <GokIcon :src="petSplash" alt="" :size="164" class="mb-4" />
 
-      <div class="text-h6 mb-2">Пока не добавлено ни одного питомца</div>
-      <div class="text-body-2 text-medium-emphasis mb-6" style="max-width: 420px;">
+      <div class="text-headline-small mb-2">Пока не добавлено ни одного питомца</div>
+      <div class="text-body-large text-medium-emphasis mb-6" style="max-width: 420px;">
         Добавьте боевого питомца, укажите качество и действие — мы посчитаем,
         сколько осколков, ягод и очков понадобится.
       </div>
@@ -268,6 +290,21 @@ watch(selectedAction, (action) => {
         <v-btn :disabled="!canConfirm" color="primary" variant="tonal" @click="confirm">
           {{ isEditing ? 'Сохранить' : 'Добавить' }}
         </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+
+  <v-dialog v-model="confirmClearDialog" max-width="420px">
+    <v-card>
+      <v-card-title>Очистить список?</v-card-title>
+      <v-card-text>
+        Будут удалены все добавленные питомцы ({{ petsWithCost.length }}).
+        Действие нельзя отменить.
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer />
+        <v-btn @click="confirmClearDialog = false">Отмена</v-btn>
+        <v-btn color="error" variant="flat" @click="doClearAll">Очистить</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

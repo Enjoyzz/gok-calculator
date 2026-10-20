@@ -18,6 +18,10 @@ export function usePets(petTypes) {
     store.removePet(id)
   }
 
+  function clearPets() {
+    store.clearPets()
+  }
+
   // Построчная разбивка для одной записи
   function breakdown(pet) {
     const type = petTypes[pet.type]
@@ -76,5 +80,5 @@ export function usePets(petTypes) {
     })
   )
 
-  return { pets, addPet, updatePet, removePet, totals, petsWithCost, breakdown, petTotal }
+  return { pets, addPet, updatePet, removePet, clearPets, totals, petsWithCost, breakdown, petTotal }
 }
