@@ -294,8 +294,8 @@ const berriesBadge = computed(() =>
           :model-value="selectedType"
           @update:model-value="onTypeChange"
         >
-          <v-chip v-for="id in petTypeKeys" :key="id" variant="text" filter :value="id">
-            <img :src="petTypes[id].icon" :alt="petTypes[id].quality" width="64" />
+          <v-chip v-for="id in petTypeKeys" :key="id" variant="text" :value="id" >
+            <img :src="petTypes[id].icon" :alt="petTypes[id].quality" width="54" />
           </v-chip>
         </v-chip-group>
 
