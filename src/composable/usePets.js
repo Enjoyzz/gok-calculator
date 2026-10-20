@@ -79,7 +79,7 @@ export function usePets(petTypes) {
   const petsWithCost = computed(() =>
     pets.value.map(pet => ({
       ...pet,
-      quality: petTypes[pet.type]?.quality,
+      ...petTypes[pet.type],
       total: petTotal(pet),
     }))
   )

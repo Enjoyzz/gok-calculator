@@ -2,7 +2,19 @@
 import { ref, computed, watch } from 'vue'
 import { usePets } from '@/composable/usePets'
 import { petTypes, petTypeKeys } from '@/config/petTypes'
+import iMdiClose from '~icons/mdi/close'
+import iMdiPencil from '~icons/mdi/pencil'
+import iMdiPlus from '~icons/mdi/plus'
+import iMdiInformationOutline from '~icons/mdi/information-outline'
+import iMdiDotsV from '~icons/mdi/dots-vertical'
+import petSplash from '@/assets/pet/petking/spt_5503_503.png'
 
+
+import appleIconSrc from '@/assets/pet/spt_506_6606.png';
+
+import {useGenerateBadge} from '@/composable/badges.js';
+import {berriesIcon} from "@/config/gok-item-icon-set.js";
+import {formatLargeNumber} from "@/utils/formatNumbers.js";
 
 const addPetDialog = ref(false)
 const editingId = ref(null) // null = создание, иначе id редактируемой записи
@@ -87,6 +99,9 @@ function closeDialog() {
   desiredLevel.value = null
 }
 
+const berriesBadge = computed(() => useGenerateBadge(totals.berries.value))
+
+
 // При смене типа — сбрасываем зависимые поля (но не при открытии на редактирование)
 let initializing = false
 watch(selectedType, () => {
@@ -114,84 +129,92 @@ function openEditSafely(pet) {
 </script>
 
 <template>
-  <v-card>
-    <v-card-title>Питомцы</v-card-title>
-
-    <v-card-text>
-      <v-btn color="primary" @click="openCreate">Добавить животину</v-btn>
+  <v-card variant="text">
+    <v-card-text v-if="petsWithCost.length">
+      <v-btn color="primary" variant="tonal" @click="openCreate" :prepend-icon="iMdiPlus">Добавить боевого питомца</v-btn>
     </v-card-text>
 
-    <v-list v-if="petsWithCost.length" density="compact">
-      <v-list-item v-for="pet in petsWithCost" :key="pet.id">
-        <v-list-item-title>
-          {{ pet.quality }} —
+    <v-table v-if="petsWithCost.length" density="compact" class="mt-4">
+      <thead>
+      <tr>
+        <th>Качество питомца</th>
+        <th>Действие</th>
+        <th>Осколки</th>
+        <th>Ягодки</th>
+        <th>Очки</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr v-for="pet in petsWithCost" :key="pet.id">
+        <td><img v-if="pet.icon" :src="pet.icon" :alt="pet.quality " width="72" /></td>
+        <td>
           {{ pet.action === 'summon'
           ? 'призыв'
           : `ур. ${pet.currentLevel} → ${pet.desiredLevel}` }}
-        </v-list-item-title>
+        </td>
 
-        <v-list-item-subtitle>
-          <template v-if="pet.total.incomplete">
-            <span class="text-error">
-              нет данных для ур. {{ pet.total.rows.find(r => r.missing)?.level }}
-            </span>
-          </template>
-          <template v-else>
-            части {{ pet.total.parts }},
-            ягоды {{ pet.total.berries }},
-            очки {{ pet.total.points }}
-          </template>
-        </v-list-item-subtitle>
+        <!-- Стоимость -->
+        <template v-if="pet.total.incomplete">
+          <td colspan="3" class="text-error">
+            нет данных для ур. {{ pet.total.rows.find(r => r.missing)?.level }}
+          </td>
+        </template>
+        <template v-else>
+          <td>{{ pet.total.parts }}</td>
+          <td>
+            {{ pet.total.berries }}
+          </td>
+          <td>{{ formatLargeNumber( pet.total.points, {removeZero: true}) }}</td>
+        </template>
 
-        <template #append>
+        <!-- Действия -->
+        <td class="text-right">
           <v-menu location="end">
             <template #activator="{ props }">
-              <v-btn v-bind="props" icon="mdi-information-outline" size="small" variant="text" />
+              <v-btn v-bind="props" :icon="iMdiDotsV" size="small" variant="text" />
             </template>
-            <v-card min-width="280">
-              <v-table density="compact">
-                <thead>
-                <tr><th>Уровень</th><th>Части</th><th>Ягоды</th><th>Очки</th></tr>
-                </thead>
-                <tbody>
-                <tr v-for="row in breakdown(pet)" :key="row.level">
-                  <td>{{ row.level }}</td>
-                  <td v-if="row.missing" colspan="3" class="text-error">нет данных</td>
-                  <template v-else>
-                    <td>{{ row.parts }}</td>
-                    <td>{{ row.berries }}</td>
-                    <td>{{ row.points }}</td>
-                  </template>
-                </tr>
-                </tbody>
-              </v-table>
-            </v-card>
+            <v-list prepend-gap="5">
+              <v-list-item :prepend-icon="iMdiPencil" size="small" variant="text" @click="openEditSafely(pet)">Редактировать</v-list-item>
+              <v-list-item :prepend-icon="iMdiClose" size="small" variant="text" @click="removePet(pet.id)">Удалить</v-list-item>
+            </v-list>
           </v-menu>
 
-          <v-btn
-            icon="mdi-pencil"
-            size="small"
-            variant="text"
-            @click="openEditSafely(pet)"
-          />
-          <v-btn
-            icon="mdi-close"
-            size="small"
-            variant="text"
-            @click="removePet(pet.id)"
-          />
-        </template>
-      </v-list-item>
-    </v-list>
+        </td>
+      </tr>
+      </tbody>
+    </v-table>
 
-    <v-divider v-if="petsWithCost.length" />
+    <v-sheet
+      v-else
+      class="d-flex flex-column align-center justify-center text-center"
+      color="transparent"
+      rounded
+    >
+      <GokIcon :src="petSplash" alt="" :size="164" class="mb-4" />
 
-    <v-card-text v-if="petsWithCost.length">
-      <strong>Итого:</strong>
-      части {{ totals.parts }},
-      ягоды {{ totals.berries }},
-      очки {{ totals.points }}
-    </v-card-text>
+      <div class="text-h6 mb-2">Пока не добавлено ни одного питомца</div>
+      <div class="text-body-2 text-medium-emphasis mb-6" style="max-width: 420px;">
+        Добавьте боевого питомца, укажите качество и действие — мы посчитаем,
+        сколько осколков, ягод и очков понадобится.
+      </div>
+
+      <v-btn color="primary" variant="tonal" :prepend-icon="iMdiPlus" @click="openCreate">
+        Добавить первого питомца
+      </v-btn>
+    </v-sheet>
+
+    <template v-if="petsWithCost.length">
+      <v-divider />
+      <v-card-text class="d-flex ga-4 mt-5 align-center font-weight-bold">
+        <span class="text-body-large">Итого очков:</span>
+        <span class="text-headline-small">{{ formatLargeNumber(totals.points, { removeZero: true }) }}</span>
+      </v-card-text>
+      <v-card-text v-if="totals.berries > 0" class="d-flex ga-4 mt-5 align-center font-weight-bold">
+        <span class="text-body-large">Также необходимо:</span>
+        <GokIcon :icon="berriesIcon" size="72" :badge="berriesBadge" />
+      </v-card-text>
+    </template>
   </v-card>
 
   <v-dialog v-model="addPetDialog" max-width="500px">

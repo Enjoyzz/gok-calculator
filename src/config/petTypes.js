@@ -1,3 +1,9 @@
+import iconA from '@/assets/pet/quality/spt_601_301.png'
+import iconS from '@/assets/pet/quality/spt_601_302.png'
+import iconSS from '@/assets/pet/quality/spt_601_303.png'
+import iconSSPlus from '@/assets/pet/quality/spt_601_304.png'
+import iconSSS from '@/assets/pet/quality/spt_601_305.png'
+
 export const petTypes = {
   // a: {
   //   quality: 'A',
@@ -15,7 +21,7 @@ export const petTypes = {
   // },
   ss: {
     quality: 'SS',
-    icon: null,
+    icon: iconSS,
     'min-level': 1,
     'max-level': 50,
     'summon-points': 225,
@@ -23,7 +29,7 @@ export const petTypes = {
   },
   'ss+': {
     quality: 'SS+',
-    icon: null,
+    icon: iconSSPlus,
     'min-level': 10,
     'max-level': 100,
     'summon-points': 1130,
@@ -31,7 +37,7 @@ export const petTypes = {
   },
   sss: {
     quality: 'SSS',
-    icon: null,
+    icon: iconSSS,
     'min-level': 20,
     'max-level': 100,
     'summon-points': 3075,
