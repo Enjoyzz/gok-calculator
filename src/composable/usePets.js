@@ -1,31 +1,21 @@
 import { ref, computed } from 'vue'
+import { usePetsStore } from '@/stores/pets'
 
 export function usePets(petTypes) {
-  const pets = ref([])
+  const store = usePetsStore()
+  const pets = computed(() => store.pets)
 
-  function addPet({ type, action, currentLevel, desiredLevel }) {
-    if (!petTypes[type]) return
-    pets.value.push({
-      id: crypto.randomUUID(),
-      type,
-      action,
-      currentLevel: action === 'level-up' ? currentLevel : null,
-      desiredLevel: action === 'level-up' ? desiredLevel : null,
-    })
+  function addPet(payload) {
+    store.addPet(payload)
   }
 
-  function updatePet(id, { type, action, currentLevel, desiredLevel }) {
-    if (!petTypes[type]) return
-    const pet = pets.value.find(p => p.id === id)
-    if (!pet) return
-    pet.type = type
-    pet.action = action
-    pet.currentLevel = action === 'level-up' ? currentLevel : null
-    pet.desiredLevel = action === 'level-up' ? desiredLevel : null
+
+  function updatePet(id, payload) {
+    store.updatePet(id, payload)
   }
 
   function removePet(id) {
-    pets.value = pets.value.filter(p => p.id !== id)
+    store.removePet(id)
   }
 
   // Построчная разбивка для одной записи
@@ -62,7 +52,6 @@ export function usePets(petTypes) {
     return total
   }
 
-  // Итог по всем — computed, пересчитывается при изменении pets
   const totals = computed(() => {
     const sum = { parts: 0, berries: 0, points: 0 }
     for (const pet of pets.value) {
@@ -75,13 +64,16 @@ export function usePets(petTypes) {
     return sum
   })
 
-  // Список с уже прикреплённым расчётом — удобно для v-for
   const petsWithCost = computed(() =>
-    pets.value.map(pet => ({
-      ...pet,
-      ...petTypes[pet.type],
-      total: petTotal(pet),
-    }))
+    pets.value.map(pet => {
+      const type = petTypes[pet.type]
+      return {
+        ...pet,
+        quality: type?.quality,
+        icon: type?.icon,
+        total: petTotal(pet),
+      }
+    })
   )
 
   return { pets, addPet, updatePet, removePet, totals, petsWithCost, breakdown, petTotal }

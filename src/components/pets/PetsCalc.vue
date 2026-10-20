@@ -99,8 +99,6 @@ function closeDialog() {
   desiredLevel.value = null
 }
 
-const berriesBadge = computed(() => useGenerateBadge(totals.berries.value))
-
 
 // При смене типа — сбрасываем зависимые поля (но не при открытии на редактирование)
 let initializing = false
@@ -210,9 +208,10 @@ function openEditSafely(pet) {
         <span class="text-body-large">Итого очков:</span>
         <span class="text-headline-small">{{ formatLargeNumber(totals.points, { removeZero: true }) }}</span>
       </v-card-text>
+
       <v-card-text v-if="totals.berries > 0" class="d-flex ga-4 mt-5 align-center font-weight-bold">
         <span class="text-body-large">Также необходимо:</span>
-        <GokIcon :icon="berriesIcon" size="72" :badge="berriesBadge" />
+        <GokIcon :icon="berriesIcon" :size="72" :badge="useGenerateBadge(totals.berries)" />
       </v-card-text>
     </template>
   </v-card>
