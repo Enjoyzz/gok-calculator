@@ -94,6 +94,13 @@ import greatSealSrc from '@/assets/title/2-4061.png';
 import greatTallySrc from '@/assets/title/2-4062.png';
 import greatMedalSrc from '@/assets/title/2-4063.png';
 
+import berriesIconSrc from '@/assets/pet/spt_506_6611.png';
+
+export const berriesIcon = {
+  src: berriesIconSrc,
+  bg: violet,
+};
+
 export const newSealIcon = {
   src: newSealSrc,
   bg: blue,

@@ -1,7 +1,15 @@
 <script setup>
 import {routes} from 'vue-router/auto-routes';
 
-const calcRoutes = routes.filter(route => route.meta?.sidebar && route.meta?.groups?.includes('calc'));
+const calcRoutes = routes
+  .filter(route => route.meta?.sidebar && route.meta?.groups?.includes('calc'))
+  .sort((a, b) => {
+    const oa = a.meta.order ?? Infinity
+    const ob = b.meta.order ?? Infinity
+    if (oa !== ob) return oa - ob
+    return (a.meta.title ?? '').localeCompare(b.meta.title ?? '', 'ru')
+  });
+
 const cheatsheetsRoutes = routes.filter(route => route.meta?.sidebar && route.meta?.groups?.includes('cheatsheet'));
 
 </script>

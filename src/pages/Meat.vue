@@ -11,6 +11,7 @@ definePage({
     groups: ['calc'],
     extendedTitle: 'Калькулятор мяса',
     icon: meatGenIcon,
+    order: 30,
   },
 });
 
