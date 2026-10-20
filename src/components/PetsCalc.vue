@@ -7,6 +7,7 @@ import iMdiPencil from '~icons/mdi/pencil'
 import iMdiPlus from '~icons/mdi/plus'
 import iMdiDeleteOutline from '~icons/mdi/delete-outline'
 import iMdiDotsV from '~icons/mdi/dots-vertical'
+import iMdiCalc from '~icons/mdi/calculator'
 import petSplash from '@/assets/pet/petking/spt_5503_503.png'
 
 import {useGenerateBadge} from '@/composable/badges.js';
@@ -34,6 +35,9 @@ const confirmClearDialog = ref(false)
 const currentPetType = computed(() => petTypes[selectedType.value] ?? null)
 const minLevel = computed(() => currentPetType.value?.['min-level'] ?? 1)
 const maxLevel = computed(() => currentPetType.value?.['max-level'])
+
+const budgetDialog = ref(false)
+const budgetShards = ref(null)
 
 const previewPet = computed(() => {
   if (!selectedType.value || !selectedAction.value) return null
@@ -122,6 +126,37 @@ const fieldLabels = { parts: 'осколки', berries: 'ягодки', points: 
 const unknownLabels = (total) =>
   (total?.unknownFields ?? []).map(f => fieldLabels[f]).filter(Boolean).join(', ')
 
+
+function findMaxLevel(type, currentLevel, budget) {
+  const typeData = petTypes[type]
+  if (!typeData || currentLevel == null || budget == null) return null
+
+  let spent = 0
+  let lastLevel = currentLevel
+
+  for (let lvl = currentLevel + 1; lvl <= typeData['max-level']; lvl++) {
+    const cost = typeData.levels?.[lvl]
+    if (!cost || cost.parts == null) break
+    if (spent + cost.parts > budget) break
+    spent += cost.parts
+    lastLevel = lvl
+  }
+
+  return lastLevel > currentLevel ? lastLevel : null
+}
+
+function openBudgetDialog() {
+  budgetShards.value = null
+  budgetDialog.value = true
+}
+
+function applyBudget() {
+  const max = findMaxLevel(selectedType.value, currentLevel.value, budgetShards.value)
+  if (max != null) {
+    desiredLevel.value = max
+  }
+  budgetDialog.value = false
+}
 
 watch(selectedType, () => {
   if (initializing.value) return
@@ -311,7 +346,22 @@ watch(selectedAction, (action) => {
             :max="maxLevel"
             label="Желаемый уровень"
             variant="outlined"
-          />
+          >
+            <template #append-inner>
+              <v-tooltip text="Рассчитать по осколкам">
+                <template #activator="{ props }">
+                  <v-btn
+                    v-bind="props"
+                    :icon="iMdiCalc"
+                    size="small"
+                    variant="text"
+                    :disabled="!currentLevel"
+                    @click="openBudgetDialog"
+                  />
+                </template>
+              </v-tooltip>
+            </template>
+          </v-text-field>
         </template>
 
         <div v-if="previewTotal?.hasUnknown" class="mt-2 text-warning">
@@ -346,6 +396,50 @@ watch(selectedAction, (action) => {
         <v-spacer />
         <v-btn @click="confirmClearDialog = false">Отмена</v-btn>
         <v-btn color="error" variant="flat" @click="doClearAll">Очистить</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+
+  <v-dialog v-model="budgetDialog" max-width="420px">
+    <v-card>
+      <v-card-title>Рассчитать по осколкам</v-card-title>
+
+      <v-card-text>
+        <v-text-field
+          v-model.number="budgetShards"
+          type="number"
+          :min="0"
+          label="Количество осколков"
+          variant="outlined"
+          autofocus
+          @keyup.enter="applyBudget"
+        />
+
+        <div
+          v-if="budgetShards != null && currentLevel != null"
+          class="text-caption text-medium-emphasis"
+        >
+          <template v-if="findMaxLevel(selectedType, currentLevel, budgetShards)">
+            На {{ budgetShards }} осколков хватит до ур.
+            {{ findMaxLevel(selectedType, currentLevel, budgetShards) }}
+          </template>
+          <template v-else>
+            Не хватает даже на один уровень.
+          </template>
+        </div>
+      </v-card-text>
+
+      <v-card-actions>
+        <v-spacer />
+        <v-btn @click="budgetDialog = false">Отмена</v-btn>
+        <v-btn
+          color="primary"
+          variant="tonal"
+          :disabled="budgetShards == null || budgetShards <= 0"
+          @click="applyBudget"
+        >
+          Применить
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

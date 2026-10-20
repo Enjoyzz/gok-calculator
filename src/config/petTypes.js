@@ -34,7 +34,7 @@ export const petTypes = {
       7: { parts: 6, berries: 33, points: 85 },
       8: { parts: 6, berries: 33, points: 85 },
       9: { parts: 7, berries: 39, points: 90 },
-      10: { parts: 10, berries: 55, points: 295 },
+      10: { parts: 10, berries: 55, points: 295, approxFields: ['points'] },
       11: { parts: 5, berries: 42, points: 100 },
       12: { parts: 5, berries: 42, points: 105 },
       13: { parts: 7, berries: 59, points: 110 },
