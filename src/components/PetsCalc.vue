@@ -1,6 +1,6 @@
 <script setup>
-import { ref, computed, watch } from 'vue'
-import { usePets } from '@/composable/usePets'
+import { ref, computed } from 'vue'
+import { usePets, petTotal, findMaxLevel } from '@/composable/usePets'
 import { petTypes, petTypeKeys } from '@/config/petTypes'
 import iMdiClose from '~icons/mdi/close'
 import iMdiPencil from '~icons/mdi/pencil'
@@ -10,35 +10,68 @@ import iMdiDotsV from '~icons/mdi/dots-vertical'
 import iMdiCalc from '~icons/mdi/calculator'
 import petSplash from '@/assets/pet/petking/spt_5503_503.png'
 
-import {useGenerateBadge} from '@/composable/badges.js';
-import {berriesIcon} from "@/config/gok-item-icon-set.js";
-import {formatLargeNumber} from "@/utils/formatNumbers.js";
+import { useGenerateBadge } from '@/composable/badges.js'
+import { berriesIcon } from '@/config/gok-item-icon-set.js'
+import { formatLargeNumber } from '@/utils/formatNumbers.js'
 
+const { addPet, updatePet, removePet, clearPets, totals, petsWithCost } = usePets()
+
+// --- форма ---
 const addPetDialog = ref(false)
-const editingId = ref(null) // null = создание, иначе id редактируемой записи
-
+const editingId = ref(null)
 const selectedType = ref(null)
 const selectedAction = ref(null)
 const currentLevel = ref(null)
 const desiredLevel = ref(null)
 
-// При смене типа — сбрасываем зависимые поля (но не при открытии на редактирование)
-const initializing = ref(false)
-
-const {
-  addPet, updatePet, removePet, clearPets,
-  totals, petsWithCost, petTotal,
-} = usePets(petTypes)
-
-const confirmClearDialog = ref(false)
-
+const isEditing = computed(() => editingId.value !== null)
 const currentPetType = computed(() => petTypes[selectedType.value] ?? null)
 const minLevel = computed(() => currentPetType.value?.['min-level'] ?? 1)
 const maxLevel = computed(() => currentPetType.value?.['max-level'])
 
-const budgetDialog = ref(false)
-const budgetShards = ref(null)
+function resetLevels() {
+  currentLevel.value = null
+  desiredLevel.value = null
+}
 
+function resetForm() {
+  editingId.value = null
+  selectedType.value = null
+  selectedAction.value = null
+  resetLevels()
+}
+
+function onTypeChange(type) {
+  selectedType.value = type
+  selectedAction.value = null
+  resetLevels()
+}
+
+function onActionChange(action) {
+  selectedAction.value = action
+  if (action === 'summon') resetLevels()
+}
+
+function openCreate() {
+  resetForm()
+  addPetDialog.value = true
+}
+
+function openEdit(pet) {
+  editingId.value = pet.id
+  selectedType.value = pet.type
+  selectedAction.value = pet.action
+  currentLevel.value = pet.currentLevel
+  desiredLevel.value = pet.desiredLevel
+  addPetDialog.value = true
+}
+
+function closeDialog() {
+  addPetDialog.value = false
+  resetForm()
+}
+
+// --- превью и валидация ---
 const previewPet = computed(() => {
   if (!selectedType.value || !selectedAction.value) return null
   return {
@@ -49,101 +82,53 @@ const previewPet = computed(() => {
   }
 })
 
-const previewTotal = computed(() =>
-  previewPet.value ? petTotal(previewPet.value) : null
-)
+const previewTotal = computed(() => (previewPet.value ? petTotal(previewPet.value) : null))
 
-const canConfirm = computed(() =>
-  previewTotal.value &&
-  !previewTotal.value.incomplete &&   // hasMissing блокирует
-  previewTotal.value.parts + previewTotal.value.berries + previewTotal.value.points > 0
-)
+const levelError = computed(() => {
+  if (selectedAction.value !== 'level-up') return null
+  const c = currentLevel.value
+  const d = desiredLevel.value
+  if (!Number.isInteger(c) || !Number.isInteger(d)) return null
+  if (c < minLevel.value || d > maxLevel.value) {
+    return `Допустимо ${minLevel.value}–${maxLevel.value}`
+  }
+  if (d <= c) return 'Желаемый уровень должен быть выше текущего'
+  return null
+})
 
-const isEditing = computed(() => editingId.value !== null)
+const canConfirm = computed(() => {
+  const t = previewTotal.value
+  return !!t && !levelError.value && !t.incomplete && t.parts + t.berries + t.points > 0
+})
 
-// --- открытие диалога ---
-
-function openCreate() {
-  editingId.value = null
-  selectedType.value = null
-  selectedAction.value = null
-  currentLevel.value = null
-  desiredLevel.value = null
-  addPetDialog.value = true
-}
-
-async function openEdit(pet) {
-  initializing.value = true
-
-  editingId.value = pet.id
-  selectedType.value = pet.type
-  selectedAction.value = pet.action
-  currentLevel.value = pet.currentLevel
-  desiredLevel.value = pet.desiredLevel
-  addPetDialog.value = true
-
-  await nextTick()
-  initializing.value = false
-}
-
-function confirm() {
+function submit() {
   const payload = {
     type: selectedType.value,
     action: selectedAction.value,
     currentLevel: currentLevel.value,
     desiredLevel: desiredLevel.value,
   }
-  if (isEditing.value) {
-    updatePet(editingId.value, payload)
-  } else {
-    addPet(payload)
-  }
+  if (isEditing.value) updatePet(editingId.value, payload)
+  else addPet(payload)
   closeDialog()
 }
 
-function closeDialog() {
-  addPetDialog.value = false
-  editingId.value = null
-  selectedType.value = null
-  selectedAction.value = null
-  currentLevel.value = null
-  desiredLevel.value = null
-}
+// --- очистка ---
+const confirmClearDialog = ref(false)
 
 function doClearAll() {
   clearPets()
   confirmClearDialog.value = false
-  if (addPetDialog.value) {
-    closeDialog()
-  }
+  if (addPetDialog.value) closeDialog()
 }
 
-function isApprox(total, field) {
-  return total?.approxFields?.includes(field) ?? false
-}
+// --- расчёт по осколкам ---
+const budgetDialog = ref(false)
+const budgetShards = ref(null)
 
-const fieldLabels = { parts: 'осколки', berries: 'ягодки', points: 'очки' }
-const unknownLabels = (total) =>
-  (total?.unknownFields ?? []).map(f => fieldLabels[f]).filter(Boolean).join(', ')
-
-
-function findMaxLevel(type, currentLevel, budget) {
-  const typeData = petTypes[type]
-  if (!typeData || currentLevel == null || budget == null) return null
-
-  let spent = 0
-  let lastLevel = currentLevel
-
-  for (let lvl = currentLevel + 1; lvl <= typeData['max-level']; lvl++) {
-    const cost = typeData.levels?.[lvl]
-    if (!cost || cost.parts == null) break
-    if (spent + cost.parts > budget) break
-    spent += cost.parts
-    lastLevel = lvl
-  }
-
-  return lastLevel > currentLevel ? lastLevel : null
-}
+const budgetMax = computed(() =>
+  findMaxLevel(selectedType.value, currentLevel.value, budgetShards.value)
+)
 
 function openBudgetDialog() {
   budgetShards.value = null
@@ -151,48 +136,52 @@ function openBudgetDialog() {
 }
 
 function applyBudget() {
-  const max = findMaxLevel(selectedType.value, currentLevel.value, budgetShards.value)
-  if (max != null) {
-    desiredLevel.value = max
-  }
+  if (budgetMax.value != null) desiredLevel.value = budgetMax.value
   budgetDialog.value = false
 }
 
-watch(selectedType, () => {
-  if (initializing.value) return
-  selectedAction.value = null
-  currentLevel.value = null
-  desiredLevel.value = null
-})
+// --- отображение ---
+const fieldLabels = { parts: 'осколки', berries: 'ягодки', points: 'очки' }
+const unknownLabels = total =>
+  (total?.unknownFields ?? []).map(f => fieldLabels[f]).filter(Boolean).join(', ')
 
-watch(selectedAction, (action) => {
-  if (initializing.value) return
-  if (action === 'summon') {
-    currentLevel.value = null
-    desiredLevel.value = null
-  }
-})
+const fmt = v => formatLargeNumber(v, { removeZero: true })
+
+function isApprox(total, field) {
+  return total?.approxFields?.includes(field) ?? false
+}
+
+// '?' — данных нет вообще, '≥' — известна только часть, '~' — приблизительно
+function cell(total, field) {
+  const unknown = total.unknownFields.includes(field)
+  if (unknown && !total[field]) return '?'
+  const mark = unknown ? '≥' : isApprox(total, field) ? '~' : ''
+  return mark + fmt(total[field])
+}
+
+const berriesBadge = computed(() =>
+  useGenerateBadge(
+    totals.value.berries,
+    isApprox(totals.value, 'berries') || totals.value.unknownFields.includes('berries'),
+  )
+)
 </script>
 
 <template>
-
-
   <v-card variant="text">
-    <v-card-text  v-if="petsWithCost.length" class="d-flex align-center justify-space-between">
+    <v-card-text v-if="petsWithCost.length" class="d-flex align-center justify-space-between">
       <v-btn color="primary" variant="tonal" :prepend-icon="iMdiPlus" @click="openCreate">
         Добавить боевого питомца
       </v-btn>
 
       <v-btn
-
         color="error"
         title="Очистить всё"
+        aria-label="Очистить всё"
         variant="text"
         :prepend-icon="iMdiDeleteOutline"
         @click="confirmClearDialog = true"
-      >
-
-      </v-btn>
+      />
     </v-card-text>
 
     <v-table v-if="petsWithCost.length" density="compact" class="mt-4">
@@ -208,53 +197,30 @@ watch(selectedAction, (action) => {
       </thead>
       <tbody>
       <tr v-for="pet in petsWithCost" :key="pet.id">
-        <td><img v-if="pet.icon" :src="pet.icon" :alt="pet.quality " width="72" /></td>
+        <td><img v-if="pet.icon" :src="pet.icon" :alt="pet.quality" width="72" /></td>
         <td>
-          {{ pet.action === 'summon'
-          ? 'призыв'
-          : `ур. ${pet.currentLevel} → ${pet.desiredLevel}` }}
+          {{ pet.action === 'summon' ? 'призыв' : `ур. ${pet.currentLevel} → ${pet.desiredLevel}` }}
         </td>
 
-        <!-- Стоимость -->
-        <template v-if="pet.total.incomplete">
-          <td colspan="3" class="text-error">
-            нет данных для ур. {{ pet.total.rows.find(r => r.missing)?.level }}
-          </td>
-        </template>
+        <td v-if="pet.total.incomplete" colspan="3" class="text-error">
+          нет данных для ур. {{ pet.total.rows.find(r => r.missing)?.level }}
+        </td>
         <template v-else>
-          <td>
-            <template v-if="pet.total.unknownFields.includes('parts')">?</template>
-            <template v-else>
-              <template v-if="isApprox(pet.total, 'parts')">~</template>{{ pet.total.parts }}
-            </template>
-          </td>
-          <td>
-            <template v-if="pet.total.unknownFields.includes('berries')">?</template>
-            <template v-else>
-              <template v-if="isApprox(pet.total, 'berries')">~</template>{{ pet.total.berries }}
-            </template>
-          </td>
-          <td>
-            <template v-if="pet.total.unknownFields.includes('points')">?</template>
-            <template v-else>
-              <template v-if="isApprox(pet.total, 'points')">~</template>
-              {{ formatLargeNumber(pet.total.points, { removeZero: true }) }}
-            </template>
-          </td>
+          <td>{{ cell(pet.total, 'parts') }}</td>
+          <td>{{ cell(pet.total, 'berries') }}</td>
+          <td>{{ cell(pet.total, 'points') }}</td>
         </template>
 
-        <!-- Действия -->
         <td class="text-right">
           <v-menu location="end">
             <template #activator="{ props }">
               <v-btn v-bind="props" :icon="iMdiDotsV" size="small" variant="text" />
             </template>
             <v-list prepend-gap="5">
-              <v-list-item :prepend-icon="iMdiPencil" size="small" variant="text" @click="openEdit(pet)">Редактировать</v-list-item>
-              <v-list-item :prepend-icon="iMdiClose" size="small" variant="text" @click="removePet(pet.id)">Удалить</v-list-item>
+              <v-list-item :prepend-icon="iMdiPencil" @click="openEdit(pet)">Редактировать</v-list-item>
+              <v-list-item :prepend-icon="iMdiClose" @click="removePet(pet.id)">Удалить</v-list-item>
             </v-list>
           </v-menu>
-
         </td>
       </tr>
       </tbody>
@@ -281,54 +247,47 @@ watch(selectedAction, (action) => {
 
     <template v-if="petsWithCost.length">
       <v-divider />
-      <v-card-text
-        v-if="totals.unknownFields.length"
-        class="text-caption text-warning mt-3"
-      >
-        Внимание: часть значений неизвестны «{{ unknownLabels(totals) }}» — эти значения не учтены в итоговой сумме.
+      <v-card-text v-if="totals.unknownFields.length" class="text-caption text-warning mt-3">
+        Внимание: часть значений неизвестна ({{ unknownLabels(totals) }}) — в итоге показана нижняя граница.
       </v-card-text>
 
       <v-card-text class="d-flex ga-4 align-center font-weight-bold">
         <span class="text-body-large">Итого очков:</span>
-        <span class="text-headline-small">
-          <template v-if="isApprox(totals, 'points') || totals.unknownFields.includes('points')">~</template>
-          {{ formatLargeNumber(totals.points, { removeZero: true }) }}
-        </span>
+        <span class="text-headline-small">{{ cell(totals, 'points') }}</span>
       </v-card-text>
 
       <v-card-text v-if="totals.berries > 0" class="d-flex ga-4 mt-5 align-center font-weight-bold">
         <span class="text-body-large">Также необходимо:</span>
-        <GokIcon :icon="berriesIcon" :size="72" :badge="useGenerateBadge(totals.berries, isApprox(totals, 'berries') ||  totals.unknownFields.includes('berries'))" />
+        <GokIcon :icon="berriesIcon" :size="72" :badge="berriesBadge" />
       </v-card-text>
     </template>
   </v-card>
 
+  <!-- Добавление / редактирование -->
   <v-dialog v-model="addPetDialog" max-width="500px">
     <v-card>
-      <v-card-title>
-        {{ isEditing ? 'Редактировать питомца' : 'Новый питомец' }}
-      </v-card-title>
+      <v-card-title>{{ isEditing ? 'Редактировать питомца' : 'Новый питомец' }}</v-card-title>
 
       <v-card-text>
         <h2 class="text-title-large my-3">Выберите качество боевого питомца</h2>
-        <v-chip-group column inline v-model="selectedType" label="Выберите качество боевого питомца">
-          <v-chip
-            v-for="id in petTypeKeys"
-            :key="id"
-            variant="text"
-            filter
-            :value="id"
-          >
+        <v-chip-group
+          column
+          mandatory
+          :model-value="selectedType"
+          @update:model-value="onTypeChange"
+        >
+          <v-chip v-for="id in petTypeKeys" :key="id" variant="text" filter :value="id">
             <img :src="petTypes[id].icon" :alt="petTypes[id].quality" width="64" />
           </v-chip>
         </v-chip-group>
 
-        <h2 v-if="selectedType" class="text-title-large my-3">Что будете делать с питомцем?</h2>
-
-        <v-radio-group inline v-if="selectedType" v-model="selectedAction">
-          <v-radio label="Призыв" value="summon" />
-          <v-radio label="Поднятие уровня" value="level-up" />
-        </v-radio-group>
+        <template v-if="selectedType">
+          <h2 class="text-title-large my-3">Что будете делать с питомцем?</h2>
+          <v-radio-group inline :model-value="selectedAction" @update:model-value="onActionChange">
+            <v-radio label="Призыв" value="summon" />
+            <v-radio label="Поднятие уровня" value="level-up" />
+          </v-radio-group>
+        </template>
 
         <template v-if="selectedAction === 'level-up'">
           <v-text-field
@@ -346,6 +305,7 @@ watch(selectedAction, (action) => {
             :max="maxLevel"
             label="Желаемый уровень"
             variant="outlined"
+            :error-messages="levelError"
           >
             <template #append-inner>
               <v-tooltip text="Рассчитать по осколкам">
@@ -355,7 +315,7 @@ watch(selectedAction, (action) => {
                     :icon="iMdiCalc"
                     size="small"
                     variant="text"
-                    :disabled="!currentLevel"
+                    :disabled="!Number.isInteger(currentLevel)"
                     @click="openBudgetDialog"
                   />
                 </template>
@@ -365,10 +325,7 @@ watch(selectedAction, (action) => {
         </template>
 
         <div v-if="previewTotal?.hasUnknown" class="mt-2 text-warning">
-          Некоторые значения неизвестны — они не будут учтены в сумме:
-          <template v-if="previewTotal.unknownFields.includes('parts')">осколки</template>
-          <template v-if="previewTotal.unknownFields.includes('berries')">, ягоды</template>
-          <template v-if="previewTotal.unknownFields.includes('points')">, очки</template>
+          Некоторые значения неизвестны — они не будут учтены в сумме: {{ unknownLabels(previewTotal) }}
         </div>
         <div v-if="previewTotal?.incomplete" class="mt-2 text-error">
           Нет данных для уровня {{ previewTotal.rows.find(r => r.missing)?.level }} — добавление невозможно
@@ -378,19 +335,19 @@ watch(selectedAction, (action) => {
       <v-card-actions>
         <v-spacer />
         <v-btn @click="closeDialog">Отмена</v-btn>
-        <v-btn :disabled="!canConfirm" color="primary" variant="tonal" @click="confirm">
+        <v-btn :disabled="!canConfirm" color="primary" variant="tonal" @click="submit">
           {{ isEditing ? 'Сохранить' : 'Добавить' }}
         </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
 
+  <!-- Очистка -->
   <v-dialog v-model="confirmClearDialog" max-width="420px">
     <v-card>
       <v-card-title>Очистить список?</v-card-title>
       <v-card-text>
-        Будут удалены все добавленные питомцы ({{ petsWithCost.length }}).
-        Действие нельзя отменить.
+        Будут удалены все добавленные питомцы ({{ petsWithCost.length }}). Действие нельзя отменить.
       </v-card-text>
       <v-card-actions>
         <v-spacer />
@@ -400,6 +357,7 @@ watch(selectedAction, (action) => {
     </v-card>
   </v-dialog>
 
+  <!-- Расчёт по осколкам -->
   <v-dialog v-model="budgetDialog" max-width="420px">
     <v-card>
       <v-card-title>Рассчитать по осколкам</v-card-title>
@@ -415,17 +373,11 @@ watch(selectedAction, (action) => {
           @keyup.enter="applyBudget"
         />
 
-        <div
-          v-if="budgetShards != null && currentLevel != null"
-          class="text-caption text-medium-emphasis"
-        >
-          <template v-if="findMaxLevel(selectedType, currentLevel, budgetShards)">
-            На {{ budgetShards }} осколков хватит до ур.
-            {{ findMaxLevel(selectedType, currentLevel, budgetShards) }}
+        <div v-if="budgetShards != null && budgetShards !== ''" class="text-caption text-medium-emphasis">
+          <template v-if="budgetMax">
+            На {{ budgetShards }} осколков хватит до ур. {{ budgetMax }}
           </template>
-          <template v-else>
-            Не хватает даже на один уровень.
-          </template>
+          <template v-else>Не хватает даже на один уровень.</template>
         </div>
       </v-card-text>
 
@@ -435,7 +387,7 @@ watch(selectedAction, (action) => {
         <v-btn
           color="primary"
           variant="tonal"
-          :disabled="budgetShards == null || budgetShards <= 0"
+          :disabled="!budgetMax"
           @click="applyBudget"
         >
           Применить
