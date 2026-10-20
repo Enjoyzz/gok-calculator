@@ -12,6 +12,7 @@ definePage({
     groups: ['calc'],
     extendedTitle: 'Калькулятор серебра',
     icon: silverGenIcon,
+    order: 30,
   },
 });
 

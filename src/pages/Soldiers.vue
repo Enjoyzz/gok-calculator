@@ -12,6 +12,7 @@ definePage({
     groups: ['calc'],
     extendedTitle: 'Калькулятор солдат',
     icon: soldiersGenIcon,
+    order: 30,
   },
 });
 

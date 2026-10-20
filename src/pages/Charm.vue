@@ -11,6 +11,7 @@ definePage({
     groups: ['calc'],
     extendedTitle: 'Калькулятор обаяния',
     icon: perfumeIcon,
+    order: 10,
   },
 });
 

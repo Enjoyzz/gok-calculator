@@ -11,6 +11,7 @@ definePage({
     groups: ['calc'],
     extendedTitle: 'Калькулятор близости',
     icon: gemRingIcon,
+    order: 20,
   },
 });
 
