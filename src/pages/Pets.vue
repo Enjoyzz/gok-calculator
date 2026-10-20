@@ -1,7 +1,7 @@
 <script setup>
 import perfumeIcon from '@/assets/img/icon/2-4211.png';
 import {useHead} from "@unhead/vue";
-import PetsCalc from "@/components/pets/PetsCalc.vue";
+import PetsCalc from "@/components/PetsCalc.vue";
 
 definePage({
   path: '/pets',
