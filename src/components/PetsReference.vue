@@ -49,9 +49,9 @@ const rows = computed(() => {
 </script>
 
 <template>
-  <div>
+  <v-container>
     <v-chip-group v-model="type" mandatory column>
-      <v-chip v-for="id in petTypeKeys" :key="id" :value="id" variant="text" filter>
+      <v-chip v-for="id in petTypeKeys" :key="id" :value="id" variant="text">
         <img :src="pets[id].icon" :alt="pets[id].quality" width="56" />
       </v-chip>
     </v-chip-group>
@@ -62,7 +62,7 @@ const rows = computed(() => {
       color="primary"
       density="compact"
       hide-details
-      class="mb-3"
+      class="my-3"
     />
 
     <v-table density="compact" fixed-header height="60vh">
@@ -94,5 +94,5 @@ const rows = computed(() => {
     <div class="text-caption text-medium-emphasis mt-2">
       «~» — значение приблизительное, «—» — данных пока нет.
     </div>
-  </div>
+  </v-container>
 </template>
