@@ -4,7 +4,7 @@ import iconSS from '@/assets/pet/quality/spt_601_303.png'
 import iconSSPlus from '@/assets/pet/quality/spt_601_304.png'
 import iconSSS from '@/assets/pet/quality/spt_601_305.png'
 
-export const petTypes = {
+export const pets = {
   // a: {
   //   quality: 'A',
   //   icon: null,
@@ -217,4 +217,4 @@ export const petTypes = {
 
 // Опционально: список ключей в нужном порядке (если порядок в объекте не гарантирован)
 //export const petTypeKeys = ['ss', 'ss+', 'sss']
-export const petTypeKeys = Object.keys(petTypes)
+export const petTypeKeys = Object.keys(pets)

@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue'
-import { petTypes, petTypeKeys } from '@/config/petTypes'
+import { pets, petTypeKeys } from '@/config/pets.js'
 import { formatLargeNumber } from '@/utils/formatNumbers.js'
 
 const FIELDS = ['parts', 'berries', 'points']
@@ -11,7 +11,7 @@ const cumulative = ref(false)
 const fmt = v => formatLargeNumber(v, { removeZero: true })
 
 const rows = computed(() => {
-  const t = petTypes[type.value]
+  const t = pets[type.value]
   const acc = { parts: 0, berries: 0, points: 0 }
   const broken = { parts: false, berries: false, points: false } // после первого null накопление теряет смысл
   const approx = { parts: false, berries: false, points: false }
@@ -52,7 +52,7 @@ const rows = computed(() => {
   <div>
     <v-chip-group v-model="type" mandatory column>
       <v-chip v-for="id in petTypeKeys" :key="id" :value="id" variant="text" filter>
-        <img :src="petTypes[id].icon" :alt="petTypes[id].quality" width="56" />
+        <img :src="pets[id].icon" :alt="pets[id].quality" width="56" />
       </v-chip>
     </v-chip-group>
 
