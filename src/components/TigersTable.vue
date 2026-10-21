@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue'
-import { ADVISOR_START_LEVEL, tigersCosts } from '@/config/tigers'
+import { TIGERS_START_LEVEL, tigersCosts } from '@/config/tigers'
 
 
 const fmt = n => n.toLocaleString('ru-RU')
@@ -10,7 +10,7 @@ const items = (() => {
   let total = 0
   return tigersCosts.map((count, i) => {
     total += count
-    return { level: ADVISOR_START_LEVEL + i, count, total }
+    return { level: TIGERS_START_LEVEL + i, count, total }
   })
 })()
 
@@ -32,6 +32,9 @@ const rangeCost = computed(() =>
     ? byLevel.get(to.value).total - byLevel.get(from.value).total
     : null
 )
+
+const tableItems = items.slice(1) // 400 — служебная строка, в таблице не нужна
+
 </script>
 
 
@@ -73,7 +76,7 @@ const rangeCost = computed(() =>
     </thead>
     <tbody>
     <tr
-      v-for="item in items"
+      v-for="item in tableItems"
       :key="item.level"
     >
       <td>{{ item.level }}</td>
