@@ -22,6 +22,7 @@ export const usePetsStore = defineStore('pets', {
     addPet(pet) {
       const next = [...this.pets, {
         id: crypto.randomUUID(),
+        name: pet.name,
         type: pet.type,
         action: pet.action,
         currentLevel: pet.action === 'level-up' ? pet.currentLevel : null,
@@ -35,6 +36,7 @@ export const usePetsStore = defineStore('pets', {
         if (p.id !== id) return p
         return {
           ...p,
+          name: patch.name,
           type: patch.type,
           action: patch.action,
           currentLevel: patch.action === 'level-up' ? patch.currentLevel : null,
