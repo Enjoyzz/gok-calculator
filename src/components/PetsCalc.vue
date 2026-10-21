@@ -19,6 +19,7 @@ const { addPet, updatePet, removePet, clearPets, totals, petsWithCost } = usePet
 // --- форма ---
 const addPetDialog = ref(false)
 const editingId = ref(null)
+const petName = ref(null)
 const selectedType = ref(null)
 const selectedAction = ref(null)
 const currentLevel = ref(null)
@@ -36,6 +37,7 @@ function resetLevels() {
 
 function resetForm() {
   editingId.value = null
+  petName.value = null
   selectedType.value = null
   selectedAction.value = null
   resetLevels()
@@ -60,6 +62,7 @@ function openCreate() {
 function openEdit(pet) {
   editingId.value = pet.id
   selectedType.value = pet.type
+  petName.value = pet.name
   selectedAction.value = pet.action
   currentLevel.value = pet.currentLevel
   desiredLevel.value = pet.desiredLevel
@@ -75,6 +78,7 @@ function closeDialog() {
 const previewPet = computed(() => {
   if (!selectedType.value || !selectedAction.value) return null
   return {
+    name: petName.value,
     type: selectedType.value,
     action: selectedAction.value,
     currentLevel: currentLevel.value,
@@ -103,6 +107,7 @@ const canConfirm = computed(() => {
 
 function submit() {
   const payload = {
+    name: petName.value,
     type: selectedType.value,
     action: selectedAction.value,
     currentLevel: currentLevel.value,
@@ -194,9 +199,15 @@ const berriesBadge = computed(() =>
           <img v-if="pet.icon" :src="pet.icon" :alt="pet.quality" width="56" class="mr-3" />
         </template>
 
-        <div class="font-weight-medium mb-1">
+        <template v-if="pet.name" #title>
+          <span class="font-weight-bold">{{ pet.name }}</span>
+        </template>
+
+        <template #subtitle>
+          <span class="font-weight-medium">
           {{ pet.action === 'summon' ? 'Призыв' : `Ур. ${pet.currentLevel} → ${pet.desiredLevel}` }}
-        </div>
+        </span>
+        </template>
 
         <div v-if="pet.total.incomplete" class="text-error text-body-small">
           нет данных для ур. {{ pet.total.rows.find(r => r.missing)?.level }}
@@ -284,9 +295,16 @@ const berriesBadge = computed(() =>
   <!-- Добавление / редактирование -->
   <v-dialog v-model="addPetDialog" max-width="500px">
     <v-card>
-      <v-card-title>{{ isEditing ? 'Редактировать питомца' : 'Новый питомец' }}</v-card-title>
-
       <v-card-text>
+
+        <v-text-field
+          v-model="petName"
+          label="Имя питомца (не обязательно)"
+          hint="Для удобства можно добавить имя питомцу"
+          persistent-hint
+          density="compact"
+        />
+
         <h2 class="text-title-large my-3">Выберите качество боевого питомца</h2>
         <v-chip-group
           column
