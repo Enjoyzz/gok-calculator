@@ -1,48 +1,84 @@
 <script setup>
 import { ref, computed } from 'vue'
-
-const rawData = ref([
-  2, 2, 4, 4, 6, 6, 8, 8, 10, 10, // 401-410
-  12, 14, 16, 18, 20, 22, 24, 26, 28, 30, // 411-420
-  32, 34, 36, 38, 40, 44, 48, 52, 56, 60, // 421-430
-  64, 68, 72, 76, 80, 84, 88, 92, 96, 100, // 431-440
-  104, 108, 112, 116, 120, 124, 128, 132, 136, 140, // 441-450
-  150, 160, 170, 180, 190, 200, 210, 220, 230, 240, // 451-460
-  250, 260, 270, 280, 290, 300, 310, 320, 330, 340, // 461-470
-  350, 360, 370, 380, 390, 400, 410, 420, 430, 440, // 471-480
-  450, 460, 470, 480, 490, 500, 510, 520, 530, 540, // 481-490
-  550, 560, 570, 580, 590, 600, 610, 620, 630, 640, // 491-500
-])
+import { ADVISOR_START_LEVEL, tigersCosts } from '@/config/tigers'
 
 
-const tableItems = computed(() => {
+const fmt = n => n.toLocaleString('ru-RU')
+
+// статичные данные — считаем один раз
+const items = (() => {
   let total = 0
-  return rawData.value.map((count, index) => {
+  return tigersCosts.map((count, i) => {
     total += count
-    return {
-      level: 401 + index, // Первый элемент — 401 уровень
-      count: count,
-      total: total
-    }
+    return { level: ADVISOR_START_LEVEL + i, count, total }
   })
-})
+})()
 
+const byLevel = new Map(items.map(i => [i.level, i]))
+const minLevel = items[0].level
+const maxLevel = items.at(-1).level
+
+const range = (a, b) => Array.from({ length: Math.max(b - a + 1, 0) }, (_, i) => a + i)
+
+const from = ref(null)
+const to = ref(null)
+
+// from: [min .. (to - 1)], to: [(from + 1) .. max]
+const fromItems = computed(() => range(minLevel, (to.value ?? maxLevel + 1) - 1))
+const toItems = computed(() => range((from.value ?? minLevel) + 1, maxLevel))
+
+const rangeCost = computed(() =>
+  from.value != null && to.value != null
+    ? byLevel.get(to.value).total - byLevel.get(from.value).total
+    : null
+)
 </script>
 
+
 <template>
-  <v-table  hover style="margin-bottom: 50px" density="compact">
+  <v-card variant="tonal"  class="pa-4 mb-4">
+    <div class="text-title-medium mb-3">Сколько знаков нужно</div>
+    <div class="d-flex ga-3">
+      <v-select
+        v-model="from"
+        :items="fromItems"
+        label="С уровня"
+        variant="outlined"
+        density="compact"
+        hide-details
+        clearable
+      />
+      <v-select
+        v-model="to"
+        :items="toItems"
+        label="До уровня"
+        variant="outlined"
+        density="compact"
+        hide-details
+        clearable
+      />
+    </div>
+    <div v-if="rangeCost != null" class="text-headline-small font-weight-bold mt-3">
+      {{ fmt(rangeCost) }} знаков
+    </div>
+  </v-card>
+
+  <v-table hover fixed-header height="60vh" density="compact" class="mb-12">
     <thead>
     <tr>
-      <th class="font-weight-bold">Уровень советника</th>
-      <th class="font-weight-bold">Знаков для уровня</th>
-      <th class="font-weight-bold">Общее количество знаков</th>
+      <th>Уровень</th>
+      <th class="text-right">Знаков для уровня</th>
+      <th class="text-right">Всего</th>
     </tr>
     </thead>
     <tbody>
-    <tr v-for="item in tableItems" :key="item.level">
+    <tr
+      v-for="item in items"
+      :key="item.level"
+    >
       <td>{{ item.level }}</td>
-      <td>{{ item.count }}</td>
-      <td class="font-weight-medium">{{ item.total }}</td>
+      <td class="text-right font-weight-bold">{{ fmt(item.count) }}</td>
+      <td class="text-right font-weight-medium">{{ fmt(item.total) }}</td>
     </tr>
     </tbody>
   </v-table>

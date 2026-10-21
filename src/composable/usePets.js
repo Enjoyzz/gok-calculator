@@ -1,6 +1,6 @@
 import { computed } from 'vue'
 import { usePetsStore } from '@/stores/pets'
-import { petTypes } from '@/config/petTypes'
+import { pets } from '@/config/pets.js'
 
 const FIELDS = ['parts', 'berries', 'points']
 
@@ -17,7 +17,7 @@ function toRow(level, cost) {
 }
 
 export function breakdown(pet) {
-  const type = petTypes[pet.type]
+  const type = pets[pet.type]
   if (!type) return []
 
   if (pet.action === 'summon') {
@@ -69,7 +69,7 @@ export function petTotal(pet) {
 
 /** Максимальный уровень, до которого хватит осколков */
 export function findMaxLevel(typeKey, currentLevel, budget) {
-  const type = petTypes[typeKey]
+  const type = pets[typeKey]
   if (!type || !Number.isInteger(currentLevel) || budget == null) return null
 
   let spent = 0
@@ -91,7 +91,7 @@ export function usePets() {
 
   const petsWithCost = computed(() =>
     pets.value.map(pet => {
-      const type = petTypes[pet.type]
+      const type = pets[pet.type]
       return { ...pet, quality: type?.quality, icon: type?.icon, total: petTotal(pet) }
     })
   )

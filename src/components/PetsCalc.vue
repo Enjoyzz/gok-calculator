@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { usePets, petTotal, findMaxLevel } from '@/composable/usePets'
-import { petTypes, petTypeKeys } from '@/config/petTypes'
+import { pets, petTypeKeys } from '@/config/pets.js'
 import iMdiClose from '~icons/mdi/close'
 import iMdiPencil from '~icons/mdi/pencil'
 import iMdiPlus from '~icons/mdi/plus'
@@ -25,7 +25,7 @@ const currentLevel = ref(null)
 const desiredLevel = ref(null)
 
 const isEditing = computed(() => editingId.value !== null)
-const currentPetType = computed(() => petTypes[selectedType.value] ?? null)
+const currentPetType = computed(() => pets[selectedType.value] ?? null)
 const minLevel = computed(() => currentPetType.value?.['min-level'] ?? 1)
 const maxLevel = computed(() => currentPetType.value?.['max-level'])
 
@@ -295,7 +295,7 @@ const berriesBadge = computed(() =>
           @update:model-value="onTypeChange"
         >
           <v-chip v-for="id in petTypeKeys" :key="id" variant="text" :value="id" >
-            <img :src="petTypes[id].icon" :alt="petTypes[id].quality" width="54" />
+            <img :src="pets[id].icon" :alt="pets[id].quality" width="54" />
           </v-chip>
         </v-chip-group>
 
