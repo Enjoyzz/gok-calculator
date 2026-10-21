@@ -87,10 +87,10 @@ export function findMaxLevel(typeKey, currentLevel, budget) {
 
 export function usePets() {
   const store = usePetsStore()
-  const pets = computed(() => store.pets)
+  const storePets = computed(() => store.pets)
 
   const petsWithCost = computed(() =>
-    pets.value.map(pet => {
+    storePets.value.map(pet => {
       const type = pets[pet.type]
       return { ...pet, quality: type?.quality, icon: type?.icon, total: petTotal(pet) }
     })
@@ -106,7 +106,7 @@ export function usePets() {
   })
 
   return {
-    pets,
+    pets: storePets,
     petsWithCost,
     totals,
     addPet: store.addPet,
