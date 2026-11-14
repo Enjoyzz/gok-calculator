@@ -4,7 +4,9 @@ import iMdiClose from '~icons/mdi/close'
 
 const pad = n => String(n).padStart(2, '0')
 
-const arrivalTimer = ref('20:00:00') // что показывает серверный таймер в момент прибытия
+const mode = ref('arrival') // 'arrival' | 'start'
+const arrivalTimer = ref('20:00:00') // таймер в момент прибытия всех сборов
+const startTimer = ref('20:10:00')   // таймер в момент старта первого сбора
 
 let nextId = 1
 const newRally = () => ({ id: nextId++, name: '', travel: '' })
@@ -36,24 +38,39 @@ const fmtTimer = sec =>
 
 const fmtTravel = sec => `${Math.floor(sec / 60)}:${pad(sec % 60)}`
 
-const arrival = computed(() => parseTimer(arrivalTimer.value))
+// сборы с валидным временем в пути
+const valid = computed(() =>
+  rallies.value
+    .map((r, i) => {
+      const travel = parseTravel(r.travel)
+      return travel ? { id: r.id, name: r.name || `Сбор ${i + 1}`, travel } : null
+    })
+    .filter(Boolean)
+)
+
+const maxTravel = computed(() => Math.max(0, ...valid.value.map(r => r.travel)))
+
+// таймер в момент прибытия
+const arrival = computed(() => {
+  if (mode.value === 'arrival') return parseTimer(arrivalTimer.value)
+  const start = parseTimer(startTimer.value)
+  if (start == null || !valid.value.length) return null
+  const a = start - maxTravel.value
+  return a >= 0 ? a : null // таймер не может уйти в минус
+})
+
+const inputError = computed(() => {
+  const raw = mode.value === 'arrival' ? parseTimer(arrivalTimer.value) : parseTimer(startTimer.value)
+  if (raw == null) return true
+  return mode.value === 'start' && valid.value.length > 0 && arrival.value == null
+})
 
 const rows = computed(() => {
   if (arrival.value == null) return []
 
-  const list = rallies.value
-    .map((r, i) => {
-      const travel = parseTravel(r.travel)
-      if (!travel) return null
-      return {
-        id: r.id,
-        name: r.name || `Сбор ${i + 1}`,
-        travel,
-        launch: arrival.value + travel, // таймер убывает: раньше = больше
-      }
-    })
-    .filter(Boolean)
-    .sort((a, b) => b.launch - a.launch) // первым стартует самый долгий
+  const list = valid.value
+    .map(r => ({ ...r, launch: arrival.value + r.travel })) // таймер убывает: раньше = больше
+    .sort((a, b) => b.launch - a.launch)
 
   return list.map((row, i) => ({
     ...row,
@@ -64,17 +81,41 @@ const rows = computed(() => {
 
 <template>
   <v-card variant="text">
+    <v-tabs v-model="mode" grow>
+      <v-tab value="arrival">По прибытию</v-tab>
+      <v-tab value="start">По старту первого</v-tab>
+    </v-tabs>
+
     <v-card-text>
-      <div class="text-title-large mb-3">Прибытие</div>
       <v-text-field
+        v-if="mode === 'arrival'"
         v-model="arrivalTimer"
         label="Серверное время прибытия"
         placeholder="ч:мм:сс"
         variant="outlined"
         density="compact"
         hide-details
-        :error="arrival == null"
+        :error="inputError"
       />
+      <template v-else>
+        <v-text-field
+          v-model="startTimer"
+          label="Серверное время старта первого сбора"
+          placeholder="ч:мм:сс"
+          variant="outlined"
+          density="compact"
+          :hide-details="!inputError"
+          :error="inputError"
+          :error-messages="
+            parseTimer(startTimer) != null && valid.length && arrival == null
+              ? 'Время старта меньше самого долгого пути'
+              : ''
+          "
+        />
+        <div v-if="arrival != null" class="text-body-medium text-medium-emphasis mt-2">
+          Прибытие всех сборов: <b>{{ fmtTimer(arrival) }}</b>
+        </div>
+      </template>
 
       <div class="text-title-large mt-6 mb-3">Сборы</div>
       <div
