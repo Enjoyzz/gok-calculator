@@ -49,6 +49,27 @@ onUnmounted(() => clearInterval(timerId))
 
 const currentTimer = computed(() => serverTimerAt(now.value)) // null вне окна
 
+const DAY_NAMES = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
+const localDiffers = new Date().getTimezoneOffset() !== -180
+
+const mskClock = ts => {
+  const d = new Date(ts + MSK_OFFSET)
+  return `${DAY_NAMES[d.getUTCDay()]} ${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())}:${pad(d.getUTCSeconds())}`
+}
+const localClock = ts => {
+  const d = new Date(ts)
+  return `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`
+}
+
+// Реальное время события по значению серверного таймера.
+// Таймер убывает: событие в будущем, если его значение меньше текущего.
+function realInfo(timer) {
+  if (currentTimer.value == null || timer == null) return null
+  const delta = currentTimer.value - timer // сек до события, <0 — уже прошло
+  const ts = Math.floor(now.value / 1000) * 1000 + delta * 1000
+  return { ts, delta }
+}
+
 // --- ввод ---
 const initial = serverTimerAt(Date.now())
 const mode = ref('arrival') // 'arrival' | 'start'
@@ -162,8 +183,9 @@ const rows = computed(() => {
               : ''
           "
         />
-        <div v-if="arrival != null" class="text-body-medium text-medium-emphasis mt-2">
-          Прибытие всех сборов: <b>{{ fmtTimer(arrival) }}</b>
+        <div v-if="arrival != null && realInfo(arrival)" class="text-body-medium text-medium-emphasis mt-2">
+          Прибытие в реальном времени: <b>{{ mskClock(realInfo(arrival).ts) }} МСК</b>
+          <template v-if="localDiffers"> · {{ localClock(realInfo(arrival).ts) }} у вас</template>
         </div>
       </template>
 
@@ -226,8 +248,27 @@ const rows = computed(() => {
             </div>
 
             <template #append>
-              <div class="text-title-medium font-weight-bold">
-                {{ fmtTimer(row.launch) }}
+              <div class="text-right">
+                <div class="text-title-medium font-weight-bold">
+                  {{ fmtTimer(row.launch) }}
+                </div>
+                <template v-if="realInfo(row.launch)">
+                  <div class="text-caption text-medium-emphasis">
+                    {{ mskClock(realInfo(row.launch).ts) }} МСК
+                    <template v-if="localDiffers">
+                      · {{ localClock(realInfo(row.launch).ts) }} у вас
+                    </template>
+                  </div>
+                  <div
+                    class="text-caption"
+                    :class="realInfo(row.launch).delta > 0 ? 'text-primary' : 'text-error'"
+                  >
+                    <template v-if="realInfo(row.launch).delta > 0">
+                      через {{ fmtTimer(realInfo(row.launch).delta) }}
+                    </template>
+                    <template v-else>прошло</template>
+                  </div>
+                </template>
               </div>
             </template>
           </v-list-item>
