@@ -7,7 +7,7 @@ definePage({
   name: 'Sync',
   meta: {
     title: 'Синхронизация сборов',
-    sidebar: true,
+    sidebar: false,
     groups: ['calc'],
     extendedTitle: 'Калькулятор синхронизации сборов',
     order: 50,
