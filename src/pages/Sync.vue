@@ -1,26 +1,34 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import iMdiClose from '~icons/mdi/close'
+
+const H = 3600
+const MSK_OFFSET = 3 * H * 1000
 
 const pad = n => String(n).padStart(2, '0')
 
-const mode = ref('arrival') // 'arrival' | 'start'
-const arrivalTimer = ref('20:00:00') // таймер в момент прибытия всех сборов
-const startTimer = ref('20:10:00')   // таймер в момент старта первого сбора
+// Серверный таймер (убывающий) по реальному времени.
+// Пт 12:00 → Сб 20:00 и Сб 20:00 → Сб 22:00. Вне окна — null.
+function serverTimerAt(ts) {
+  const d = new Date(ts + MSK_OFFSET) // читаем через getUTC*, получается МСК
+  const day = d.getUTCDay() // 5 = пт, 6 = сб
+  const s = d.getUTCHours() * H + d.getUTCMinutes() * 60 + d.getUTCSeconds()
 
-let nextId = 1
-const newRally = () => ({ id: nextId++, name: '', travel: '' })
-const rallies = ref([newRally(), newRally()])
-
-const addRally = () => rallies.value.push(newRally())
-const removeRally = id => {
-  rallies.value = rallies.value.filter(r => r.id !== id)
+  if (day === 5 && s >= 12 * H) return 24 * H - s + 20 * H // до Сб 20:00
+  if (day === 6 && s < 20 * H) return 20 * H - s
+  if (day === 6 && s < 22 * H) return 22 * H - s // фаза 2
+  return null
 }
+
+const fmtTimer = sec =>
+  `${Math.floor(sec / H)}:${pad(Math.floor((sec % H) / 60))}:${pad(sec % 60)}`
+
+const fmtTravel = sec => `${Math.floor(sec / 60)}:${pad(sec % 60)}`
 
 // "ЧЧ:ММ[:СС]" -> сек
 function parseTimer(s) {
   const m = /^(\d{1,2}):(\d{2})(?::(\d{2}))?$/.exec(String(s ?? '').trim())
-  return m ? +m[1] * 3600 + +m[2] * 60 + +(m[3] ?? 0) : null
+  return m ? +m[1] * H + +m[2] * 60 + +(m[3] ?? 0) : null
 }
 
 // "5" -> 5 мин | "1:11", "1.11", "1,11" -> 1 мин 11 сек
@@ -33,12 +41,37 @@ function parseTravel(s) {
   return min * 60 + sec
 }
 
-const fmtTimer = sec =>
-  `${Math.floor(sec / 3600)}:${pad(Math.floor((sec % 3600) / 60))}:${pad(sec % 60)}`
+// --- реальное время ---
+const now = ref(Date.now())
+let timerId = null
+onMounted(() => { timerId = setInterval(() => { now.value = Date.now() }, 1000) })
+onUnmounted(() => clearInterval(timerId))
 
-const fmtTravel = sec => `${Math.floor(sec / 60)}:${pad(sec % 60)}`
+const currentTimer = computed(() => serverTimerAt(now.value)) // null вне окна
 
-// сборы с валидным временем в пути
+// --- ввод ---
+const initial = serverTimerAt(Date.now())
+const mode = ref('arrival') // 'arrival' | 'start'
+const arrivalTimer = ref(initial != null ? fmtTimer(initial) : '20:00:00')
+const startTimer = ref(initial != null ? fmtTimer(initial) : '20:10:00')
+
+function fillNow() {
+  if (currentTimer.value == null) return
+  const v = fmtTimer(currentTimer.value)
+  if (mode.value === 'arrival') arrivalTimer.value = v
+  else startTimer.value = v
+}
+
+let nextId = 1
+const newRally = () => ({ id: nextId++, name: '', travel: '' })
+const rallies = ref([newRally(), newRally()])
+
+const addRally = () => rallies.value.push(newRally())
+const removeRally = id => {
+  rallies.value = rallies.value.filter(r => r.id !== id)
+}
+
+// --- расчёт ---
 const valid = computed(() =>
   rallies.value
     .map((r, i) => {
@@ -60,7 +93,7 @@ const arrival = computed(() => {
 })
 
 const inputError = computed(() => {
-  const raw = mode.value === 'arrival' ? parseTimer(arrivalTimer.value) : parseTimer(startTimer.value)
+  const raw = parseTimer(mode.value === 'arrival' ? arrivalTimer.value : startTimer.value)
   if (raw == null) return true
   return mode.value === 'start' && valid.value.length > 0 && arrival.value == null
 })
@@ -87,6 +120,23 @@ const rows = computed(() => {
     </v-tabs>
 
     <v-card-text>
+      <div class="d-flex align-center justify-space-between mb-3">
+        <div class="text-body-medium text-medium-emphasis">
+          <template v-if="currentTimer != null">
+            Сейчас на сервере: <b>{{ fmtTimer(currentTimer) }}</b>
+          </template>
+          <template v-else>Сейчас вне игрового окна (Пт 12:00 – Сб 22:00 МСК)</template>
+        </div>
+        <v-btn
+          size="small"
+          variant="tonal"
+          :disabled="currentTimer == null"
+          @click="fillNow"
+        >
+          Сейчас
+        </v-btn>
+      </div>
+
       <v-text-field
         v-if="mode === 'arrival'"
         v-model="arrivalTimer"
