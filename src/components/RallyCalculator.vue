@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import iMdiClose from '~icons/mdi/close'
+import TimeInput from "@/components/TimeInput.vue";
 
 const H = 3600
 const MSK_OFFSET = 3 * H * 1000
@@ -158,7 +159,7 @@ const rows = computed(() => {
         </v-btn>
       </div>
 
-      <v-text-field
+      <TimeInput
         v-if="mode === 'arrival'"
         v-model="arrivalTimer"
         label="Серверное время прибытия"
@@ -169,7 +170,7 @@ const rows = computed(() => {
         :error="inputError"
       />
       <template v-else>
-        <v-text-field
+        <TimeInput
           v-model="startTimer"
           label="Серверное время старта первого сбора"
           placeholder="ч:мм:сс"
@@ -205,10 +206,12 @@ const rows = computed(() => {
         <v-text-field
           v-model="r.travel"
           label="Время в пути"
-          placeholder="мм:сс"
+          placeholder="м.сс"
+          inputmode="decimal"
           variant="outlined"
           density="compact"
           hide-details
+          clearable
           :error="!!r.travel && parseTravel(r.travel) == null"
         />
         <v-btn
