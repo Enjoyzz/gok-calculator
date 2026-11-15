@@ -10,6 +10,7 @@ export const pets = {
     quality: 'A',
     icon: iconA,
     'min-level': 1,
+    'max-level': 30,
     levels: {
       1: {parts: 10, berries: 0, points: 30},
       2: {parts: 3, berries: 17, points: 5},
@@ -47,6 +48,7 @@ export const pets = {
     quality: 'S',
     icon: iconS,
     'min-level': 1,
+    'max-level': 40,
     levels: {
       1: {parts: 10, berries: 0, points: 75},
       2: {parts: 3, berries: 17, points: 15},
