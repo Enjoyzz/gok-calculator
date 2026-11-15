@@ -4,6 +4,8 @@ import {useAppStore} from '@/stores/app.js';
 import IconThemeLightDark from '~icons/mdi/theme-light-dark'
 import IconWeatherSunny from '~icons/mdi/weather-sunny'
 import IconWeatherNight from '~icons/mdi/weather-night'
+import logoLight from './../assets/logow.svg'
+import logoDark from './../assets/logob.svg'
 
 const appStore = useAppStore();
 
@@ -29,6 +31,10 @@ watch(
   {immediate: true},
 );
 
+const logoSrc = computed(() => {
+  return isDarkTheme.value ? logoDark : logoLight
+})
+
 const toggleDrawer = () => drawer.value = !drawer.value;
 
 </script>
@@ -37,7 +43,7 @@ const toggleDrawer = () => drawer.value = !drawer.value;
     <v-app-bar :elevation="2" :color="isDarkTheme ? 'blue-grey-darken-4' : 'blue-grey-lighten-5'">
       <template #title>
         <router-link :to="{name: 'Index'}">
-          <v-img src="/gok.png" alt="Game of Khans" width="150"/>
+          <v-img :src="logoSrc" alt="Game of Khans" width="200"/>
         </router-link>
       </template>
       <template v-slot:prepend v-if="mobile">
@@ -88,7 +94,3 @@ const toggleDrawer = () => drawer.value = !drawer.value;
     </v-main>
   </v-layout>
 </template>
-
-<style scoped>
-
-</style>
