@@ -5,6 +5,7 @@ import CalculatorBottom from '@/components/CalculatorBottom.vue';
 import {debounce} from '@/utils/debounce.js';
 import {formatLargeNumber} from '@/utils/formatNumbers.js';
 import {useGenerateBadge} from '@/composable/badges.js';
+import ScreenshotImport from "@/components/ScreenshotImport.vue";
 
 const store = useCharmStore();
 
@@ -58,6 +59,9 @@ const generateBadge = (item) => {
     <v-card-text>
       <v-container>
         <v-row>
+
+          <ScreenshotImport :items="items" @import="counts => Object.assign(input, counts)" />
+
           <v-col cols="12">
             <v-text-field
               variant="outlined"
