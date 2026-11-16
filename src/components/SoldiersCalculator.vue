@@ -6,6 +6,7 @@ import {formatLargeNumber} from '@/utils/formatNumbers.js';
 import soldiersGenIcon from '@/assets/img/icon/1-4.png';
 import {debounce} from '@/utils/debounce.js';
 import {useGenerateBadge} from '@/composable/badges.js';
+import ScreenshotImport from "@/components/ScreenshotImport.vue";
 
 const store = useSoldiersStore();
 
@@ -54,6 +55,9 @@ const handleOnFocus = (e) => {
     <v-card-text>
       <v-container>
         <v-row>
+
+          <ScreenshotImport :items="items" @import="counts => Object.assign(input, counts)" />
+
           <v-col cols="12">
             <v-text-field
               variant="outlined"
