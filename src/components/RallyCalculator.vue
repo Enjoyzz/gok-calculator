@@ -1,8 +1,11 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import iMdiClose from '~icons/mdi/close'
+import copyIcon from '~icons/mdi/content-copy'
 import TimeInput from "@/components/TimeInput.vue";
+import { useClipboard } from '@vueuse/core'
 
+const { copy, copied } = useClipboard()
 const H = 3600
 const MSK_OFFSET = 3 * H * 1000
 
@@ -132,6 +135,16 @@ const rows = computed(() => {
     gap: i === 0 ? null : list[i - 1].launch - row.launch,
   }))
 })
+
+const copyText = computed(() => {
+  if (!rows.value ) return null
+
+  return rows.value.map(function (i) {
+    return `${i.name} (${fmtTravel(i.travel)}) запуск в ${fmtTimer(i.launch)}`;
+  }).join('\n')
+})
+
+
 </script>
 
 <template>
@@ -277,6 +290,10 @@ const rows = computed(() => {
           </v-list-item>
         </v-list>
       </v-card-text>
+      <div v-if="copyText">
+        <v-divider />
+        <v-textarea readonly label="Скопировать в Хана" :append-inner-icon="copyIcon" :hint="copied ? 'Скопировано' : null" :model-value="copyText" @click:append-inner="copy(copyText)"/>
+      </div>
     </template>
   </v-card>
 </template>
