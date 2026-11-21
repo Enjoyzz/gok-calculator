@@ -77,8 +77,8 @@ function realInfo(timer) {
 // --- ввод ---
 const initial = serverTimerAt(Date.now())
 const mode = ref('arrival') // 'arrival' | 'start'
-const arrivalTimer = ref(initial != null ? fmtTimer(initial) : '20:00:00')
-const startTimer = ref(initial != null ? fmtTimer(initial) : '20:10:00')
+const arrivalTimer = ref(initial != null ? fmtTimer(initial) : '24:00:00')
+const startTimer = ref(initial != null ? fmtTimer(initial) : '24:00:00')
 
 function fillNow() {
   if (currentTimer.value == null) return
@@ -160,7 +160,7 @@ const copyText = computed(() => {
           <template v-if="currentTimer != null">
             Сейчас на сервере: <b>{{ fmtTimer(currentTimer) }}</b>
           </template>
-          <template v-else>Сейчас вне игрового окна (Пт 12:00 – Сб 22:00 МСК)</template>
+          <template v-else>Битва Орд сейчас не активна. Невозможно синхронизировать серверное время.</template>
         </div>
         <v-btn
           size="small"
@@ -168,7 +168,7 @@ const copyText = computed(() => {
           :disabled="currentTimer == null"
           @click="fillNow"
         >
-          Сейчас
+          Синхронизировать
         </v-btn>
       </div>
 
