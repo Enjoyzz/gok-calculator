@@ -40,8 +40,80 @@ import {
   soldiers5mIcon,
   soldiers88K_8MIcon,
   takyaIcon,
-  whiteKhadagIcon
+  whiteKhadagIcon,
+  staminaPillIcon,
+  huntingHandsIcon,
+  huntingNetIcon,
+  fishingNetIcon,
+  ropeSrcIcon,
+  blackGraniteIcon,
+  cedarWoodIcon,
+  radiantStripesIcon,
 } from "@/config/gok-item-icon-set.js";
+
+export const RadiantStripes = {
+  id: 'radiantStripes',
+  name: 'Цветные ленты',
+  description: 'Повышает опыт процветания вида на 50',
+  icon: radiantStripesIcon,
+  approximately: false,
+}
+
+export const CedarWood = {
+  id: 'cedarWood',
+  name: 'Зимний кедр',
+  description: 'Повышает опыт процветания вида на 100',
+  icon: cedarWoodIcon,
+  approximately: false,
+}
+
+export const BlackGranite = {
+  id: 'blackGranite',
+  name: 'Черный агат',
+  description: 'Повышает опыт процветания вида на 300',
+  icon: blackGraniteIcon,
+  approximately: false,
+}
+
+export const HuntingHands = {
+  id: 'huntingHands',
+  name: 'Руки',
+  description: '',
+  icon: huntingHandsIcon,
+  approximately: true,
+}
+
+export const Rope = {
+  id: 'rope',
+  name: 'Верёвка',
+  description: 'Подходит для ловли животного (Класс: Обычный) Ловля животного (Класс: Отличный и выше) будет неудачной.',
+  icon: ropeSrcIcon,
+  approximately: true,
+}
+
+export const FishingNet = {
+  id: 'fishingNet',
+  name: 'Сак',
+  description: 'Подходит для ловли животного (Класс: Отличный) Ловля животного (Класс: Выдающийся и выше) будет неудачной.',
+  icon: fishingNetIcon,
+  approximately: true,
+}
+
+export const HuntingNet = {
+  id: 'huntingNet',
+  name: 'Охотничья сеть',
+  description: 'Подходит для ловли животного (Класс: Выдающийся) Ловля животного (Класс: Неповторимый и выше) будет неудачной.',
+  icon: huntingNetIcon,
+  approximately: true,
+}
+
+export const StaminaPill = {
+  id: 'staminaPill',
+  name: 'Сфера выносливости',
+  description: 'Восстанавливает 5 ед. выносливости во время разведки',
+  icon: staminaPillIcon,
+  approximately: true,
+}
 
 export const Ordos = {
   id: 'ordos',

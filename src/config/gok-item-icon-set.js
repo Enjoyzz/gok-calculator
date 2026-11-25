@@ -96,6 +96,56 @@ import greatMedalSrc from '@/assets/title/2-4063.png';
 
 import berriesIconSrc from '@/assets/pet/spt_506_6611.png';
 
+
+import HuntingHandsSrc from '@/assets/pet/spt_506_6611.png';
+import StaminaPillSrc from '@/assets/img/icon/spt_501_6301.png';
+import HuntingNetSrc from '@/assets/img/icon/spt_501_6311.png';
+import FishingNetSrc from '@/assets/img/icon/spt_501_6312.png';
+import RopeSrc from '@/assets/img/icon/spt_501_6313.png';
+import BlackGraniteSrc from '@/assets/img/icon/spt_506_6513.png';
+import CedarWoodSrc from '@/assets/img/icon/spt_506_6512.png';
+import RadiantStripesSrc from '@/assets/img/icon/spt_506_6511.png';
+
+export const staminaPillIcon = {
+  src: StaminaPillSrc,
+  bg: orange,
+};
+
+export const huntingNetIcon = {
+  src: HuntingNetSrc,
+  bg: orange,
+};
+
+export const fishingNetIcon = {
+  src: FishingNetSrc,
+  bg: violet,
+};
+
+export const ropeSrcIcon = {
+  src: RopeSrc,
+  bg: blue,
+};
+
+export const blackGraniteIcon = {
+  src: BlackGraniteSrc,
+  bg: orange,
+};
+
+export const cedarWoodIcon = {
+  src: CedarWoodSrc,
+  bg: violet,
+};
+
+export const radiantStripesIcon = {
+  src: RadiantStripesSrc,
+  bg: blue,
+};
+
+export const huntingHandsIcon = {
+  src: HuntingHandsSrc,
+  bg: green,
+};
+
 export const berriesIcon = {
   src: berriesIconSrc,
   bg: violet,
