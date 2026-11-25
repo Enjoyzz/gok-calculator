@@ -1,8 +1,11 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import iMdiClose from '~icons/mdi/close'
+import copyIcon from '~icons/mdi/content-copy'
 import TimeInput from "@/components/TimeInput.vue";
+import { useClipboard } from '@vueuse/core'
 
+const { copy, copied } = useClipboard()
 const H = 3600
 const MSK_OFFSET = 3 * H * 1000
 
@@ -74,8 +77,8 @@ function realInfo(timer) {
 // --- ввод ---
 const initial = serverTimerAt(Date.now())
 const mode = ref('arrival') // 'arrival' | 'start'
-const arrivalTimer = ref(initial != null ? fmtTimer(initial) : '20:00:00')
-const startTimer = ref(initial != null ? fmtTimer(initial) : '20:10:00')
+const arrivalTimer = ref(initial != null ? fmtTimer(initial) : '24:00:00')
+const startTimer = ref(initial != null ? fmtTimer(initial) : '24:00:00')
 
 function fillNow() {
   if (currentTimer.value == null) return
@@ -132,6 +135,16 @@ const rows = computed(() => {
     gap: i === 0 ? null : list[i - 1].launch - row.launch,
   }))
 })
+
+const copyText = computed(() => {
+  if (!rows.value ) return null
+
+  return rows.value.map(function (i) {
+    return `${i.name} (${fmtTravel(i.travel)}) запуск в ${fmtTimer(i.launch)}`;
+  }).join('\n')
+})
+
+
 </script>
 
 <template>
@@ -147,7 +160,7 @@ const rows = computed(() => {
           <template v-if="currentTimer != null">
             Сейчас на сервере: <b>{{ fmtTimer(currentTimer) }}</b>
           </template>
-          <template v-else>Сейчас вне игрового окна (Пт 12:00 – Сб 22:00 МСК)</template>
+          <template v-else>Битва Орд сейчас не активна. Невозможно синхронизировать серверное время.</template>
         </div>
         <v-btn
           size="small"
@@ -155,7 +168,7 @@ const rows = computed(() => {
           :disabled="currentTimer == null"
           @click="fillNow"
         >
-          Сейчас
+          Синхронизировать
         </v-btn>
       </div>
 
@@ -277,6 +290,10 @@ const rows = computed(() => {
           </v-list-item>
         </v-list>
       </v-card-text>
+      <div v-if="copyText">
+        <v-divider />
+        <v-textarea readonly label="Скопировать в Хана" :append-inner-icon="copyIcon" :hint="copied ? 'Скопировано' : null" :model-value="copyText" @click:append-inner="copy(copyText)"/>
+      </div>
     </template>
   </v-card>
 </template>
