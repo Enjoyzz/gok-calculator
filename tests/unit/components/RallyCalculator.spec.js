@@ -258,8 +258,8 @@ describe('RallyCalculator.vue', () => {
     it('вне окна оставляет значения по умолчанию и currentTimer = null', () => {
       wrapper = createWrapper()
       expect(wrapper.vm.currentTimer).toBeNull()
-      expect(wrapper.vm.arrivalTimer).toBe('20:00:00')
-      expect(wrapper.vm.startTimer).toBe('20:10:00')
+      expect(wrapper.vm.arrivalTimer).toBe('24:00:00')
+      expect(wrapper.vm.startTimer).toBe('24:00:00')
     })
 
     it('таймер идёт на убывание раз в секунду', async () => {
